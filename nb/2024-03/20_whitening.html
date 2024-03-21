@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>(20) MNIST — Poisson + rsample — 0 &#8212; VAE stuff</title>
+    <title>(20) Whitening &#8212; VAE stuff</title>
   
   
   
@@ -63,8 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-03/20_whitening';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="tmp — mar24" href="tmp-mar24.html" />
-    <link rel="prev" title="(19) MNIST — Poisson + rsample — 1" href="19_MNIST-rsample-1.html" />
+    <link rel="next" title="(21) DOVES" href="21_doves.html" />
+    <link rel="prev" title="(19) MNIST — rsample + MEI — 1" href="19_MNIST-rsample-mei.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -191,7 +191,9 @@
 <li class="toctree-l2"><a class="reference internal" href="14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">(20) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_MNIST-rsample-mei.html">(19) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_doves.html">(21) DOVES</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-mar24.html">tmp — mar24</a></li>
 </ul>
 </li>
@@ -380,7 +382,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>(20) MNIST — Poisson + rsample — 0</h1>
+    <h1>(20) Whitening</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -421,9 +423,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="mnist-poisson-rsample-0">
-<h1>(20) MNIST — Poisson + rsample — 0<a class="headerlink" href="#mnist-poisson-rsample-0" title="Permalink to this heading">#</a></h1>
-<p><strong>Motivation</strong>: Poisson VAE, reparameterization, MNIST. Device = <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> <br></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="whitening">
+<h1>(20) Whitening<a class="headerlink" href="#whitening" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Whitening/Contrast Normalization/Zscore <br></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
@@ -1216,20 +1218,20 @@ Wall time: 45.3 s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="19_MNIST-rsample-1.html"
+       href="19_MNIST-rsample-mei.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">(19) MNIST — Poisson + rsample — 1</p>
+        <p class="prev-next-title">(19) MNIST — rsample + MEI — 1</p>
       </div>
     </a>
     <a class="right-next"
-       href="tmp-mar24.html"
+       href="21_doves.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">tmp — mar24</p>
+        <p class="prev-next-title">(21) DOVES</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
