@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>(31) Weight Decay &#8212; VAE stuff</title>
+    <title>(31) Weight Decay — 1 &#8212; VAE stuff</title>
   
   
   
@@ -62,7 +62,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="tmp — mar24" href="tmp-mar24.html" />
-    <link rel="prev" title="(31) Weight Decay" href="31_weight-decay-0.html" />
+    <link rel="prev" title="(31) Weight Decay — 0" href="31_weight-decay-0.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -209,11 +209,20 @@
 <li class="toctree-l2"><a class="reference internal" href="30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="31_bestfit-mar.html">(31) Best Fit March</a></li>
 <li class="toctree-l2"><a class="reference internal" href="31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="31_weight-decay-0.html">(31) Weight Decay</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">(31) Weight Decay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gauss—Exp—0</a></li>
 </ul>
 </li>
 </ul>
@@ -401,7 +410,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>(31) Weight Decay</h1>
+    <h1>(31) Weight Decay — 1</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -434,8 +443,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="weight-decay">
-<h1>(31) Weight Decay<a class="headerlink" href="#weight-decay" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="weight-decay-1">
+<h1>(31) Weight Decay — 1<a class="headerlink" href="#weight-decay-1" title="Permalink to this heading">#</a></h1>
 <p><strong>Motivation</strong>: How does wd affect the results? Trying <code class="docutils literal notranslate"><span class="pre">wd=0.0</span></code>. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
 <p><strong>Conclusion</strong>: No weight decay is best (see other notebook). <br></p>
 <div class="cell docutils container">
@@ -574,7 +583,7 @@ ep3600-b1000-<span style="color: #800080; text-decoration-color: #800080; font-w
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 166.921992: 100%|███████████████████████| 3600/3600 [29:11&lt;00:00,  2.06it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 166.921992: 100%|███████████████████████| 3600/3600 [29:33&lt;00:00,  2.03it/s]
 </pre></div>
 </div>
 </div>
@@ -586,7 +595,7 @@ ep3600-b1000-<span style="color: #800080; text-decoration-color: #800080; font-w
 <h3>Loss vld (freeze)<a class="headerlink" href="#loss-vld-freeze" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">rates</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">freeze</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_ema</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">rates</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">temp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 <span class="n">_loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
@@ -921,6 +930,38 @@ ep3600-b1000-<span style="color: #800080; text-decoration-color: #800080; font-w
 <img alt="../../_images/08f6cecfae4b3eb1061e8c5d8fe1ab605cab85ef11381b1e2ed04a6fb1878824.png" src="../../_images/08f6cecfae4b3eb1061e8c5d8fe1ab605cab85ef11381b1e2ed04a6fb1878824.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(28224, 512)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f6486618050&gt;]
+</pre></div>
+</div>
+<img alt="../../_images/d140bea41f2182e1d347efe67f78d64632e3f6f18a80c34bcef403b75c90d68a.png" src="../../_images/d140bea41f2182e1d347efe67f78d64632e3f6f18a80c34bcef403b75c90d68a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## TODO: population / lifelong sparsity</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -961,7 +1002,7 @@ ep3600-b1000-<span style="color: #800080; text-decoration-color: #800080; font-w
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">(31) Weight Decay</p>
+        <p class="prev-next-title">(31) Weight Decay — 0</p>
       </div>
     </a>
     <a class="right-next"
