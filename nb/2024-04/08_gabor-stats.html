@@ -223,7 +223,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01_gauss-fit-0.html">(01) Gaus—Fit—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_amort-0.html">(02) Amort-Enc—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_amort-1.html">(02) Amort-Enc—1</a></li>
@@ -231,6 +230,11 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">(08) Gabor Stats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09_pois-fit-0.html">(09) Pois—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-apr24.html">tmp — apr24</a></li>
 </ul>
 </li>
 </ul>
@@ -581,7 +585,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████| 512/512 [00:16&lt;00:00, 31.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████| 512/512 [00:16&lt;00:00, 31.74it/s]
 </pre></div>
 </div>
 </div>
@@ -737,7 +741,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6b5c5006e42a2a09643954073664ebb11ab2aca8628c71b556fb859b34d04b9f.png" src="../../_images/6b5c5006e42a2a09643954073664ebb11ab2aca8628c71b556fb859b34d04b9f.png" />
+<img alt="../../_images/e9a0b9f1b78979b38057e4319526408f0133185348cf1f891d7c7b5ad8eff514.png" src="../../_images/e9a0b9f1b78979b38057e4319526408f0133185348cf1f891d7c7b5ad8eff514.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -759,8 +763,8 @@ document.write(`
 <span class="n">ax</span><span class="o">.</span><span class="n">set_theta_direction</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Counter-clockwise</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_theta_zero_location</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>  <span class="c1"># 0 degrees to the left</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">axial_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Axial&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">oblique_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Oblique&#39;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">axial_hist</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">axial_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Axial&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">oblique_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tomato&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Oblique&#39;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">axial_hist</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 <span class="n">move_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.992</span><span class="p">,</span> <span class="mf">0.38</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
@@ -769,7 +773,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ed2d399ed0b62f8762a1d592485d32e93e4e63183955a9efc8fd3cc52ad1241c.png" src="../../_images/ed2d399ed0b62f8762a1d592485d32e93e4e63183955a9efc8fd3cc52ad1241c.png" />
+<img alt="../../_images/286e35546b1729023527befc546b0028dab976ad055ed9921537a6f1fb0ef6e0.png" src="../../_images/286e35546b1729023527befc546b0028dab976ad055ed9921537a6f1fb0ef6e0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -796,50 +800,6 @@ document.write(`
 <img alt="../../_images/5e36e994d4e8e1a83973b42f88c183948e99a3ccc18c49710008dac41a7cf34b.png" src="../../_images/5e36e994d4e8e1a83973b42f88c183948e99a3ccc18c49710008dac41a7cf34b.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MannwhitneyuResult(statistic=15860.0, pvalue=1.636329366359182e-21)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MannwhitneyuResult(statistic=15860.0, pvalue=1.0021737972712317e-22)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">ks_2samp</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KstestResult(statistic=0.46489327811404907, pvalue=9.80885507957906e-25, statistic_location=0.32834205, statistic_sign=1)
-</pre></div>
-</div>
-</div>
-</div>
 <section id="high-and-low-spatial-frequencies">
 <h3>High and low spatial frequencies<a class="headerlink" href="#high-and-low-spatial-frequencies" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -859,6 +819,13 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.weight</span> <span class="kn">import</span> <span class="n">plot_weights</span>
 </pre></div>
 </div>
 </div>
