@@ -1,0 +1,1172 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(11) Gabor: CIFAR &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-04/28_gabor-cifar';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(29) Balls dataset" href="29_balls-dataset.html" />
+    <link rel="prev" title="(28) DOVES—PoisMLP—1" href="28_doves-mlp-1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-04/28_gabor-cifar.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-04/28_gabor-cifar.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(11) Gabor: CIFAR</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fig-save-dir">Fig save dir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-model">Load model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#print-loss-identify-dead-neurons">Print loss + identify dead neurons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-gabor-fit">Log-Gabor fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-figs">Make figs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-and-low-spatial-frequencies">High and low spatial frequencies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests">statistical tests</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gabor-cifar">
+<h1>(11) Gabor: CIFAR<a class="headerlink" href="#gabor-cifar" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Fit log-gabor to <code class="docutils literal notranslate"><span class="pre">CIFAR10-PATCHES</span></code> data. Device = <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">sparse_score</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="fig-save-dir">
+<h2>Fig save dir<a class="headerlink" href="#fig-save-dir" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">fig_base_dir</span><span class="p">,</span> <span class="s1">&#39;nips_may22&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">))</span>
+
+<span class="n">kws_fig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;transparent&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span> <span class="s1">&#39;tight&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dpi&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[]</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="device">
+<h2>Device<a class="headerlink" href="#device" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-model">
+<h2>Load model<a class="headerlink" href="#load-model" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(0.99)_CIFAR10-PATCHES_z-512_&lt;lin|lin&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mc_b1000-ep3600-lr(0.005)_beta(1:0x0.5)_temp(0.05:exp-1)_gr(500)_(2024_04_27,21:23)&#39;</span>  <span class="c1"># (best: 0.97)</span>
+<span class="p">])</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'checkpoint'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'global_step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">720000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-3600_(2024_04_27,23:42).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'path'</span>: 
+<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(0.99)_CIFAR10-PATCHES_z-512_&lt;lin|lin&gt;/mc_b1000-ep</span>
+<span style="color: #008000; text-decoration-color: #008000">3600-lr(0.005)_beta(1:0x0.5)_temp(0.05:exp-1)_gr(500)_(2024_04_27,21:23)'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">datetime</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2024_04_28,08:43&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="print-loss-identify-dead-neurons">
+<h3>Print loss + identify dead neurons<a class="headerlink" href="#print-loss-identify-dead-neurons" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_valid</span><span class="p">(</span><span class="n">tr</span><span class="p">):</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">rates</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="n">_loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">_loss</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">rates</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">rates</span> <span class="o">=</span> <span class="n">_valid</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+
+<span class="n">dead_thres</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">dead</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dead_thres</span>
+
+<span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">132.68205</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34.6277</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.06763223</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">167.30975</span><span style="font-weight: bold">}</span>
+</pre>
+</div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">91</span><span class="p">,</span> <span class="mi">92</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">dead</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;alive&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">][</span><span class="n">dead</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dead&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">dead_thres</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/eca47c70b5013dbbe7992be22efb0c3b9bbc2f2b8c7fcff7f3059201c4f21348.png" src="../../_images/eca47c70b5013dbbe7992be22efb0c3b9bbc2f2b8c7fcff7f3059201c4f21348.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="log-gabor-fit">
+<h2>Log-Gabor fit<a class="headerlink" href="#log-gabor-fit" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">fit_loggabor</span>
+<span class="kn">from</span> <span class="nn">figures.theta</span> <span class="kn">import</span> <span class="n">plot_theta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">fit_loggabor</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|██████▊    | 317/512 [00:08&lt;00:05, 35.13it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=0.8935913062587968, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=11.56998319267296, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.2437313591866992, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.09178089433490777, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.8260174694108013, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1445422875130512, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.046049166141871045, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████| 512/512 [00:12&lt;00:00, 39.63it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">dead</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]))]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x_pos</th>
+      <th>y_pos</th>
+      <th>theta</th>
+      <th>sf_0</th>
+      <th>phase</th>
+      <th>B_sf</th>
+      <th>B_theta</th>
+      <th>theta_deg</th>
+      <th>r_prior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>510.000000</td>
+      <td>510.000000</td>
+      <td>510.000000</td>
+      <td>509.000000</td>
+      <td>510.000000</td>
+      <td>510.000000</td>
+      <td>510.000000</td>
+      <td>510.000000</td>
+      <td>510.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>7.648885</td>
+      <td>7.531957</td>
+      <td>0.097947</td>
+      <td>0.267863</td>
+      <td>0.044522</td>
+      <td>0.549165</td>
+      <td>0.301984</td>
+      <td>90.670799</td>
+      <td>0.531525</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>4.171349</td>
+      <td>4.131257</td>
+      <td>0.886259</td>
+      <td>0.116375</td>
+      <td>1.711818</td>
+      <td>0.141882</td>
+      <td>0.075320</td>
+      <td>53.884708</td>
+      <td>0.189848</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.044672</td>
+      <td>0.651915</td>
+      <td>-1.557666</td>
+      <td>0.198465</td>
+      <td>-3.414377</td>
+      <td>0.395720</td>
+      <td>0.112109</td>
+      <td>0.086142</td>
+      <td>0.007194</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>4.204466</td>
+      <td>4.026962</td>
+      <td>-0.682875</td>
+      <td>0.246092</td>
+      <td>-1.579681</td>
+      <td>0.472837</td>
+      <td>0.261240</td>
+      <td>44.748025</td>
+      <td>0.429246</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>7.713802</td>
+      <td>7.547806</td>
+      <td>0.026861</td>
+      <td>0.257382</td>
+      <td>0.362996</td>
+      <td>0.515874</td>
+      <td>0.302323</td>
+      <td>89.999823</td>
+      <td>0.589293</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>11.065269</td>
+      <td>11.110763</td>
+      <td>0.840821</td>
+      <td>0.267689</td>
+      <td>1.600539</td>
+      <td>0.592616</td>
+      <td>0.332758</td>
+      <td>134.333668</td>
+      <td>0.665971</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>14.951844</td>
+      <td>14.417488</td>
+      <td>1.570796</td>
+      <td>2.614070</td>
+      <td>3.773471</td>
+      <td>2.342987</td>
+      <td>0.659906</td>
+      <td>179.969663</td>
+      <td>1.490698</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="make-figs">
+<h2>Make figs<a class="headerlink" href="#make-figs" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_theta</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4d3b11a220d236e547d4e5e4c0263bfc67d481ddf4567aad82384793f20d2005.png" src="../../_images/4d3b11a220d236e547d4e5e4c0263bfc67d481ddf4567aad82384793f20d2005.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span><span class="w"> </span><span class="n">rates_oblique</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MannwhitneyuResult</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">statistic</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6174.0</span>, <span style="color: #808000; text-decoration-color: #808000">pvalue</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.736248935369782e-55</span><span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pal</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;axial&#39;</span><span class="p">:</span> <span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="s1">&#39;oblique&#39;</span><span class="p">:</span> <span class="s1">&#39;tomato&#39;</span><span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;sf_0&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;theta_deg&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">pal</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;sf_0&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;theta_deg&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">pal</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4def5623cc823290e6ca73b3458ee56e3ec9e2c75a593d039625836e744927e2.png" src="../../_images/4def5623cc823290e6ca73b3458ee56e3ec9e2c75a593d039625836e744927e2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/aa444b829f1693e77840896f269c3f715613816d09ab0643acae15b9fb7901a9.png" src="../../_images/aa444b829f1693e77840896f269c3f715613816d09ab0643acae15b9fb7901a9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: DOVES</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f782cc5588ec9abba8bf7c463208334de3b158686f055966df5a12ccaea8735a.png" src="../../_images/f782cc5588ec9abba8bf7c463208334de3b158686f055966df5a12ccaea8735a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bin_width</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">stop</span><span class="o">=</span><span class="mi">180</span> <span class="o">+</span> <span class="n">bin_width</span><span class="p">,</span>
+    <span class="n">num</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">bin_width</span><span class="p">))</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-</span> <span class="n">bin_width</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">bin_mid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">((</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">axial_hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">,</span> <span class="s1">&#39;theta_deg&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">oblique_hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">,</span> <span class="s1">&#39;theta_deg&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;polar&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_thetamin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_thetamax</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_theta_direction</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Counter-clockwise</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_theta_zero_location</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span>  <span class="c1"># 0 degrees to the left</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">axial_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Axial&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">bin_mid</span><span class="p">,</span> <span class="n">oblique_hist</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bin_width</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Oblique&#39;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">axial_hist</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">move_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">30.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e6114d39797b8a0aec7d9ca4cff47659d630592f796043da8f64d39d7838a59b.png" src="../../_images/e6114d39797b8a0aec7d9ca4cff47659d630592f796043da8f64d39d7838a59b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;oblique&#39;: 292, &#39;axial&#39;: 218, nan: 2})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: DOVES</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;axial&#39;: 297, &#39;oblique&#39;: 209, nan: 6})
+</pre></div>
+</div>
+</div>
+</div>
+<section id="high-and-low-spatial-frequencies">
+<h3>High and low spatial frequencies<a class="headerlink" href="#high-and-low-spatial-frequencies" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_dec</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">w_dec</span> <span class="o">=</span> <span class="n">w_dec</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[:</span><span class="mi">16</span><span class="p">]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/251b96e695a763268a222a834df9e12c63378dd67a35ebd5996084379f6468fe.png" src="../../_images/251b96e695a763268a222a834df9e12c63378dd67a35ebd5996084379f6468fe.png" />
+<img alt="../../_images/654f8d96be47bbde08404606c49faf55c598b616c7d24ed87730161a986d4499.png" src="../../_images/654f8d96be47bbde08404606c49faf55c598b616c7d24ed87730161a986d4499.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: DOVES</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6c1804347afde461e2c08b6cb12f5d3bdfe7b767365f2db99ef1a801ec6e4be9.png" src="../../_images/6c1804347afde461e2c08b6cb12f5d3bdfe7b767365f2db99ef1a801ec6e4be9.png" />
+<img alt="../../_images/ac0c23a78aac26c2c6c54acc6d74b5f046428b32611532161b567188c27bd9cd.png" src="../../_images/ac0c23a78aac26c2c6c54acc6d74b5f046428b32611532161b567188c27bd9cd.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="statistical-tests">
+<h2>statistical tests<a class="headerlink" href="#statistical-tests" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;r_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MannwhitneyuResult(statistic=6174.0, pvalue=9.736248935369782e-55)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MannwhitneyuResult(statistic=6174.0, pvalue=1.4632844984126762e-66)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp_stats</span><span class="o">.</span><span class="n">ks_2samp</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span> <span class="n">rates_oblique</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KstestResult(statistic=0.6896757571949227, pvalue=2.60964273523401e-57, statistic_location=0.5376478, statistic_sign=1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-04"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="28_doves-mlp-1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(28) DOVES—PoisMLP—1</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="29_balls-dataset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(29) Balls dataset</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fig-save-dir">Fig save dir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-model">Load model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#print-loss-identify-dead-neurons">Print loss + identify dead neurons</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-gabor-fit">Log-Gabor fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-figs">Make figs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-and-low-spatial-frequencies">High and low spatial frequencies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests">statistical tests</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

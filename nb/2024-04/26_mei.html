@@ -1,0 +1,1123 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(26) MEI &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-04/26_mei';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(27) CIFAR" href="27_cifar.html" />
+    <link rel="prev" title="(26) KNN" href="26_knn.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-04/26_mei.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-04/26_mei.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(26) MEI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson">Poisson</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">MEI</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mei">
+<h1>(26) MEI<a class="headerlink" href="#mei" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: MEI fits. <br></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">sparse_score</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.mei</span> <span class="kn">import</span> <span class="n">MEI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_show_pairwise</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">],</span>
+        <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">],</span>
+        <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]),</span>
+        <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">]),</span>
+        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="p">})</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;lbl&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;lbl&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax_square</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="poisson">
+<h2>Poisson<a class="headerlink" href="#poisson" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;init-scale-0.05_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,10:31)&#39;</span><span class="p">,</span>
+    <span class="c1"># &#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;,</span>
+    <span class="c1"># &#39;ResConvPool-SwishOnlyOnRes_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_04_30,21:50)&#39;,</span>
+<span class="p">])</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'timestamp'</span>: <span style="color: #008000; text-decoration-color: #008000">'2024_05_01,10:31'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'checkpoint'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">900</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'global_step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">270000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0900_(2024_05_01,13:14).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'path'</span>: 
+<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/init-scale-0.0</span>
+<span style="color: #008000; text-decoration-color: #008000">5_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,10:31)'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5954ebbfaaa2a0e84c712a916f360f98d28e30c23f29b0e3d42130eb98d295c6.png" src="../../_images/5954ebbfaaa2a0e84c712a916f360f98d28e30c23f29b0e3d42130eb98d295c6.png" />
+<img alt="../../_images/89500e0b769b6860039bb02c5efda09b7bb2c71a5f97ee6724a55ef2640ee6b1.png" src="../../_images/89500e0b769b6860039bb02c5efda09b7bb2c71a5f97ee6724a55ef2640ee6b1.png" />
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>MEI<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">func_kl</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">which_k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">log_dr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">kl</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss_kl</span><span class="p">(</span><span class="n">log_dr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">log_dr</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="n">which_k</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">kl</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">func_silence</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">which_k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">log_dr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">log_dr</span><span class="p">[</span><span class="n">which_k</span><span class="p">]</span>
+    
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+    <span class="n">mask</span><span class="p">[</span><span class="n">which_k</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">log_dr</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">reg</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_do_it</span><span class="p">(</span><span class="n">which_k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="n">mei</span> <span class="o">=</span> <span class="n">MEI</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span>
+        <span class="n">maximize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">n_iter</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">kws_optim</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+            <span class="s1">&#39;weight_decay&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># fit</span>
+    <span class="n">mei</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">which_k</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">mei</span><span class="o">.</span><span class="n">_x</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+
+    <span class="c1"># plot</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">),</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
+    
+    <span class="n">im</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mei</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log_dr&#39;</span><span class="p">)</span>
+    <span class="n">_y</span> <span class="o">=</span> <span class="n">mei</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;y = </span><span class="si">{</span><span class="n">_y</span><span class="si">:</span><span class="s2">0.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mei</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;g_norm&#39;</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log(g_norm)&#39;</span><span class="p">)</span>
+    
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;norm  = </span><span class="si">{</span><span class="n">mei</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">0.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">add_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">x2p</span><span class="p">,</span> <span class="n">_y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">]</span> <span class="c1"># , 0.001, 0.01, 0.1]</span>
+<span class="n">mei_all</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span>
+<span class="p">}</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">):</span>
+        <span class="n">mei_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">y_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">_do_it</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">func_kl</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                     | 0/1 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<img alt="../../_images/422e8645823d44daf71fa644e24fdb3f936e55308dcbb483b40511e9bcdd3eb3.png" src="../../_images/422e8645823d44daf71fa644e24fdb3f936e55308dcbb483b40511e9bcdd3eb3.png" />
+<img alt="../../_images/6e12f85310a909a74f728c0b08fdffa601b88b039405589ff45ba8839785c82b.png" src="../../_images/6e12f85310a909a74f728c0b08fdffa601b88b039405589ff45ba8839785c82b.png" />
+<img alt="../../_images/9fedfb145809b36e4e2af0f76d25c925acc7b52056c470d5c1af10e1e69e0bf8.png" src="../../_images/9fedfb145809b36e4e2af0f76d25c925acc7b52056c470d5c1af10e1e69e0bf8.png" />
+<img alt="../../_images/53cbbd3ab3afa3721f157dbd388347d97497b3ee120970f89ad8f5b1de2dec32.png" src="../../_images/53cbbd3ab3afa3721f157dbd388347d97497b3ee120970f89ad8f5b1de2dec32.png" />
+<img alt="../../_images/d9d48ccb3dd4a0e345d76c697d3f9e945afa1689b52d76722829e401242703cc.png" src="../../_images/d9d48ccb3dd4a0e345d76c697d3f9e945afa1689b52d76722829e401242703cc.png" />
+<img alt="../../_images/c1737266a1bcf6e01f50a5d8acd783628f6ef3d42bbf511ca698e45227a1ca64.png" src="../../_images/c1737266a1bcf6e01f50a5d8acd783628f6ef3d42bbf511ca698e45227a1ca64.png" />
+<img alt="../../_images/6a8df6a1a41211dad5d9d011cb831b104e4b5f0ccbcf98a135099b6d905a9cb4.png" src="../../_images/6a8df6a1a41211dad5d9d011cb831b104e4b5f0ccbcf98a135099b6d905a9cb4.png" />
+<img alt="../../_images/3a07ac90edbd812b47e079af089a5c8e9bbda95538b70c24dea21c36e3e57ed5.png" src="../../_images/3a07ac90edbd812b47e079af089a5c8e9bbda95538b70c24dea21c36e3e57ed5.png" />
+<img alt="../../_images/1c1f95a3e0e336081d618e18a43aea4dee1c248ab5bfb0480d7e25c4c0aaff6d.png" src="../../_images/1c1f95a3e0e336081d618e18a43aea4dee1c248ab5bfb0480d7e25c4c0aaff6d.png" />
+<img alt="../../_images/2d8a613cd5978af4bf90868f33360084a846929a72e4f7f3753844e29728b05b.png" src="../../_images/2d8a613cd5978af4bf90868f33360084a846929a72e4f7f3753844e29728b05b.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 1/1 [00:15&lt;00:00, 15.51s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Greys_r&#39;</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">)),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mei_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">,  y = </span><span class="si">{</span><span class="n">y_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">0.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">remove_ticks</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2cefa5a1a664ebe8e24e1e072ad1622ed9c7994d6052c2770de6ed75260bdcd8.png" src="../../_images/2cefa5a1a664ebe8e24e1e072ad1622ed9c7994d6052c2770de6ed75260bdcd8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_show_pairwise</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c5dc340f6502c1b03a5df4a4f43911782eaf737a3d21dbbb89724441534543c0.png" src="../../_images/c5dc340f6502c1b03a5df4a4f43911782eaf737a3d21dbbb89724441534543c0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_show_pairwise</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6c418e73120c9e4b4f666873ac94c90df6d59f5a1d80053f3800428940e3b9b9.png" src="../../_images/6c418e73120c9e4b4f666873ac94c90df6d59f5a1d80053f3800428940e3b9b9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">202</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.0005</span><span class="p">);</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.0568,  0.0482, -0.0025,  0.0368, -0.0258, -0.0134,  0.0498, -0.0302,
+        -0.0179,  0.0478], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/3fe61d824adb1375fb21614f611ffc7463f4094f8a45a84d1358281d7cdc221c.png" src="../../_images/3fe61d824adb1375fb21614f611ffc7463f4094f8a45a84d1358281d7cdc221c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">101</span><span class="p">));</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([3.4550e-04, 1.1910e-04, 1.1315e-04,  ..., 3.7017e-05, 5.7094e-05,
+        1.1399e-04], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/1a2d281dc2524698bf29c6330e4c8b28b3702633ecbfa70057d6c9334440de4a.png" src="../../_images/1a2d281dc2524698bf29c6330e4c8b28b3702633ecbfa70057d6c9334440de4a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">,</span> <span class="n">df_summary</span> <span class="o">=</span> <span class="n">knn_analysis</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 30000, iter #0: 100%|████████████████| 101/101 [01:07&lt;00:00,  1.50it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>size</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>200</th>
+      <td>0.859841</td>
+      <td>0.011672</td>
+    </tr>
+    <tr>
+      <th>30000</th>
+      <td>0.962200</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: &#39;mc_ep600-b200-lr(0.005)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(500)_(2024_04_23,14:55)&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                     | 0/4 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<img alt="../../_images/2510c1fe386c05111debb73d370003828887360f79595d0ebf8a05438906d1a2.png" src="../../_images/2510c1fe386c05111debb73d370003828887360f79595d0ebf8a05438906d1a2.png" />
+<img alt="../../_images/84ef19e6bad61175d227a51a337e3477808c43331cba433ecf8df986378d914c.png" src="../../_images/84ef19e6bad61175d227a51a337e3477808c43331cba433ecf8df986378d914c.png" />
+<img alt="../../_images/a023a50aa015a0d03d6a6160fb0617488858729d91896f35b4fde16a230d85d8.png" src="../../_images/a023a50aa015a0d03d6a6160fb0617488858729d91896f35b4fde16a230d85d8.png" />
+<img alt="../../_images/fb2b2137d4e767f66308c7174b88651a2ffcc9eeff1c380abb7b6ec0c3175ebb.png" src="../../_images/fb2b2137d4e767f66308c7174b88651a2ffcc9eeff1c380abb7b6ec0c3175ebb.png" />
+<img alt="../../_images/41310e393dbd4a29c2216b8c34bf10559b03b1222736952c484eeda1180ff3d9.png" src="../../_images/41310e393dbd4a29c2216b8c34bf10559b03b1222736952c484eeda1180ff3d9.png" />
+<img alt="../../_images/9a413c8f537fead1471f18d88d391fd99febeb7779250a5503f098526ec3b5b8.png" src="../../_images/9a413c8f537fead1471f18d88d391fd99febeb7779250a5503f098526ec3b5b8.png" />
+<img alt="../../_images/07543db6ae4aeef0f264ef6b15311016b10e39324597619b1292a67f614924f4.png" src="../../_images/07543db6ae4aeef0f264ef6b15311016b10e39324597619b1292a67f614924f4.png" />
+<img alt="../../_images/62c3c571fdc3921d7bfa53c48d8fdc7b0e3ea78d84e9d38d65352315edba1b41.png" src="../../_images/62c3c571fdc3921d7bfa53c48d8fdc7b0e3ea78d84e9d38d65352315edba1b41.png" />
+<img alt="../../_images/bdfff0813a0d9038ad97b015fcbaf531e00e83bd692f657965e1b7ffe99c9d54.png" src="../../_images/bdfff0813a0d9038ad97b015fcbaf531e00e83bd692f657965e1b7ffe99c9d54.png" />
+<img alt="../../_images/aa48227364916eaa2376773245b4227b5a8df24e64d0c9dc4c37cfb90ba4ab6a.png" src="../../_images/aa48227364916eaa2376773245b4227b5a8df24e64d0c9dc4c37cfb90ba4ab6a.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|███████████▎                                 | 1/4 [00:13&lt;00:39, 13.23s/it]
+</pre></div>
+</div>
+<img alt="../../_images/49dbcfd207b37b25367e14474e4df649cc06bd82606d820d1305d5ced7433728.png" src="../../_images/49dbcfd207b37b25367e14474e4df649cc06bd82606d820d1305d5ced7433728.png" />
+<img alt="../../_images/c50428fc327f7528c96dfe3437320488659dc60a20a65227069957a60f3cf293.png" src="../../_images/c50428fc327f7528c96dfe3437320488659dc60a20a65227069957a60f3cf293.png" />
+<img alt="../../_images/baf76134a9d7e6d3f38b2c6c722c549248ecfa800a9c3c1081d8cae27e80584d.png" src="../../_images/baf76134a9d7e6d3f38b2c6c722c549248ecfa800a9c3c1081d8cae27e80584d.png" />
+<img alt="../../_images/c53b6b97dd6a02d0199f9545fe28a0e92a4285041d6a5b18bd43cb9f21503164.png" src="../../_images/c53b6b97dd6a02d0199f9545fe28a0e92a4285041d6a5b18bd43cb9f21503164.png" />
+<img alt="../../_images/f88b74ca78e4d44eab355f5f6d97fb7c5712b193ec3c31690fc703be876771b3.png" src="../../_images/f88b74ca78e4d44eab355f5f6d97fb7c5712b193ec3c31690fc703be876771b3.png" />
+<img alt="../../_images/ce2fc38c670cdacdee1c944ee695ddce6dde2ae90fa148efdc5f4b085c0daccb.png" src="../../_images/ce2fc38c670cdacdee1c944ee695ddce6dde2ae90fa148efdc5f4b085c0daccb.png" />
+<img alt="../../_images/cc4215939c501cd87a62290eb1e9f821d07de222f61a240d1f4f62b51983a9a5.png" src="../../_images/cc4215939c501cd87a62290eb1e9f821d07de222f61a240d1f4f62b51983a9a5.png" />
+<img alt="../../_images/5d601a9ebeb8b0470bd0de230075556647847f2c26578177a356be1bd6ba213b.png" src="../../_images/5d601a9ebeb8b0470bd0de230075556647847f2c26578177a356be1bd6ba213b.png" />
+<img alt="../../_images/29b7e2c590573f56d808ee005424f5b127e4af19c422867d098db538add7775b.png" src="../../_images/29b7e2c590573f56d808ee005424f5b127e4af19c422867d098db538add7775b.png" />
+<img alt="../../_images/25526566f8c7dcd35bbc07f6a55eead8b323a267bbeed13cfe5fd505205987c2.png" src="../../_images/25526566f8c7dcd35bbc07f6a55eead8b323a267bbeed13cfe5fd505205987c2.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|██████████████████████▌                      | 2/4 [00:26&lt;00:26, 13.30s/it]
+</pre></div>
+</div>
+<img alt="../../_images/f721950adc5ffce15ae27011b96aafc19cdeb77c7ab82156798c21d29d2d0366.png" src="../../_images/f721950adc5ffce15ae27011b96aafc19cdeb77c7ab82156798c21d29d2d0366.png" />
+<img alt="../../_images/3eb7492f2340d8fe0b21f2bc00d80f394ea4594fd203d76e52e3d05a55ec0e53.png" src="../../_images/3eb7492f2340d8fe0b21f2bc00d80f394ea4594fd203d76e52e3d05a55ec0e53.png" />
+<img alt="../../_images/60e583474a24ac549cd180054f6a08353e6e97d7422ef76ef667b56fd33f998b.png" src="../../_images/60e583474a24ac549cd180054f6a08353e6e97d7422ef76ef667b56fd33f998b.png" />
+<img alt="../../_images/ce92ca924a57f0a07797669471645d2ffa73da82fdfee3bca6714cea3fa0a69e.png" src="../../_images/ce92ca924a57f0a07797669471645d2ffa73da82fdfee3bca6714cea3fa0a69e.png" />
+<img alt="../../_images/4c96686ef4506c4505a45d7ddb76d1aab6515d72ec8d0dda3ad6a2c80fcf3b80.png" src="../../_images/4c96686ef4506c4505a45d7ddb76d1aab6515d72ec8d0dda3ad6a2c80fcf3b80.png" />
+<img alt="../../_images/fe23da16509fa5de61701c424d4bc40a1915f41c255160fd47d5f92af0d2dad6.png" src="../../_images/fe23da16509fa5de61701c424d4bc40a1915f41c255160fd47d5f92af0d2dad6.png" />
+<img alt="../../_images/8840b387f5f83c7a115481c167d4c13bebaa5a1a282a17dd631452cc63ca72df.png" src="../../_images/8840b387f5f83c7a115481c167d4c13bebaa5a1a282a17dd631452cc63ca72df.png" />
+<img alt="../../_images/b765735172655487b5aa37e35384070d97b6afbf2c1cf8da45e44abe3555f052.png" src="../../_images/b765735172655487b5aa37e35384070d97b6afbf2c1cf8da45e44abe3555f052.png" />
+<img alt="../../_images/6f70696a7b8e7875c5180a12c3ee6f8e5957ec1a2467f990d86399a3d190be70.png" src="../../_images/6f70696a7b8e7875c5180a12c3ee6f8e5957ec1a2467f990d86399a3d190be70.png" />
+<img alt="../../_images/5557b9e88c53677dac477a3d44c6f0563486a5cd62f06f70b78f9a5014956efc.png" src="../../_images/5557b9e88c53677dac477a3d44c6f0563486a5cd62f06f70b78f9a5014956efc.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|█████████████████████████████████▊           | 3/4 [00:40&lt;00:13, 13.51s/it]
+</pre></div>
+</div>
+<img alt="../../_images/3bf033b835acc11e32001ea9b6315bdd21e3f36dfe9ef5a6f2c0ae1da03d1ef7.png" src="../../_images/3bf033b835acc11e32001ea9b6315bdd21e3f36dfe9ef5a6f2c0ae1da03d1ef7.png" />
+<img alt="../../_images/1400bd4146249522d3ce112e952f6136a2abc75717954129b6bc75756371f2a8.png" src="../../_images/1400bd4146249522d3ce112e952f6136a2abc75717954129b6bc75756371f2a8.png" />
+<img alt="../../_images/fd2affc156008a7ed871ab5a47f2914d6b4e72fb104ecfaa1cd0ff5412d10491.png" src="../../_images/fd2affc156008a7ed871ab5a47f2914d6b4e72fb104ecfaa1cd0ff5412d10491.png" />
+<img alt="../../_images/b99b505551385ca37f2bb2ab2574170ff407e56322ef777e183fbe492f65e4cf.png" src="../../_images/b99b505551385ca37f2bb2ab2574170ff407e56322ef777e183fbe492f65e4cf.png" />
+<img alt="../../_images/9843e1ad09873a945dcb828f5d6d2ebe0af44f078621bc20baa88b579bf0c8b9.png" src="../../_images/9843e1ad09873a945dcb828f5d6d2ebe0af44f078621bc20baa88b579bf0c8b9.png" />
+<img alt="../../_images/f6ecacd577a3f12f9d373a3ca47a06de2559c0d55e6aaffd0a031a4e820c5d56.png" src="../../_images/f6ecacd577a3f12f9d373a3ca47a06de2559c0d55e6aaffd0a031a4e820c5d56.png" />
+<img alt="../../_images/1fc7e435f930f2d3eb62701b92a4773fd9f400a64d5c543a32dbb3f51b268da9.png" src="../../_images/1fc7e435f930f2d3eb62701b92a4773fd9f400a64d5c543a32dbb3f51b268da9.png" />
+<img alt="../../_images/4d3c2184aaec1201c3b7f045a423eea00091aee6f8a0431a4cbb46329b95e476.png" src="../../_images/4d3c2184aaec1201c3b7f045a423eea00091aee6f8a0431a4cbb46329b95e476.png" />
+<img alt="../../_images/b575b68058cd53f19e9cc1b4263dcf1cc0aa73eebdfeaeac02ca989ad19607b6.png" src="../../_images/b575b68058cd53f19e9cc1b4263dcf1cc0aa73eebdfeaeac02ca989ad19607b6.png" />
+<img alt="../../_images/e8b142e0515de825b74df1b1ef103d9d8263461938f8f31f04c54f44b9895ff5.png" src="../../_images/e8b142e0515de825b74df1b1ef103d9d8263461938f8f31f04c54f44b9895ff5.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 4/4 [00:54&lt;00:00, 13.51s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: &#39;mc_ep600-b200-lr(0.005)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(500)_(2024_04_23,14:55)&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a8051be0524794df83961fd0fd08fc80158cd9a72786804f3410c2b5664200d1.png" src="../../_images/a8051be0524794df83961fd0fd08fc80158cd9a72786804f3410c2b5664200d1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">mei_all</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span>
+<span class="p">}</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alphas</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">):</span>
+        <span class="n">mei_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">y_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">_do_it</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">func_silence</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                     | 0/4 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<img alt="../../_images/ab2fb6d3ef3ffb9ff546d7d0db139e8dffd3e7ee932140bc40813e473d8684d0.png" src="../../_images/ab2fb6d3ef3ffb9ff546d7d0db139e8dffd3e7ee932140bc40813e473d8684d0.png" />
+<img alt="../../_images/a0bcfce5847a81915ef47bb58134c9d254245739244ea23f626865ce06fc31c2.png" src="../../_images/a0bcfce5847a81915ef47bb58134c9d254245739244ea23f626865ce06fc31c2.png" />
+<img alt="../../_images/3ed2c2314a48acbbdce6880275c536a34d9c71008ff952dba4f026938acc5b5a.png" src="../../_images/3ed2c2314a48acbbdce6880275c536a34d9c71008ff952dba4f026938acc5b5a.png" />
+<img alt="../../_images/bea09424bf4ec2f7bafbb6e6afa8daa6626c2af17d095a1109ae9cddfb4e2314.png" src="../../_images/bea09424bf4ec2f7bafbb6e6afa8daa6626c2af17d095a1109ae9cddfb4e2314.png" />
+<img alt="../../_images/52a005866dc5c3132e681288f20ed28c902bf331c66005d71e00b1572b8031ca.png" src="../../_images/52a005866dc5c3132e681288f20ed28c902bf331c66005d71e00b1572b8031ca.png" />
+<img alt="../../_images/1b15928d24612f03dc18528de4a7eae08ae8b5c160fe492cada8e36b7eabdf61.png" src="../../_images/1b15928d24612f03dc18528de4a7eae08ae8b5c160fe492cada8e36b7eabdf61.png" />
+<img alt="../../_images/57d57cbac5fc02514eea62e08590d57edb15c27c808c4e0169a6405959875e2c.png" src="../../_images/57d57cbac5fc02514eea62e08590d57edb15c27c808c4e0169a6405959875e2c.png" />
+<img alt="../../_images/79eabb7e3499e3a4bffd720e9315c67145165132e8ad25d35b709f585f4090c1.png" src="../../_images/79eabb7e3499e3a4bffd720e9315c67145165132e8ad25d35b709f585f4090c1.png" />
+<img alt="../../_images/e47a619b3820e5f523e3f18e4b2ca9b46d49fa733184ec088042a0b70532fb52.png" src="../../_images/e47a619b3820e5f523e3f18e4b2ca9b46d49fa733184ec088042a0b70532fb52.png" />
+<img alt="../../_images/bbcd4e1fc4bc43df06c5af734778ab2f5c1c3f18040f2ded9e38f042cc5a981c.png" src="../../_images/bbcd4e1fc4bc43df06c5af734778ab2f5c1c3f18040f2ded9e38f042cc5a981c.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|███████████▎                                 | 1/4 [00:17&lt;00:52, 17.59s/it]
+</pre></div>
+</div>
+<img alt="../../_images/e641fafd4034ad42ae0fbaf9825ee3b3f707b907e9cf15c03991db6c69be3af2.png" src="../../_images/e641fafd4034ad42ae0fbaf9825ee3b3f707b907e9cf15c03991db6c69be3af2.png" />
+<img alt="../../_images/4c4a7624524c49ad0ca78165376181868bd1d2750c9d97b0336da3cd6f227e06.png" src="../../_images/4c4a7624524c49ad0ca78165376181868bd1d2750c9d97b0336da3cd6f227e06.png" />
+<img alt="../../_images/9946b62a8226741a2311eeafe38c5b574a401a30d66c3b1f309d3d27d99deac5.png" src="../../_images/9946b62a8226741a2311eeafe38c5b574a401a30d66c3b1f309d3d27d99deac5.png" />
+<img alt="../../_images/5d6579fefab4af9fe17fbf8e33f765cd4d71b15f2942b05d0d8ac11d37b9b1a6.png" src="../../_images/5d6579fefab4af9fe17fbf8e33f765cd4d71b15f2942b05d0d8ac11d37b9b1a6.png" />
+<img alt="../../_images/4d0801e5f3562ee53ef9913409d0ba42cf2cc30242fb928115bc9058638d3133.png" src="../../_images/4d0801e5f3562ee53ef9913409d0ba42cf2cc30242fb928115bc9058638d3133.png" />
+<img alt="../../_images/aee94a482ce7429ddb9510c545539ac2f1a00c5d3dc12157ee16be1b6be427ae.png" src="../../_images/aee94a482ce7429ddb9510c545539ac2f1a00c5d3dc12157ee16be1b6be427ae.png" />
+<img alt="../../_images/192d2b4b7baf10d34e4e9f973f08f7bc2ae411a621baed2e81f1c8cefab0d66b.png" src="../../_images/192d2b4b7baf10d34e4e9f973f08f7bc2ae411a621baed2e81f1c8cefab0d66b.png" />
+<img alt="../../_images/8a655430f0843460f3b183d1bbc04861b051ea1debae581918275e7784181645.png" src="../../_images/8a655430f0843460f3b183d1bbc04861b051ea1debae581918275e7784181645.png" />
+<img alt="../../_images/520b9180e16e065432cc2675d7df7b5fc799ce302b0203df027042b85a719c42.png" src="../../_images/520b9180e16e065432cc2675d7df7b5fc799ce302b0203df027042b85a719c42.png" />
+<img alt="../../_images/a7c6932076bf0484e0acaabbea3efb1f7183cd1b3d0fe0cd2500817f79813490.png" src="../../_images/a7c6932076bf0484e0acaabbea3efb1f7183cd1b3d0fe0cd2500817f79813490.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|██████████████████████▌                      | 2/4 [00:35&lt;00:35, 17.53s/it]
+</pre></div>
+</div>
+<img alt="../../_images/fbc0cfbec0e322b12faa02226ab36b6a44de12fc68b9d5e7807407367c3d9468.png" src="../../_images/fbc0cfbec0e322b12faa02226ab36b6a44de12fc68b9d5e7807407367c3d9468.png" />
+<img alt="../../_images/b69c9259b4a3614642b342e83422709519dd66cfda2b5c53e5ba4c35abeb048f.png" src="../../_images/b69c9259b4a3614642b342e83422709519dd66cfda2b5c53e5ba4c35abeb048f.png" />
+<img alt="../../_images/825bcfac30190c84e90325b5dc48a00f14ef865f39f62076460a6ed05a10bdf5.png" src="../../_images/825bcfac30190c84e90325b5dc48a00f14ef865f39f62076460a6ed05a10bdf5.png" />
+<img alt="../../_images/196c8f0e6af1fca49c151b84075a6b25a6ba7b828c15b648d6100b4461b37b4d.png" src="../../_images/196c8f0e6af1fca49c151b84075a6b25a6ba7b828c15b648d6100b4461b37b4d.png" />
+<img alt="../../_images/e8dff9a140ac84d50c1263ced8d130c9a7d0fba0f9c2bf016872f0e06761a598.png" src="../../_images/e8dff9a140ac84d50c1263ced8d130c9a7d0fba0f9c2bf016872f0e06761a598.png" />
+<img alt="../../_images/5e24eef163182fd89c9fb06dd90d0ad562e3a6d0cd0a3be6b77994749451a0ef.png" src="../../_images/5e24eef163182fd89c9fb06dd90d0ad562e3a6d0cd0a3be6b77994749451a0ef.png" />
+<img alt="../../_images/a8af49644938964496a46d274fa8735208c94761e1085c29c393dd68a69f592c.png" src="../../_images/a8af49644938964496a46d274fa8735208c94761e1085c29c393dd68a69f592c.png" />
+<img alt="../../_images/25b26c41ecb6f15c9b8c32603c62bfeaa869b09ffa04d00456cb0bb43b797bd5.png" src="../../_images/25b26c41ecb6f15c9b8c32603c62bfeaa869b09ffa04d00456cb0bb43b797bd5.png" />
+<img alt="../../_images/6589c58fb493f5f44e2a82f9ee21eb827f10720be0354af8c9f09c6c9e42ff09.png" src="../../_images/6589c58fb493f5f44e2a82f9ee21eb827f10720be0354af8c9f09c6c9e42ff09.png" />
+<img alt="../../_images/de7a12a8cf3c53c197ed1ddb78eaa035c48474ef91963a495c2757a8f96dce39.png" src="../../_images/de7a12a8cf3c53c197ed1ddb78eaa035c48474ef91963a495c2757a8f96dce39.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75%|█████████████████████████████████▊           | 3/4 [00:53&lt;00:18, 18.08s/it]
+</pre></div>
+</div>
+<img alt="../../_images/75cb51b7a15885857a50ecf938b3e969e31a50d8630337badaa51fd7e7d88c6f.png" src="../../_images/75cb51b7a15885857a50ecf938b3e969e31a50d8630337badaa51fd7e7d88c6f.png" />
+<img alt="../../_images/35a9631b161e5e899f4fcf83930f31db42c25186f2138409d154c3f11f88d441.png" src="../../_images/35a9631b161e5e899f4fcf83930f31db42c25186f2138409d154c3f11f88d441.png" />
+<img alt="../../_images/cba2f9fee5c480679c0d0600d230966b6a3c08303f9159f899ffded34d56b21f.png" src="../../_images/cba2f9fee5c480679c0d0600d230966b6a3c08303f9159f899ffded34d56b21f.png" />
+<img alt="../../_images/5411355c99a3c617bf99fbaef921262a9f090a3eb14749238852d0a3e7cd3d19.png" src="../../_images/5411355c99a3c617bf99fbaef921262a9f090a3eb14749238852d0a3e7cd3d19.png" />
+<img alt="../../_images/2adeb6ddd0d161470cdc5877c58426b4d9475ad9a0ec69aaf0652381927e3742.png" src="../../_images/2adeb6ddd0d161470cdc5877c58426b4d9475ad9a0ec69aaf0652381927e3742.png" />
+<img alt="../../_images/70ec26296a25988fd8d1b2ca33b08f5d70e4aafce9b9064b7cc6b42f00f11635.png" src="../../_images/70ec26296a25988fd8d1b2ca33b08f5d70e4aafce9b9064b7cc6b42f00f11635.png" />
+<img alt="../../_images/1352669611a54c4944c684375a20246512787147e4e4ac717f357f891970be1b.png" src="../../_images/1352669611a54c4944c684375a20246512787147e4e4ac717f357f891970be1b.png" />
+<img alt="../../_images/00c87d4eb28adb614e8bbffbaca5dd3901ec7eb95e8b8ded04e963cce0d8ae9f.png" src="../../_images/00c87d4eb28adb614e8bbffbaca5dd3901ec7eb95e8b8ded04e963cce0d8ae9f.png" />
+<img alt="../../_images/9812fbe887506e1aaf327931f8f00319be145abf606391cbe67a4a139230c234.png" src="../../_images/9812fbe887506e1aaf327931f8f00319be145abf606391cbe67a4a139230c234.png" />
+<img alt="../../_images/92e91ce63c060216b3117ff33601d6875b7e00aa6944e0fb9ed2c61d1eec6685.png" src="../../_images/92e91ce63c060216b3117ff33601d6875b7e00aa6944e0fb9ed2c61d1eec6685.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 4/4 [01:13&lt;00:00, 18.33s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Greys_r&#39;</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">alphas</span><span class="p">)),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mei_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;y = </span><span class="si">{</span><span class="n">y_all</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">0.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">remove_ticks</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/44adfdf8472edba27676ced8918ffd1146d26c28ecc5fd12dc41199e2191788b.png" src="../../_images/44adfdf8472edba27676ced8918ffd1146d26c28ecc5fd12dc41199e2191788b.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-04"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="26_knn.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(26) KNN</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="27_cifar.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(27) CIFAR</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson">Poisson</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">MEI</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
