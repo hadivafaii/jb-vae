@@ -267,6 +267,32 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
 </li>
@@ -536,7 +562,9 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2e-3</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;res_eps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;warm_restart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1200</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -544,13 +572,15 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: 
-<span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'weight_norm'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: 
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'weight_norm'</span>: 
+<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'res_eps'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3</span><span style="font-weight: bold">}</span>
 
 Trainer:
 <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'mc'</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_anneal'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_init'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, 
 <span style="color: #008000; text-decoration-color: #008000">'lambda_norm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">900</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0005</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">}</span>
+<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1200</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0003</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'warm_restart'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -580,10 +610,10 @@ Trainer:
 
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>
-mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_04_30,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">21:50</span><span style="font-weight: bold">)</span>
+mc_b200-ep1200-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_01,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">23:48</span><span style="font-weight: bold">)</span>
 
 </pre>
-</div><img alt="../../_images/9ee62326c24f177c9ca6327c8bdccb729fe9363741bc6c482b7499068fb637c3.png" src="../../_images/9ee62326c24f177c9ca6327c8bdccb729fe9363741bc6c482b7499068fb637c3.png" />
+</div><img alt="../../_images/3b54c91fff39170c67dd139bfdd62740685b1ab47a9f40ed04fd8651866e289f.png" src="../../_images/3b54c91fff39170c67dd139bfdd62740685b1ab47a9f40ed04fd8651866e289f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -946,14 +976,14 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 <h3>Train<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ResConvPool-SwishOnlyOnRes_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;eps</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">enc</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">eps</span><span class="si">}</span><span class="s2">-warm1_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="c1"># comment = tr.cfg.name()</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 900, avg loss: 32.999087: 100%|█████████████████████████| 900/900 [2:34:33&lt;00:00, 10.30s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1200, avg loss: 32.981419: 100%|██████████████████████| 1200/1200 [3:24:32&lt;00:00, 10.23s/it]
 </pre></div>
 </div>
 </div>
@@ -972,9 +1002,20 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.370441</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.145828</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.91458285</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36.51627</span><span style="font-weight: bold">}</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.136084</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.99346</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.899346</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36.129543</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ea37d0fe975841d64e8f5286d323bb12face06891d533f64722a5861ef8dc569.png" src="../../_images/ea37d0fe975841d64e8f5286d323bb12face06891d533f64722a5861ef8dc569.png" />
+<img alt="../../_images/522bf9903cd8899d36da6c112412549d3a179f26a80dce71c1aeb58a5eb5094c.png" src="../../_images/522bf9903cd8899d36da6c112412549d3a179f26a80dce71c1aeb58a5eb5094c.png" />
+</div>
 </div>
 </section>
 <section id="identify-dead-neurons">
@@ -1000,8 +1041,8 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.92014444, 0.85835016, 0.7852803 , 0.736939  , 0.94743544,
-       1.0657085 , 0.92083704, 0.9868529 , 0.90971357, 1.0145661 ],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.96052533, 0.8019181 , 0.82181114, 0.8651088 , 0.95705813,
+       0.9685456 , 0.73044837, 0.9591016 , 0.8577254 , 1.0712174 ],
       dtype=float32)
 </pre></div>
 </div>
@@ -1018,13 +1059,13 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;0&#39;: 55.5,
- &#39;1&#39;: 12.2,
- &#39;2&#39;: 11.2,
- &#39;3&#39;: 8.5,
- &#39;4&#39;: 5.7,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;0&#39;: 52.9,
+ &#39;1&#39;: 13.1,
+ &#39;2&#39;: 12.0,
+ &#39;3&#39;: 9.0,
+ &#39;4&#39;: 6.1,
  &#39;5&#39;: 3.4,
- &#39;6&#39;: 1.8,
+ &#39;6&#39;: 1.9,
  &#39;7&#39;: 0.9,
  &#39;8+&#39;: 0.8}
 </pre></div>
@@ -1058,7 +1099,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/839eb70793e93970b1339ae0217aaedc78d164df104215b86ae0f1ffd78967b0.png" src="../../_images/839eb70793e93970b1339ae0217aaedc78d164df104215b86ae0f1ffd78967b0.png" />
+<img alt="../../_images/e13eff963861ce2339dd5eba634817f48554bc46ae5803e11dfca9bec77c138f.png" src="../../_images/e13eff963861ce2339dd5eba634817f48554bc46ae5803e11dfca9bec77c138f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1081,7 +1122,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f6f5fc22f4c754f674aeff9de08e978eb72fe84cee26cdd52d735fa265968f10.png" src="../../_images/f6f5fc22f4c754f674aeff9de08e978eb72fe84cee26cdd52d735fa265968f10.png" />
+<img alt="../../_images/96a58081f71179995da79ac8857dab480c8d3e8d2de79a93482c98e038b4acc1.png" src="../../_images/96a58081f71179995da79ac8857dab480c8d3e8d2de79a93482c98e038b4acc1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1094,7 +1135,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.0, 39.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.0, 41.0)
 </pre></div>
 </div>
 </div>
@@ -1128,7 +1169,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7d3040dcaab302e7d931ab1f51e8d4505a56ce4ff67b465fbc56e08c42c4199c.png" src="../../_images/7d3040dcaab302e7d931ab1f51e8d4505a56ce4ff67b465fbc56e08c42c4199c.png" />
+<img alt="../../_images/4bfd056f31e233af7336d6cb0d2a6c677dcccc2b2b31418691fe4041ef9db524.png" src="../../_images/4bfd056f31e233af7336d6cb0d2a6c677dcccc2b2b31418691fe4041ef9db524.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1139,12 +1180,12 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1c95bd4efeaa1e7b32e028b73a3b8d3c8d13580dbe23ae68946a8a596a21de6c.png" src="../../_images/1c95bd4efeaa1e7b32e028b73a3b8d3c8d13580dbe23ae68946a8a596a21de6c.png" />
+<img alt="../../_images/d7e0a5e46d1604314ca898736a14d7d01667faa570a9002e91543e998d583c22.png" src="../../_images/d7e0a5e46d1604314ca898736a14d7d01667faa570a9002e91543e998d583c22.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
 <span class="n">mu</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">sd</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
@@ -1168,12 +1209,12 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fbf72936cde24b4215772c921b7ff5d032c5ae4209aa09da625cc04df94ed9ce.png" src="../../_images/fbf72936cde24b4215772c921b7ff5d032c5ae4209aa09da625cc04df94ed9ce.png" />
+<img alt="../../_images/5e158a058a3e809e977e791f16b7f6384b31022342c135650967ac25caaf2f40.png" src="../../_images/5e158a058a3e809e977e791f16b7f6384b31022342c135650967ac25caaf2f40.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -1181,7 +1222,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/7c5c89dcfb302d07e3eb90ffd12530abd3a1e140370f53087fb271d749de3e66.png" src="../../_images/7c5c89dcfb302d07e3eb90ffd12530abd3a1e140370f53087fb271d749de3e66.png" />
+<img alt="../../_images/1673e98e14c2b98a82b672acd186877d71736484112e7b542bb280751f081ac7.png" src="../../_images/1673e98e14c2b98a82b672acd186877d71736484112e7b542bb280751f081ac7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1191,8 +1232,8 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7aa8f31766971f5e4a459ce0425fd3d9e6a1ad89f63a6bf3da75d4f510c9b233.png" src="../../_images/7aa8f31766971f5e4a459ce0425fd3d9e6a1ad89f63a6bf3da75d4f510c9b233.png" />
-<img alt="../../_images/5f0a830ee69a8b11b006a5bce3d7b9d63289a515126d7a11a4dacdd107dac2d2.png" src="../../_images/5f0a830ee69a8b11b006a5bce3d7b9d63289a515126d7a11a4dacdd107dac2d2.png" />
+<img alt="../../_images/d7dcf454406e8f019db729ad6c318f04f7ef5f9f9407b323cb4ec8c4c71546e7.png" src="../../_images/d7dcf454406e8f019db729ad6c318f04f7ef5f9f9407b323cb4ec8c4c71546e7.png" />
+<img alt="../../_images/703fcf0e53aa5ad6d2fc096f75de154f85a1ecb74fce77c8bee4c7364b4aebf9.png" src="../../_images/703fcf0e53aa5ad6d2fc096f75de154f85a1ecb74fce77c8bee4c7364b4aebf9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1203,7 +1244,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">],</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]),</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">]),</span>
-        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
     <span class="p">})</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;lbl&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1225,56 +1266,56 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/89dd5e8ef351fbafa90a2ff15fcdc0bbff6dc7f56c65d97f54df1ff563ff3a5d.png" src="../../_images/89dd5e8ef351fbafa90a2ff15fcdc0bbff6dc7f56c65d97f54df1ff563ff3a5d.png" />
-<img alt="../../_images/177267d4315c8ef3b2d0e1c1e69b949eff8f26e3786810f5d49883d8f92393c2.png" src="../../_images/177267d4315c8ef3b2d0e1c1e69b949eff8f26e3786810f5d49883d8f92393c2.png" />
-<img alt="../../_images/ca05f19804f1cf5e249eeb377e6bc5bb6230934c255d8eb06db866f804ad8af6.png" src="../../_images/ca05f19804f1cf5e249eeb377e6bc5bb6230934c255d8eb06db866f804ad8af6.png" />
-<img alt="../../_images/11ba5e9ed9408980d3d747925d73b5f4b6d42c5a54143f3007e5fc3bd7b8d368.png" src="../../_images/11ba5e9ed9408980d3d747925d73b5f4b6d42c5a54143f3007e5fc3bd7b8d368.png" />
-<img alt="../../_images/826acde29e26da076db9dc6f6a44309bc92befb0eba8a9d80c2830085b6fa92e.png" src="../../_images/826acde29e26da076db9dc6f6a44309bc92befb0eba8a9d80c2830085b6fa92e.png" />
-<img alt="../../_images/bb014ecf29dd7b9bd470962270aa9c8cae3c3bdd35205c4335b28db482c7b398.png" src="../../_images/bb014ecf29dd7b9bd470962270aa9c8cae3c3bdd35205c4335b28db482c7b398.png" />
-<img alt="../../_images/17e3b4821d1cdf08fd9428d32e52cfa6fbfea122150bf8116f04ac8d63485272.png" src="../../_images/17e3b4821d1cdf08fd9428d32e52cfa6fbfea122150bf8116f04ac8d63485272.png" />
-<img alt="../../_images/d75945ab8e5fd310838136bca15c57c7eba115b2298e54a02e0ff83f8f790384.png" src="../../_images/d75945ab8e5fd310838136bca15c57c7eba115b2298e54a02e0ff83f8f790384.png" />
-<img alt="../../_images/5f79328aecb25059988daa1218809f9667db803192b1383dd3861b514c2e2893.png" src="../../_images/5f79328aecb25059988daa1218809f9667db803192b1383dd3861b514c2e2893.png" />
-<img alt="../../_images/824d16d76aa10db9f721568723e90863bed77d3cc8d082b2063aea9825f7efea.png" src="../../_images/824d16d76aa10db9f721568723e90863bed77d3cc8d082b2063aea9825f7efea.png" />
-<img alt="../../_images/1d939949dd3613e153e02ba94224ea3dea7070d1aba48d904c0e58c5a6e036eb.png" src="../../_images/1d939949dd3613e153e02ba94224ea3dea7070d1aba48d904c0e58c5a6e036eb.png" />
-<img alt="../../_images/0554cd92484db1e185f2c8588faeb3981eee19ed9fae90d3128e60ec5054f8ed.png" src="../../_images/0554cd92484db1e185f2c8588faeb3981eee19ed9fae90d3128e60ec5054f8ed.png" />
-<img alt="../../_images/907511037774e2c989fdbb58ad273212ae292939582a095779acb2d56a94bfdc.png" src="../../_images/907511037774e2c989fdbb58ad273212ae292939582a095779acb2d56a94bfdc.png" />
-<img alt="../../_images/dcc57ad4798cbe3cacc505d6cf1457d983a1090fd45be2324c878354843767b9.png" src="../../_images/dcc57ad4798cbe3cacc505d6cf1457d983a1090fd45be2324c878354843767b9.png" />
-<img alt="../../_images/6e9e9d877cfcfa293fcc36e0e61805881349aa2e448abbb7b9f4c2350a1b9a97.png" src="../../_images/6e9e9d877cfcfa293fcc36e0e61805881349aa2e448abbb7b9f4c2350a1b9a97.png" />
-<img alt="../../_images/f74d0b8edbd0086a0264ccfd9a9426085413e59770e8e337bf86dca926baba3c.png" src="../../_images/f74d0b8edbd0086a0264ccfd9a9426085413e59770e8e337bf86dca926baba3c.png" />
-<img alt="../../_images/9e7885dbfab9e0d60cba4cd338531f6ab71c7715d71d749b14559a0204052667.png" src="../../_images/9e7885dbfab9e0d60cba4cd338531f6ab71c7715d71d749b14559a0204052667.png" />
-<img alt="../../_images/c3972c64c6808f7a8fdc3091a8e882dc1e41522b03fb2f06e9ce6bfaa417bc0a.png" src="../../_images/c3972c64c6808f7a8fdc3091a8e882dc1e41522b03fb2f06e9ce6bfaa417bc0a.png" />
-<img alt="../../_images/5ac80e74528ab87ff04e87f42824f351a8cc3b3413e94f85ec204544feb6a769.png" src="../../_images/5ac80e74528ab87ff04e87f42824f351a8cc3b3413e94f85ec204544feb6a769.png" />
-<img alt="../../_images/6f2f7d803d156c53f0f4d4f37c2b99dafdca3e1cd563cb8123e4f0be6067d6f9.png" src="../../_images/6f2f7d803d156c53f0f4d4f37c2b99dafdca3e1cd563cb8123e4f0be6067d6f9.png" />
-<img alt="../../_images/ff6c9e9af4df7467a5ba9982f571fd29ccf4dbb4ef4c5678cb3dd55f2354c78c.png" src="../../_images/ff6c9e9af4df7467a5ba9982f571fd29ccf4dbb4ef4c5678cb3dd55f2354c78c.png" />
-<img alt="../../_images/a487735aad1e0896d4723d000b1427ebecf231763c2bad1ce9166aebb2fa0ecb.png" src="../../_images/a487735aad1e0896d4723d000b1427ebecf231763c2bad1ce9166aebb2fa0ecb.png" />
-<img alt="../../_images/29d4317bd78e0b05e69453c005649b7bd2533bbf42c8d2dcf038b29e3ed75ebe.png" src="../../_images/29d4317bd78e0b05e69453c005649b7bd2533bbf42c8d2dcf038b29e3ed75ebe.png" />
-<img alt="../../_images/b9acefe13dedcb9821078aab82eac9920e44384d67c061b5cc27de44099d98ea.png" src="../../_images/b9acefe13dedcb9821078aab82eac9920e44384d67c061b5cc27de44099d98ea.png" />
-<img alt="../../_images/ae863db92824b1bd0ea4e498965dacf45e089fad41db855f2dca2796eff9e2e3.png" src="../../_images/ae863db92824b1bd0ea4e498965dacf45e089fad41db855f2dca2796eff9e2e3.png" />
-<img alt="../../_images/d8179d31e08b8ac36a898aa99b12f4f6be633492583ce88bc973c7a1bea12cb4.png" src="../../_images/d8179d31e08b8ac36a898aa99b12f4f6be633492583ce88bc973c7a1bea12cb4.png" />
-<img alt="../../_images/9e5862f9fa65dd46a520c4fe588f7c19121dcb4a2ae46fcda7f9ec22e0786e32.png" src="../../_images/9e5862f9fa65dd46a520c4fe588f7c19121dcb4a2ae46fcda7f9ec22e0786e32.png" />
-<img alt="../../_images/7aa60c3ff7d2f44b99bba447170b3158535590095ae3445592b150db26e79e1a.png" src="../../_images/7aa60c3ff7d2f44b99bba447170b3158535590095ae3445592b150db26e79e1a.png" />
-<img alt="../../_images/61371d9d8c28d2642de59a4d9fee9a3c7b8271eee349897e42b4a3809703ab16.png" src="../../_images/61371d9d8c28d2642de59a4d9fee9a3c7b8271eee349897e42b4a3809703ab16.png" />
-<img alt="../../_images/36f0a5e83c5acffe7e374ca2a96709445f79c8347d046116f361d4bc55ead8ee.png" src="../../_images/36f0a5e83c5acffe7e374ca2a96709445f79c8347d046116f361d4bc55ead8ee.png" />
-<img alt="../../_images/e95a302aa11fa5a815410c87f0979bc18ab7bb9e781807557225599f2b1983fe.png" src="../../_images/e95a302aa11fa5a815410c87f0979bc18ab7bb9e781807557225599f2b1983fe.png" />
-<img alt="../../_images/bdd58bce7ac9e6e961e12ad76d5976ff5c9f92eb28d9080b6ebee0f643f4922f.png" src="../../_images/bdd58bce7ac9e6e961e12ad76d5976ff5c9f92eb28d9080b6ebee0f643f4922f.png" />
-<img alt="../../_images/9402157dc2214eced6d9e77b1d793679d2a2ce929dcc05dbf526be6ebe6d1a4d.png" src="../../_images/9402157dc2214eced6d9e77b1d793679d2a2ce929dcc05dbf526be6ebe6d1a4d.png" />
-<img alt="../../_images/b01b2476b6055aebefef5bbf0947954092850745bcd6970019ded5c103f15878.png" src="../../_images/b01b2476b6055aebefef5bbf0947954092850745bcd6970019ded5c103f15878.png" />
-<img alt="../../_images/4414dfcba7e151dc91a516a5e0a97028dc6e6a4d17b02e957f281e16cc5d8aac.png" src="../../_images/4414dfcba7e151dc91a516a5e0a97028dc6e6a4d17b02e957f281e16cc5d8aac.png" />
-<img alt="../../_images/473a9b0ff81254d4baf0f763434f8406397277082a38701d0bf6617f25501f2a.png" src="../../_images/473a9b0ff81254d4baf0f763434f8406397277082a38701d0bf6617f25501f2a.png" />
-<img alt="../../_images/309c5b972315eeddcd816084ee01edbfc177e11982ae1325d13591c2975abd80.png" src="../../_images/309c5b972315eeddcd816084ee01edbfc177e11982ae1325d13591c2975abd80.png" />
-<img alt="../../_images/9a82072280db06226f0929bbf5784101ed109a1af3009b9ffeb2280d594a93b5.png" src="../../_images/9a82072280db06226f0929bbf5784101ed109a1af3009b9ffeb2280d594a93b5.png" />
-<img alt="../../_images/19acdf9af110e778de949ce661e4e2426ed61c1199a2d7e38c457be47c1008c5.png" src="../../_images/19acdf9af110e778de949ce661e4e2426ed61c1199a2d7e38c457be47c1008c5.png" />
-<img alt="../../_images/dc73ec928f29264a638c193556329e9ab9482ece934596e86a1d51605269dfb1.png" src="../../_images/dc73ec928f29264a638c193556329e9ab9482ece934596e86a1d51605269dfb1.png" />
-<img alt="../../_images/17a7a9edee369768b3a627a7711ded04eb7239e41cf670cd10550b3f23f567b4.png" src="../../_images/17a7a9edee369768b3a627a7711ded04eb7239e41cf670cd10550b3f23f567b4.png" />
-<img alt="../../_images/d3907949e91b69412e80a259b02fabba2926cf1b2271756593dfc33862609700.png" src="../../_images/d3907949e91b69412e80a259b02fabba2926cf1b2271756593dfc33862609700.png" />
-<img alt="../../_images/dc5ca9e08c22df518b0ae88f1cc5c73db1bf8f5d6f2eeca34d39e80e3779d5bd.png" src="../../_images/dc5ca9e08c22df518b0ae88f1cc5c73db1bf8f5d6f2eeca34d39e80e3779d5bd.png" />
-<img alt="../../_images/723fc233198730868d0aba413215d73639235dff8bdc549640b59620276a83e5.png" src="../../_images/723fc233198730868d0aba413215d73639235dff8bdc549640b59620276a83e5.png" />
-<img alt="../../_images/80de7509ddc8a377b34549a30d46e223b7bf577646702462f88d112e06049dc6.png" src="../../_images/80de7509ddc8a377b34549a30d46e223b7bf577646702462f88d112e06049dc6.png" />
+<img alt="../../_images/6e9d2759dc960b8931fb1f842c20b55bf2944bf7e77e4beedb2fa1379f99b4d4.png" src="../../_images/6e9d2759dc960b8931fb1f842c20b55bf2944bf7e77e4beedb2fa1379f99b4d4.png" />
+<img alt="../../_images/15bee4c551ed02808ba00dbb90f4e9d4e2369b4edf7b6d1ee94ec9720ea551f3.png" src="../../_images/15bee4c551ed02808ba00dbb90f4e9d4e2369b4edf7b6d1ee94ec9720ea551f3.png" />
+<img alt="../../_images/c3b02733aef4c345915b6d83947d120563c6226e4a150665c3108f55bfe82c96.png" src="../../_images/c3b02733aef4c345915b6d83947d120563c6226e4a150665c3108f55bfe82c96.png" />
+<img alt="../../_images/f7c00328a895f9db7d9aad8c2dce0db5215c20486fc7cea1d601764c6e0b5d8a.png" src="../../_images/f7c00328a895f9db7d9aad8c2dce0db5215c20486fc7cea1d601764c6e0b5d8a.png" />
+<img alt="../../_images/47133ad42b89e3c6d509e50fca4f3d764477cdb6c62f9de79829dcf28a433c41.png" src="../../_images/47133ad42b89e3c6d509e50fca4f3d764477cdb6c62f9de79829dcf28a433c41.png" />
+<img alt="../../_images/6480fd988b837118faf64b3be7f1553bf326011e03dee3139a6c61cffd1d0284.png" src="../../_images/6480fd988b837118faf64b3be7f1553bf326011e03dee3139a6c61cffd1d0284.png" />
+<img alt="../../_images/ed6941dc1e972ee197dbea046abfc8609d6853979bbfcff647fa701ba47abd89.png" src="../../_images/ed6941dc1e972ee197dbea046abfc8609d6853979bbfcff647fa701ba47abd89.png" />
+<img alt="../../_images/8f210155cfa1b6451761d9373f0f199ccf8582b8a8ae064d807086ce6e99dc3b.png" src="../../_images/8f210155cfa1b6451761d9373f0f199ccf8582b8a8ae064d807086ce6e99dc3b.png" />
+<img alt="../../_images/5b934b7d8ab2b3001949be6dff4a433b04a974200aa1bf77639646bee6025439.png" src="../../_images/5b934b7d8ab2b3001949be6dff4a433b04a974200aa1bf77639646bee6025439.png" />
+<img alt="../../_images/36a5858980053e830977677d260cb1e9d0e00dedf52c0f5fc3b24d223dd0626a.png" src="../../_images/36a5858980053e830977677d260cb1e9d0e00dedf52c0f5fc3b24d223dd0626a.png" />
+<img alt="../../_images/c8d00ef506c4ec2fecedcf3b30cc5f5c6c3cda2cb8edd7d19daaa0999a0d5fce.png" src="../../_images/c8d00ef506c4ec2fecedcf3b30cc5f5c6c3cda2cb8edd7d19daaa0999a0d5fce.png" />
+<img alt="../../_images/14b9d3400437eeb1463e6e09099a9d7b327e7bf3941b09b9ba0fb488a7e3141c.png" src="../../_images/14b9d3400437eeb1463e6e09099a9d7b327e7bf3941b09b9ba0fb488a7e3141c.png" />
+<img alt="../../_images/b1fc81190ce16db4b85a25c209e8b2b3ceca5a33bfa75672a0ad0b040e7f665a.png" src="../../_images/b1fc81190ce16db4b85a25c209e8b2b3ceca5a33bfa75672a0ad0b040e7f665a.png" />
+<img alt="../../_images/601ffbbe71f4c9e8ae5175b783f171cd9c9573fcec4ed13a408333888ab448e5.png" src="../../_images/601ffbbe71f4c9e8ae5175b783f171cd9c9573fcec4ed13a408333888ab448e5.png" />
+<img alt="../../_images/233cd6b4ea1ef0e525933bf630b8523759b296c379fcf1019be4179b737307ed.png" src="../../_images/233cd6b4ea1ef0e525933bf630b8523759b296c379fcf1019be4179b737307ed.png" />
+<img alt="../../_images/a20a3be78024cf44062408fd5ed6f6b3c96bd494911722d4cefaa89f42d18dc8.png" src="../../_images/a20a3be78024cf44062408fd5ed6f6b3c96bd494911722d4cefaa89f42d18dc8.png" />
+<img alt="../../_images/71b83ada6652024fcde2680cdd6689e07ede800f2d0727ca92c41bf31e500453.png" src="../../_images/71b83ada6652024fcde2680cdd6689e07ede800f2d0727ca92c41bf31e500453.png" />
+<img alt="../../_images/1da91926c8052d8b04c355f0698c9f6f41598af975e38c24e8c3cd8d30263c98.png" src="../../_images/1da91926c8052d8b04c355f0698c9f6f41598af975e38c24e8c3cd8d30263c98.png" />
+<img alt="../../_images/030acfd402b3304bfdf9da33d5a7b064192caecab2c3937c6d05a3dccc4323ec.png" src="../../_images/030acfd402b3304bfdf9da33d5a7b064192caecab2c3937c6d05a3dccc4323ec.png" />
+<img alt="../../_images/650015171139df690ed18d155f7386e43a1c282ce9b1343730fc215289c873bc.png" src="../../_images/650015171139df690ed18d155f7386e43a1c282ce9b1343730fc215289c873bc.png" />
+<img alt="../../_images/0d473403d2959d3ff2611820cb1bad5f891d78adfd3cee63b6ced66b1615e684.png" src="../../_images/0d473403d2959d3ff2611820cb1bad5f891d78adfd3cee63b6ced66b1615e684.png" />
+<img alt="../../_images/a9724f83eb9b6a95f6dc50b3bbb38fbc814403537ab3219b69839a56ef1176d6.png" src="../../_images/a9724f83eb9b6a95f6dc50b3bbb38fbc814403537ab3219b69839a56ef1176d6.png" />
+<img alt="../../_images/eba9b0fe8dd30a461113173d5ef58163a9edf6b0f517d3f098817d151f45f9e7.png" src="../../_images/eba9b0fe8dd30a461113173d5ef58163a9edf6b0f517d3f098817d151f45f9e7.png" />
+<img alt="../../_images/8523bfc5d8d2f7ec54a6ab6a111c086588eb42cf7408388156e03782be83c6ca.png" src="../../_images/8523bfc5d8d2f7ec54a6ab6a111c086588eb42cf7408388156e03782be83c6ca.png" />
+<img alt="../../_images/c75aaf08b932d668da1d55a6f26d78f4e01b23d1ff1473b75ca2fad1b423ff1e.png" src="../../_images/c75aaf08b932d668da1d55a6f26d78f4e01b23d1ff1473b75ca2fad1b423ff1e.png" />
+<img alt="../../_images/81ecde5e2a447a3d47e8308c1aa31fbee54736a9adce4c669bab8203429b1299.png" src="../../_images/81ecde5e2a447a3d47e8308c1aa31fbee54736a9adce4c669bab8203429b1299.png" />
+<img alt="../../_images/073bf67b2fd50393fe5a0e2689c01be296b361ff76dc81a2a0df4d8d44bc91aa.png" src="../../_images/073bf67b2fd50393fe5a0e2689c01be296b361ff76dc81a2a0df4d8d44bc91aa.png" />
+<img alt="../../_images/a64690181fb66858f599f4cfe0f728f669295004e5aa659e4034c856f9697a18.png" src="../../_images/a64690181fb66858f599f4cfe0f728f669295004e5aa659e4034c856f9697a18.png" />
+<img alt="../../_images/fe2eecfacb3f83542025e743c94757a34b2553e482285fcaded7603ccae52bd3.png" src="../../_images/fe2eecfacb3f83542025e743c94757a34b2553e482285fcaded7603ccae52bd3.png" />
+<img alt="../../_images/b9ba9b7c46d480b9f572a99e59554f970be6f4f1f07daebc7485a8aa6d2fbe18.png" src="../../_images/b9ba9b7c46d480b9f572a99e59554f970be6f4f1f07daebc7485a8aa6d2fbe18.png" />
+<img alt="../../_images/284e36361841beda48df30e4a5372a5a3877eaad8b1642791137b67f304c4f20.png" src="../../_images/284e36361841beda48df30e4a5372a5a3877eaad8b1642791137b67f304c4f20.png" />
+<img alt="../../_images/6ba01daebed34ff2fcec51466b694dfb4e448697248729749328453b2c5f06a3.png" src="../../_images/6ba01daebed34ff2fcec51466b694dfb4e448697248729749328453b2c5f06a3.png" />
+<img alt="../../_images/236f33838af2c99745b2bcf714ccbd489c243f00ac13345593c49f0c41785e39.png" src="../../_images/236f33838af2c99745b2bcf714ccbd489c243f00ac13345593c49f0c41785e39.png" />
+<img alt="../../_images/cab20d15956894bf50887c26fa9656b9e50279d6a4a701b91887a784d0b8bc9c.png" src="../../_images/cab20d15956894bf50887c26fa9656b9e50279d6a4a701b91887a784d0b8bc9c.png" />
+<img alt="../../_images/8d3ced15dedcebaa0e2234fc6ba1ea5db79e2f18ae717307bc849352e47ec760.png" src="../../_images/8d3ced15dedcebaa0e2234fc6ba1ea5db79e2f18ae717307bc849352e47ec760.png" />
+<img alt="../../_images/257caac1cdcfe025ac715d1f72bb02226fa13f60740022df9c3c09faf222311b.png" src="../../_images/257caac1cdcfe025ac715d1f72bb02226fa13f60740022df9c3c09faf222311b.png" />
+<img alt="../../_images/35ef78f85cc52e67d7a48c8f88ec7dc9160b374efe41e317bcdb42474a0b31aa.png" src="../../_images/35ef78f85cc52e67d7a48c8f88ec7dc9160b374efe41e317bcdb42474a0b31aa.png" />
+<img alt="../../_images/bef4d3439fa342cd350056724de2b4c2b422c9d8d39542d71d067210501a27cb.png" src="../../_images/bef4d3439fa342cd350056724de2b4c2b422c9d8d39542d71d067210501a27cb.png" />
+<img alt="../../_images/5499494a1cc65a89e68e9d59f9073c461ff540ec28971457b82e1ba85291a7e6.png" src="../../_images/5499494a1cc65a89e68e9d59f9073c461ff540ec28971457b82e1ba85291a7e6.png" />
+<img alt="../../_images/af4b4b6e7bf1ab390ec3c6fc0e2288ffca359fb2f1e0031c8ad962faa4bbe431.png" src="../../_images/af4b4b6e7bf1ab390ec3c6fc0e2288ffca359fb2f1e0031c8ad962faa4bbe431.png" />
+<img alt="../../_images/a058258a787e6ac02ba7cc822dc61f4a73b32c3251f183112bd6c4796b55f7c5.png" src="../../_images/a058258a787e6ac02ba7cc822dc61f4a73b32c3251f183112bd6c4796b55f7c5.png" />
+<img alt="../../_images/116e3bf999adc1e53b24e9d70a06d0e3e0ba452be243649a038e174f0a366615.png" src="../../_images/116e3bf999adc1e53b24e9d70a06d0e3e0ba452be243649a038e174f0a366615.png" />
+<img alt="../../_images/8cd6a4295b4a05f801320917c960798b5df1e5c79cfd5bcd6515f45cad6da539.png" src="../../_images/8cd6a4295b4a05f801320917c960798b5df1e5c79cfd5bcd6515f45cad6da539.png" />
+<img alt="../../_images/c24c28b40ec63edceec0abe6d5f632622e2807a35122e9795dbeefc44c0072f3.png" src="../../_images/c24c28b40ec63edceec0abe6d5f632622e2807a35122e9795dbeefc44c0072f3.png" />
+<img alt="../../_images/c0b1f8e5f8c7c329f3a19257bc84f05c834d2de6349189a607572aadfc3fd618.png" src="../../_images/c0b1f8e5f8c7c329f3a19257bc84f05c834d2de6349189a607572aadfc3fd618.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">all_lognorm</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">all_lognorm</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -1282,7 +1323,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/01d9e5dc248bd9962dbf22343b762490c35c47d65a4387e973ddbc1de8d5fad0.png" src="../../_images/01d9e5dc248bd9962dbf22343b762490c35c47d65a4387e973ddbc1de8d5fad0.png" />
+<img alt="../../_images/5fa68498e8e0cb52b24bf55a9a42d09d54e2800c2503743195692c0f34be6ec8.png" src="../../_images/5fa68498e8e0cb52b24bf55a9a42d09d54e2800c2503743195692c0f34be6ec8.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1292,7 +1333,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9703703703703704
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.18694444444444444
 </pre></div>
 </div>
 </div>
@@ -1308,14 +1349,14 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/daa6dfb6af7f636d6335db1e656e92a919681746d9bd9823b89eee89dfe26628.png" src="../../_images/daa6dfb6af7f636d6335db1e656e92a919681746d9bd9823b89eee89dfe26628.png" />
+<img alt="../../_images/2fe05effeda88dd7ba0953cdb223e96c2996087772386e934ebaa52dc22926bc.png" src="../../_images/2fe05effeda88dd7ba0953cdb223e96c2996087772386e934ebaa52dc22926bc.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">,</span> <span class="n">df_summary</span> <span class="o">=</span> <span class="n">knn_analysis</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span>
-    <span class="n">y</span><span class="o">=</span><span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
     <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
@@ -1323,7 +1364,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 5000, iter #0: 100%|█████████████████| 801/801 [01:41&lt;00:00,  7.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 5000, iter #0: 100%|█████████████████| 801/801 [01:42&lt;00:00,  7.83it/s]
 </pre></div>
 </div>
 </div>
@@ -1365,47 +1406,47 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
   <tbody>
     <tr>
       <th>20</th>
-      <td>0.418638</td>
-      <td>0.062253</td>
+      <td>0.391632</td>
+      <td>0.059457</td>
     </tr>
     <tr>
       <th>50</th>
-      <td>0.658010</td>
-      <td>0.055708</td>
+      <td>0.610328</td>
+      <td>0.048567</td>
     </tr>
     <tr>
       <th>100</th>
-      <td>0.796354</td>
-      <td>0.034670</td>
+      <td>0.738620</td>
+      <td>0.032926</td>
     </tr>
     <tr>
       <th>200</th>
-      <td>0.882576</td>
-      <td>0.021348</td>
+      <td>0.836368</td>
+      <td>0.023374</td>
     </tr>
     <tr>
       <th>500</th>
-      <td>0.936824</td>
-      <td>0.010214</td>
+      <td>0.902208</td>
+      <td>0.012101</td>
     </tr>
     <tr>
       <th>1000</th>
-      <td>0.953332</td>
-      <td>0.007023</td>
+      <td>0.926576</td>
+      <td>0.008961</td>
     </tr>
     <tr>
       <th>2000</th>
-      <td>0.960502</td>
-      <td>0.005561</td>
+      <td>0.936680</td>
+      <td>0.007092</td>
     </tr>
     <tr>
       <th>4000</th>
-      <td>0.963162</td>
-      <td>0.002998</td>
+      <td>0.941762</td>
+      <td>0.003549</td>
     </tr>
     <tr>
       <th>5000</th>
-      <td>0.962600</td>
+      <td>0.943600</td>
       <td>NaN</td>
     </tr>
   </tbody>

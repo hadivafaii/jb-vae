@@ -1,0 +1,1379 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(06) DOVES—PoisConv—1 &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-05/06_categ-doves-conv-1';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(06) DOVES—LapLin—1" href="06_laplace-doves-1.html" />
+    <link rel="prev" title="(06) DOVES—CategConv—0" href="06_categ-doves-conv-0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05/06_categ-doves-conv-1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-05/06_categ-doves-conv-1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(06) DOVES—PoisConv—1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#archi-conv-lin">Archi: <code class="docutils literal notranslate"><span class="pre">&lt;Conv|Lin&gt;</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-enc-dec-weights">Plot enc/dec weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loggabor-analysis">Loggabor analysis</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dovespoisconv1">
+<h1>(06) DOVES—PoisConv—1<a class="headerlink" href="#dovespoisconv1" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Categorical + DOVES + Conv encoder. <code class="docutils literal notranslate"><span class="pre">prior_fit</span> <span class="pre">=</span> <span class="pre">True</span></code>. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;categorical&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="archi-conv-lin">
+<h2>Archi: <code class="docutils literal notranslate"><span class="pre">&lt;Conv|Lin&gt;</span></code><a class="headerlink" href="#archi-conv-lin" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;DOVES&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;conv+b|lin&#39;</span><span class="p">)</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;fit_prior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;n_categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;n_latents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'DOVES'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008000; text-decoration-color: #008000">'n_categories'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'fit_prior'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'exp'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+----------------+------------+
+|  Module Name   | Num Params |
++----------------+------------+
+| CategoricalVAE |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.4</span> Mil   |
+|      ---       |    ---     |
+|      stem      |    <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">352</span>     |
+|      enc       |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.2</span> Mil   |
+|     fc_enc     |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66.0</span> K   |
+|     fc_dec     |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
++----------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical_c-512_prior-fit_DOVES_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>:exp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_06,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">08:18</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/54da551bee00c1e5106259565a050a00143d7356b9038613a8b9f54d29076507.png" src="../../_images/54da551bee00c1e5106259565a050a00143d7356b9038613a8b9f54d29076507.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">CategoricalVAE</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span>mse<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MSELoss</span><span style="font-weight: bold">()</span>
+  <span style="font-weight: bold">(</span>stem<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+  <span style="font-weight: bold">(</span>enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Cell</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>skip<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Identity</span><span style="font-weight: bold">()</span>
+      <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>se<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SELayer</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sigmoid</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Cell</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>skip<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">FactorizedReduce</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>swish<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>se<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SELayer</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sigmoid</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Cell</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>skip<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Identity</span><span style="font-weight: bold">()</span>
+      <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>se<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SELayer</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sigmoid</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Cell</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>skip<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">FactorizedReduce</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>swish<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>se<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SELayer</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sigmoid</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Cell</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>skip<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Identity</span><span style="font-weight: bold">()</span>
+      <span style="font-weight: bold">(</span>ops<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ConvLayer</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>se<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SELayer</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sigmoid</span><span style="font-weight: bold">()</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ResConvPool</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>act_fn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">()</span>
+      <span style="font-weight: bold">(</span>pool<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">AdaptiveAvgPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">output_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">))</span>
+      <span style="font-weight: bold">(</span>conv<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv2D</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #800080; text-decoration-color: #800080">valid</span><span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Flatten</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">start_dim</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">end_dim</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span><span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ResDenseLayer</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span>fc1<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>fc2<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>layer_norm<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>drop<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">(</span>relu<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">()</span>
+    <span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span>fc_enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span>fc_dec<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">vae</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(None, torch.Size([512]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;lr&#39;: 0.005,
+ &#39;epochs&#39;: 3000,
+ &#39;batch_size&#39;: 1000,
+ &#39;warm_restart&#39;: 0,
+ &#39;warmup_epochs&#39;: 5,
+ &#39;optimizer&#39;: &#39;adamax_fast&#39;,
+ &#39;optimizer_kws&#39;: {&#39;weight_decay&#39;: 0.0, &#39;betas&#39;: (0.9, 0.999), &#39;eps&#39;: 1e-08},
+ &#39;scheduler_type&#39;: &#39;cosine&#39;,
+ &#39;scheduler_kws&#39;: {&#39;T_max&#39;: 2995.0, &#39;eta_min&#39;: 1e-05},
+ &#39;ema_rate&#39;: 0.999,
+ &#39;grad_clip&#39;: 500,
+ &#39;chkpt_freq&#39;: 50,
+ &#39;eval_freq&#39;: 20,
+ &#39;log_freq&#39;: 10,
+ &#39;use_amp&#39;: False,
+ &#39;method&#39;: &#39;mc&#39;,
+ &#39;kl_beta&#39;: 1.0,
+ &#39;kl_beta_min&#39;: 0.0001,
+ &#39;kl_anneal_cycles&#39;: 0,
+ &#39;kl_anneal_portion&#39;: 0.5,
+ &#39;kl_const_portion&#39;: 0.0001,
+ &#39;lambda_anneal&#39;: False,
+ &#39;lambda_init&#39;: 0.0,
+ &#39;lambda_norm&#39;: 0.0,
+ &#39;temp_anneal_portion&#39;: 1.0,
+ &#39;temp_anneal_type&#39;: &#39;exp&#39;,
+ &#39;temp_start&#39;: 1.0,
+ &#39;temp_stop&#39;: 0.1}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;n_categories&#39;: 512,
+ &#39;fit_prior&#39;: True,
+ &#39;type&#39;: &#39;categorical&#39;,
+ &#39;enc_type&#39;: &#39;conv&#39;,
+ &#39;dec_type&#39;: &#39;lin&#39;,
+ &#39;enc_bias&#39;: True,
+ &#39;dec_bias&#39;: False,
+ &#39;dataset&#39;: &#39;DOVES&#39;,
+ &#39;input_sz&#39;: 16,
+ &#39;n_ch&#39;: 32,
+ &#39;n_latents&#39;: 1,
+ &#39;weight_norm&#39;: False,
+ &#39;use_bn&#39;: False,
+ &#39;use_se&#39;: True,
+ &#39;res_eps&#39;: 1.0,
+ &#39;activation_fn&#39;: &#39;swish&#39;,
+ &#39;init_scale&#39;: 0.5,
+ &#39;seed&#39;: 0,
+ &#39;base_dir&#39;: &#39;/home/hadi/Projects/PoissonVAE&#39;,
+ &#39;results_dir&#39;: &#39;/home/hadi/Projects/PoissonVAE/results&#39;,
+ &#39;runs_dir&#39;: &#39;/home/hadi/Projects/PoissonVAE/runs/categorical_c-512_prior-fit_DOVES_z-1_k-32_&lt;conv+b|lin&gt;&#39;,
+ &#39;save_dir&#39;: &#39;/home/hadi/Projects/PoissonVAE/models/categorical_c-512_prior-fit_DOVES_z-1_k-32_&lt;conv+b|lin&gt;&#39;,
+ &#39;data_dir&#39;: &#39;/home/hadi/Datasets&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<section id="train">
+<h3>Train<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comment = f&quot;..._{tr.cfg.name()}&quot;</span>
+<span class="n">comment</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3000, avg loss: 173.161373: 100%|█████████████████████| 3000/3000 [2:40:11&lt;00:00,  3.20s/it]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loss-vld-freeze">
+<h3>Loss vld (freeze)<a class="headerlink" href="#loss-vld-freeze" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="n">_loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165.39445</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.4255557</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.414346</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170.82</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: fixed prior</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165.01498</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.632016</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.6216135</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170.647</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="plot-enc-dec-weights">
+<h3>Plot enc/dec weights<a class="headerlink" href="#plot-enc-dec-weights" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">flatten_np</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;logits&#39;</span><span class="p">],</span> <span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6ce4de86d3f2d19a35538ccacf51b857a506f73ff64f4f4854aa53d0e95fffb5.png" src="../../_images/6ce4de86d3f2d19a35538ccacf51b857a506f73ff64f4f4854aa53d0e95fffb5.png" />
+</div>
+</div>
+</section>
+<section id="some-more-distributions">
+<h3>Some more distributions<a class="headerlink" href="#some-more-distributions" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(0.1009, device=&#39;cuda:1&#39;), 1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dead_thres</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_weights</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a4f3493007c7450b2d54716e5367beb66470eec38c88ddd4c56b9adade326750.png" src="../../_images/a4f3493007c7450b2d54716e5367beb66470eec38c88ddd4c56b9adade326750.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_weights</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/98e5da4404bcf8081b46e1e333a65684f52641d3325967846d32b4b2b0253788.png" src="../../_images/98e5da4404bcf8081b46e1e333a65684f52641d3325967846d32b4b2b0253788.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="loggabor-analysis">
+<h2>Loggabor analysis<a class="headerlink" href="#loggabor-analysis" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.loggabor</span> <span class="kn">import</span> <span class="n">fit_loggabor</span>
+<span class="kn">from</span> <span class="nn">figures.theta</span> <span class="kn">import</span> <span class="n">plot_theta</span>
+<span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">fit_loggabor</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|▌           | 24/512 [00:01&lt;00:22, 22.03it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=10.636650340317939, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.009006719213002334, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.8711850050614354, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2408037224816485, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.11443149474052514, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.19628514421148535, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052988232919509604, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23%|██▍        | 116/512 [00:04&lt;00:17, 23.10it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.0784871565315957, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.046119865777538, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.405810852959128, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.15440672137139655, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.9819720548693012, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1638156328143333, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05000797929015344, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|███▉       | 185/512 [00:07&lt;00:10, 31.01it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.828129225121966, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.295265931263188, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.1628559375947702, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.23376853129853103, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.5445204996197002, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.052584661985969006, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05232906553734595, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|████▊      | 222/512 [00:09&lt;00:12, 23.12it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=11.143552555154926, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=14.031895103501885, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.4513025466991483, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.23819195437952934, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.6282974022231806, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.14544087955740237, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05247243248387379, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45%|████▉      | 229/512 [00:09&lt;00:12, 22.65it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=4.073870104499761, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=2.23591145130868, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.1123345371407392, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.20316042006948953, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.183835976320266, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.11712669196923653, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05103065052387035, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=4.631015251739831, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.563502230388279, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.4622478691440557, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.19790445066617657, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.948390207813972, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.12203993330695939, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05167761786591252, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|████████▌  | 398/512 [00:16&lt;00:03, 31.59it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=11.965421527666349, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.567169345463045, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.9320638507369039, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.1281721554022358, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.1642616768716643, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1306914786644936, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.037744198211149604, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 83%|█████████▏ | 425/512 [00:17&lt;00:04, 18.84it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=11.351185552930248, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.639764754908914, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.5653053337603344, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.28415921885682616, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=5.690624149140291, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.019131090796172923, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.038324478055795974, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 87%|█████████▌ | 444/512 [00:19&lt;00:05, 12.61it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=9.55904650488672, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.073021774668069, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.4319910830898215, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.1893734313918175, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.7014284900542322, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.26390295961795196, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052980149362807816, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|█████████▋ | 450/512 [00:19&lt;00:03, 15.75it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=1.1330455984115417e-05, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=15.99886520629024, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.3901540859060129, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.14948768925743006, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.0614770066068773, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.09980739494830149, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05267065872084553, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|█████████▊ | 459/512 [00:20&lt;00:03, 17.50it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.887130335736068, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=4.68878910473932, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.1329492588563062, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.20250238630841444, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.058117629137078, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.14401692858852877, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052344359178975286, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 93%|██████████▎| 478/512 [00:21&lt;00:01, 18.91it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=11.87336711926101, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=10.488399824646198, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.1219763241665945, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.21702584757319, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.2856106146809607, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.07301796371941516, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.03926093316033474, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.968974838649139, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=6.433233496118123, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.422304069418363, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.1613998439150156, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.120052432381642, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.22593816902826835, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05014731710653486, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.864845690421803, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.69182409826332, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.8744609407652221, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2018415944333819, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-4.0195344261148085, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.26708863207432165, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05180395099377788, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|██████████▊| 501/512 [00:22&lt;00:00, 20.12it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=15.9388113350943, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.602195402694688, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.6971404239875627, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.22056743324121564, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=3.7680468735271995, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.11190175482515274, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.050793876065754806, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████| 512/512 [00:22&lt;00:00, 22.53it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">dead</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]))]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x_pos</th>
+      <th>y_pos</th>
+      <th>theta</th>
+      <th>sf_0</th>
+      <th>phase</th>
+      <th>B_sf</th>
+      <th>B_theta</th>
+      <th>theta_deg</th>
+      <th>probs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>4.940000e+02</td>
+      <td>4.940000e+02</td>
+      <td>494.000000</td>
+      <td>493.000000</td>
+      <td>494.000000</td>
+      <td>494.000000</td>
+      <td>494.000000</td>
+      <td>494.000000</td>
+      <td>494.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>7.358886e+00</td>
+      <td>7.603145e+00</td>
+      <td>0.132485</td>
+      <td>0.218721</td>
+      <td>-0.164862</td>
+      <td>0.439199</td>
+      <td>0.220939</td>
+      <td>87.388423</td>
+      <td>0.001945</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>3.121668e+00</td>
+      <td>3.533492e+00</td>
+      <td>1.042149</td>
+      <td>0.158728</td>
+      <td>1.522552</td>
+      <td>1.371618</td>
+      <td>0.377476</td>
+      <td>39.400760</td>
+      <td>0.000170</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.123620e-07</td>
+      <td>1.642011e-10</td>
+      <td>-1.570796</td>
+      <td>0.095585</td>
+      <td>-11.161807</td>
+      <td>0.066675</td>
+      <td>0.054703</td>
+      <td>0.195969</td>
+      <td>0.001749</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>5.529404e+00</td>
+      <td>4.954548e+00</td>
+      <td>-0.915629</td>
+      <td>0.193644</td>
+      <td>-0.713675</td>
+      <td>0.278297</td>
+      <td>0.119898</td>
+      <td>54.627171</td>
+      <td>0.001870</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>7.436343e+00</td>
+      <td>7.552580e+00</td>
+      <td>0.546980</td>
+      <td>0.214244</td>
+      <td>-0.156377</td>
+      <td>0.377873</td>
+      <td>0.150545</td>
+      <td>84.137199</td>
+      <td>0.001880</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>8.934146e+00</td>
+      <td>1.049901e+01</td>
+      <td>1.039389</td>
+      <td>0.233965</td>
+      <td>0.466698</td>
+      <td>0.437411</td>
+      <td>0.214212</td>
+      <td>118.879777</td>
+      <td>0.001895</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.600000e+01</td>
+      <td>1.560988e+01</td>
+      <td>1.570796</td>
+      <td>3.636789</td>
+      <td>5.699162</td>
+      <td>30.550393</td>
+      <td>6.780328</td>
+      <td>176.724603</td>
+      <td>0.002446</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;probs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;probs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span><span class="w"> </span><span class="n">rates_oblique</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MannwhitneyuResult</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">statistic</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24076.0</span>, <span style="color: #808000; text-decoration-color: #808000">pvalue</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0006978209372316104</span><span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_oblique</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">),</span> <span class="n">b</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.402834008097166, 0.597165991902834)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e7b9eb051a3e8ed32279c08608716daa59aa6f660c843c7448fa622e5cf7a65a.png" src="../../_images/e7b9eb051a3e8ed32279c08608716daa59aa6f660c843c7448fa622e5cf7a65a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_dec</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">w_dec</span> <span class="o">=</span> <span class="n">w_dec</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[:</span><span class="mi">32</span><span class="p">]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4536099f9745b435c7bdca71186cccdea3e2de04328348402c47b3ac16c89a0d.png" src="../../_images/4536099f9745b435c7bdca71186cccdea3e2de04328348402c47b3ac16c89a0d.png" />
+<img alt="../../_images/34d6c100df4c90346f329362aa515857d06b5a6097ab3f348ea9b09c9c8e09c1.png" src="../../_images/34d6c100df4c90346f329362aa515857d06b5a6097ab3f348ea9b09c9c8e09c1.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-05"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_categ-doves-conv-0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(06) DOVES—CategConv—0</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_laplace-doves-1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(06) DOVES—LapLin—1</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#archi-conv-lin">Archi: <code class="docutils literal notranslate"><span class="pre">&lt;Conv|Lin&gt;</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-enc-dec-weights">Plot enc/dec weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loggabor-analysis">Loggabor analysis</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

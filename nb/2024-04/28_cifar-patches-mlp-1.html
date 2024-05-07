@@ -267,6 +267,32 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
 </li>
@@ -465,7 +491,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-model-trainer">Build model + trainer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ff-rmax-1-00">FF / rmax = 1.00</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eval">Eval</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
@@ -476,7 +502,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rmax-q-1-0">rmax_q = 1.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rmax-q-0-99">rmax_q = 0.99</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Train</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Eval</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Loss vld (freeze)</a></li>
@@ -500,7 +526,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="cifarpoisff1">
 <h1>(28) CIFAR—PoisFF—1<a class="headerlink" href="#cifarpoisff1" title="Permalink to this heading">#</a></h1>
-<p><strong>Motivation</strong>: <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">512</span></code> + FF encoder, with <code class="docutils literal notranslate"><span class="pre">rmax_q</span> <span class="pre">=</span> <span class="pre">0.99</span></code> and <code class="docutils literal notranslate"><span class="pre">1.0</span></code> to <code class="docutils literal notranslate"><span class="pre">CIFAR10-PATCHES</span></code> dataset. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
+<p><strong>Motivation</strong>: <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">512</span></code> + FF encoder, with <code class="docutils literal notranslate"><span class="pre">rmax_q</span> <span class="pre">=</span> <span class="pre">0.99</span></code> and <code class="docutils literal notranslate"><span class="pre">1.0</span></code> to <code class="docutils literal notranslate"><span class="pre">CIFAR10-PATCHES</span></code> dataset. Across any metric I checked, <code class="docutils literal notranslate"><span class="pre">rmax_q</span> <span class="pre">=</span> <span class="pre">1.00</span></code> was better than <code class="docutils literal notranslate"><span class="pre">0.99</span></code>. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -545,14 +571,13 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="build-model-trainer">
-<h2>Build model + trainer<a class="headerlink" href="#build-model-trainer" title="Permalink to this heading">#</a></h2>
+<section id="ff-rmax-1-00">
+<h2>FF / rmax = 1.00<a class="headerlink" href="#ff-rmax-1-00" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;CIFAR10-PATCHES&#39;</span><span class="p">)</span>
 <span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;enc_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mlp&#39;</span>
 <span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;enc_bias&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;rmax_q&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -560,13 +585,13 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'CIFAR10-PATCHES'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.99</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'mlp'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'CIFAR10-PATCHES'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'mlp'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
 
 Trainer:
 <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'mc'</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_anneal'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_init'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, 
 <span style="color: #008000; text-decoration-color: #008000">'lambda_norm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'exp'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}}</span>
+<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -593,8 +618,8 @@ Trainer:
 +-------------+------------+ 
 
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.99</span><span style="font-weight: bold">)</span>_CIFAR10-PATCHES_z-512_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp</span><span style="color: #000000; text-decoration-color: #000000">+b|lin</span><span style="font-weight: bold">&gt;</span>
-mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:exp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_04_29,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">16:03</span><span style="font-weight: bold">)</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>_CIFAR10-PATCHES_z-512_k-16_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp</span><span style="color: #000000; text-decoration-color: #000000">+b|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:exp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_01,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">17:46</span><span style="font-weight: bold">)</span>
 
 </pre>
 </div><img alt="../../_images/bd690b3ca815f94f7753fc97e3e36e010c60c4a58512987b89761b007f996a14.png" src="../../_images/bd690b3ca815f94f7753fc97e3e36e010c60c4a58512987b89761b007f996a14.png" />
@@ -612,6 +637,43 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;init_scale = </span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">init_scale</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">vae</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+        0., 0., 0., 0., 0., 0., 0., 0.], device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/279eaa5a52f22039322139f55f23ab451961f42e9971014762fc34cf92e81c0a.png" src="../../_images/279eaa5a52f22039322139f55f23ab451961f42e9971014762fc34cf92e81c0a.png" />
+</div>
+</div>
 </section>
 <section id="train">
 <h2>Train<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h2>
@@ -620,6 +682,18 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comment = f&quot;..._{tr.cfg.name()}&quot;</span>
 <span class="n">comment</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 161.245617: 100%|█████████████████████| 3600/3600 [1:32:29&lt;00:00,  1.54s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
 </pre></div>
 </div>
 </div>
@@ -647,21 +721,6 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">PoissonVAE</span><span style="font-weight: bold">(</span>
-  <span style="font-weight: bold">(</span>mse<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MSELoss</span><span style="font-weight: bold">()</span>
-  <span style="font-weight: bold">(</span>enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">DenseResBlock</span><span style="font-weight: bold">(</span>
-    <span style="font-weight: bold">(</span>fc1<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4096</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>fc2<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4096</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>layer_norm<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>drop<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>relu<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">()</span>
-  <span style="font-weight: bold">)</span>
-  <span style="font-weight: bold">(</span>fc_enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-  <span style="font-weight: bold">(</span>fc_dec<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
-<span style="font-weight: bold">)</span>
-</pre>
-</div></div>
 </div>
 </section>
 <section id="eval">
@@ -675,6 +734,17 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <span class="n">_loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128.41144</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34.691856</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.06775753</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">163.1033</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
 </pre></div>
 </div>
 </div>
@@ -699,13 +769,13 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <h3>Identify dead neurons<a class="headerlink" href="#identify-dead-neurons" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7a26d13896af4ac761a2f33a4a9c4f7ed323b6b66e4bf64e17b4b2f0f8d90661.png" src="../../_images/7a26d13896af4ac761a2f33a4a9c4f7ed323b6b66e4bf64e17b4b2f0f8d90661.png" />
+<img alt="../../_images/1f7ebcf0c0bafb05e6547ff05bab80a00055ce5057d9e4ad9e36ff1aed85b7d7.png" src="../../_images/1f7ebcf0c0bafb05e6547ff05bab80a00055ce5057d9e4ad9e36ff1aed85b7d7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -717,7 +787,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
 </pre></div>
 </div>
 </div>
@@ -735,7 +805,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/416525fec1c6bcadba21209b20dafeea05903696791105b56736415e55566e17.png" src="../../_images/416525fec1c6bcadba21209b20dafeea05903696791105b56736415e55566e17.png" />
+<img alt="../../_images/22c24c30fc865c2a73a39e0546769197c4dcbf40298c9b77dd98b998a79acc1f.png" src="../../_images/22c24c30fc865c2a73a39e0546769197c4dcbf40298c9b77dd98b998a79acc1f.png" />
 </div>
 </div>
 </section>
@@ -744,15 +814,14 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lifetime</span><span class="p">,</span> <span class="n">population</span><span class="p">,</span> <span class="n">percents</span> <span class="o">=</span> <span class="n">sparse_score</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">][:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">],</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="n">percents</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">percents</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;0&#39;: 87.0, &#39;1&#39;: 11.0, &#39;2&#39;: 1.5, &#39;3+&#39;: 0.4}
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'0'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.0</span>, <span style="color: #008000; text-decoration-color: #008000">'1'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6.1</span>, <span style="color: #008000; text-decoration-color: #008000">'2'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.7</span>, <span style="color: #008000; text-decoration-color: #008000">'3+'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -780,7 +849,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/bf7dbfcfc2c6737f5898c439967146004a754bd8821bce7c8b83ba3490a83ea9.png" src="../../_images/bf7dbfcfc2c6737f5898c439967146004a754bd8821bce7c8b83ba3490a83ea9.png" />
+<img alt="../../_images/4b1942dea7d1cfd165c1c8147a62b339d46710c738d854b02fa1f6da0e62009d.png" src="../../_images/4b1942dea7d1cfd165c1c8147a62b339d46710c738d854b02fa1f6da0e62009d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -803,7 +872,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5572184beecdb934c5df317da229f1e6955a84bd0fca275edb4deb7d22cbfdb2.png" src="../../_images/5572184beecdb934c5df317da229f1e6955a84bd0fca275edb4deb7d22cbfdb2.png" />
+<img alt="../../_images/a20cbbd027224bb7080d61d348bb38331e6469533b17375797a696c2bd91992e.png" src="../../_images/a20cbbd027224bb7080d61d348bb38331e6469533b17375797a696c2bd91992e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -826,7 +895,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(37.0, 139.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(13.0, 86.0)
 </pre></div>
 </div>
 </div>
@@ -860,7 +929,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/372474a13535728eaf22b649086ab7daec045d705ee4b211e12cdb0797896ad4.png" src="../../_images/372474a13535728eaf22b649086ab7daec045d705ee4b211e12cdb0797896ad4.png" />
+<img alt="../../_images/187448c56ad6e282af7dcd061992b37030dd96705ef7243965c163b2b8465e03.png" src="../../_images/187448c56ad6e282af7dcd061992b37030dd96705ef7243965c163b2b8465e03.png" />
 </div>
 </div>
 </section>
@@ -886,8 +955,8 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">cos_sim</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine sim&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">cos_sim</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine sim&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="n">_avg</span> <span class="o">=</span> <span class="n">cos_sim</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">_avg</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;avg = </span><span class="si">{</span><span class="n">_avg</span><span class="si">:</span><span class="s1">0.3g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -902,7 +971,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/76eb5016ebb08579199ddfe22809a9bc0bedde33749767d1f1db9b331cc285f8.png" src="../../_images/76eb5016ebb08579199ddfe22809a9bc0bedde33749767d1f1db9b331cc285f8.png" />
+<img alt="../../_images/e9d800cb330ca7ee6f7081adefd415d67dec5ece893b5da06895bc660c6af34a.png" src="../../_images/e9d800cb330ca7ee6f7081adefd415d67dec5ece893b5da06895bc660c6af34a.png" />
 </div>
 </div>
 </section>
@@ -910,7 +979,17 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <h3>Plot enc/dec weights<a class="headerlink" href="#plot-enc-dec-weights" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4001e60681ee46c2d77746a22c8a57cb6100a9379351f32f155dc8d9f45eeae0.png" src="../../_images/4001e60681ee46c2d77746a22c8a57cb6100a9379351f32f155dc8d9f45eeae0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
 </pre></div>
 </div>
 </div>
@@ -935,6 +1014,16 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="../../_images/7a96a69ef5b9d6832e888004282ff3492561d2b13e5b57434f5d75f1b24208b0.png" src="../../_images/7a96a69ef5b9d6832e888004282ff3492561d2b13e5b57434f5d75f1b24208b0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 <img alt="../../_images/741dfbe248777248e4a2bc45ba3d54b5437487c4bc08d78f6d4861969ed03cb8.png" src="../../_images/741dfbe248777248e4a2bc45ba3d54b5437487c4bc08d78f6d4861969ed03cb8.png" />
 </div>
 </div>
@@ -953,25 +1042,25 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <h3>Some more distributions<a class="headerlink" href="#some-more-distributions" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(0.0505, device=&#39;cuda:1&#39;), 1.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4, tensor(0.0505, device=&#39;cuda:1&#39;), 1.0)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
 <span class="n">mu</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">sd</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
 <span class="n">rv</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
-<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">pdf</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -989,7 +1078,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/153c975b519e8c567d065cf4321dbde61600da3a763830a53cd7ef2d0de66aca.png" src="../../_images/153c975b519e8c567d065cf4321dbde61600da3a763830a53cd7ef2d0de66aca.png" />
+<img alt="../../_images/07c489ab8417bd0a4a1ff73a3d1b14ac4af86565656b61634f971e8c9af180bc.png" src="../../_images/07c489ab8417bd0a4a1ff73a3d1b14ac4af86565656b61634f971e8c9af180bc.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -999,7 +1088,8 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-12.8669, -12.7883], device=&#39;cuda:1&#39;, grad_fn=&lt;IndexBackward0&gt;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-12.6594, -12.8164, -12.9062,  -7.5498], device=&#39;cuda:1&#39;,
+       grad_fn=&lt;IndexBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -1011,20 +1101,22 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.5633952e-08, 2.3169928e-08], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.6381390e-08, 1.3708721e-08, 1.1065130e-08, 2.8956232e-03],
+      dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="rmax-q-1-0">
-<h2>rmax_q = 1.0<a class="headerlink" href="#rmax-q-1-0" title="Permalink to this heading">#</a></h2>
+<section id="rmax-q-0-99">
+<h2>rmax_q = 0.99<a class="headerlink" href="#rmax-q-0-99" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;CIFAR10-PATCHES&#39;</span><span class="p">)</span>
 <span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;enc_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mlp&#39;</span>
 <span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;enc_bias&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;rmax_q&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.99</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -1032,13 +1124,13 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'CIFAR10-PATCHES'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'mlp'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'CIFAR10-PATCHES'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.99</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'mlp'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
 
 Trainer:
 <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'mc'</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_anneal'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_init'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, 
 <span style="color: #008000; text-decoration-color: #008000">'lambda_norm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'exp'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}}</span>
+<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3600</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -1065,8 +1157,8 @@ Trainer:
 +-------------+------------+ 
 
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>_CIFAR10-PATCHES_z-512_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp</span><span style="color: #000000; text-decoration-color: #000000">+b|lin</span><span style="font-weight: bold">&gt;</span>
-mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:exp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_04_29,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">16:04</span><span style="font-weight: bold">)</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.99</span><span style="font-weight: bold">)</span>_CIFAR10-PATCHES_z-512_k-16_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp</span><span style="color: #000000; text-decoration-color: #000000">+b|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:exp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_01,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">19:32</span><span style="font-weight: bold">)</span>
 
 </pre>
 </div><img alt="../../_images/bd690b3ca815f94f7753fc97e3e36e010c60c4a58512987b89761b007f996a14.png" src="../../_images/bd690b3ca815f94f7753fc97e3e36e010c60c4a58512987b89761b007f996a14.png" />
@@ -1096,44 +1188,10 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 161.235108: 100%|█████████████████████| 3600/3600 [1:57:25&lt;00:00,  1.96s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 162.112526: 100%|█████████████████████| 3600/3600 [1:40:03&lt;00:00,  1.67s/it]
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: rmax_q = 0.99</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3600, avg loss: 162.059029: 100%|█████████████████████| 3600/3600 [1:33:46&lt;00:00,  1.56s/it]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">PoissonVAE</span><span style="font-weight: bold">(</span>
-  <span style="font-weight: bold">(</span>mse<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MSELoss</span><span style="font-weight: bold">()</span>
-  <span style="font-weight: bold">(</span>enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">DenseResBlock</span><span style="font-weight: bold">(</span>
-    <span style="font-weight: bold">(</span>fc1<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4096</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>fc2<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4096</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>layer_norm<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>drop<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
-    <span style="font-weight: bold">(</span>relu<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">()</span>
-  <span style="font-weight: bold">)</span>
-  <span style="font-weight: bold">(</span>fc_enc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-  <span style="font-weight: bold">(</span>fc_dec<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
-<span style="font-weight: bold">)</span>
-</pre>
-</div></div>
 </div>
 </section>
 <section id="id2">
@@ -1151,18 +1209,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128.34055</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34.75496</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.06788078</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">163.0955</span><span style="font-weight: bold">}</span>
-</pre>
-</div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: rmax_q = 0.99</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128.40813</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35.53672</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.06940766</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">163.94485</span><span style="font-weight: bold">}</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128.54175</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35.509827</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.06935513</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">164.05157</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -1171,23 +1218,13 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <h3>Identify dead neurons<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e77bda267bd8bc9c26608985ae0c42f17eb8d8a0d114373a535648f0a1519e1d.png" src="../../_images/e77bda267bd8bc9c26608985ae0c42f17eb8d8a0d114373a535648f0a1519e1d.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: rmax_q = 0.99</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/7a26d13896af4ac761a2f33a4a9c4f7ed323b6b66e4bf64e17b4b2f0f8d90661.png" src="../../_images/7a26d13896af4ac761a2f33a4a9c4f7ed323b6b66e4bf64e17b4b2f0f8d90661.png" />
+<img alt="../../_images/8fb855c1be91ecf345b69296b4195a8f7a938f279f635534c0c7d279b0db9252.png" src="../../_images/8fb855c1be91ecf345b69296b4195a8f7a938f279f635534c0c7d279b0db9252.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1199,7 +1236,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
 </pre></div>
 </div>
 </div>
@@ -1217,7 +1254,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/416525fec1c6bcadba21209b20dafeea05903696791105b56736415e55566e17.png" src="../../_images/416525fec1c6bcadba21209b20dafeea05903696791105b56736415e55566e17.png" />
+<img alt="../../_images/87b751da9bf7764f534647387f571f9279c2b31340b5a53f6ee2fda82b40df90.png" src="../../_images/87b751da9bf7764f534647387f571f9279c2b31340b5a53f6ee2fda82b40df90.png" />
 </div>
 </div>
 </section>
@@ -1226,15 +1263,14 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lifetime</span><span class="p">,</span> <span class="n">population</span><span class="p">,</span> <span class="n">percents</span> <span class="o">=</span> <span class="n">sparse_score</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">][:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">],</span> <span class="n">cutoff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="n">percents</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">percents</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;0&#39;: 87.0, &#39;1&#39;: 11.0, &#39;2&#39;: 1.5, &#39;3+&#39;: 0.4}
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'0'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.0</span>, <span style="color: #008000; text-decoration-color: #008000">'1'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11.0</span>, <span style="color: #008000; text-decoration-color: #008000">'2'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span>, <span style="color: #008000; text-decoration-color: #008000">'3+'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1262,7 +1298,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/bf7dbfcfc2c6737f5898c439967146004a754bd8821bce7c8b83ba3490a83ea9.png" src="../../_images/bf7dbfcfc2c6737f5898c439967146004a754bd8821bce7c8b83ba3490a83ea9.png" />
+<img alt="../../_images/1ae780839cb04a972fbb277a9a77fc6e8ef4938e6ec07bc15b4891c09c43f9a9.png" src="../../_images/1ae780839cb04a972fbb277a9a77fc6e8ef4938e6ec07bc15b4891c09c43f9a9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1285,7 +1321,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5572184beecdb934c5df317da229f1e6955a84bd0fca275edb4deb7d22cbfdb2.png" src="../../_images/5572184beecdb934c5df317da229f1e6955a84bd0fca275edb4deb7d22cbfdb2.png" />
+<img alt="../../_images/e2324d78965c21b1890904a6b66a86a9a5b2861d47a99beca7e412e3580c0c71.png" src="../../_images/e2324d78965c21b1890904a6b66a86a9a5b2861d47a99beca7e412e3580c0c71.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1308,7 +1344,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(37.0, 139.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(42.0, 129.0)
 </pre></div>
 </div>
 </div>
@@ -1342,7 +1378,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/372474a13535728eaf22b649086ab7daec045d705ee4b211e12cdb0797896ad4.png" src="../../_images/372474a13535728eaf22b649086ab7daec045d705ee4b211e12cdb0797896ad4.png" />
+<img alt="../../_images/ce50d5d33699e886be6184889c55ef59013e8c0508ccdeb62d5b64c3dc745218.png" src="../../_images/ce50d5d33699e886be6184889c55ef59013e8c0508ccdeb62d5b64c3dc745218.png" />
 </div>
 </div>
 </section>
@@ -1368,8 +1404,8 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">cos_sim</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine sim&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">cos_sim</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine sim&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="n">_avg</span> <span class="o">=</span> <span class="n">cos_sim</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">_avg</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;avg = </span><span class="si">{</span><span class="n">_avg</span><span class="si">:</span><span class="s1">0.3g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -1384,7 +1420,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/76eb5016ebb08579199ddfe22809a9bc0bedde33749767d1f1db9b331cc285f8.png" src="../../_images/76eb5016ebb08579199ddfe22809a9bc0bedde33749767d1f1db9b331cc285f8.png" />
+<img alt="../../_images/111100aa9a05fe2a9fd36f91b56fb5765298201016c9af56dd5693c2ca7f86b0.png" src="../../_images/111100aa9a05fe2a9fd36f91b56fb5765298201016c9af56dd5693c2ca7f86b0.png" />
 </div>
 </div>
 </section>
@@ -1392,12 +1428,19 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <h3>Plot enc/dec weights<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())));</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4087398cda7d5c4fd91fce97daa685083a6ceb4201a7fb1fbc4f7104f88b3a78.png" src="../../_images/4087398cda7d5c4fd91fce97daa685083a6ceb4201a7fb1fbc4f7104f88b3a78.png" />
+<img alt="../../_images/ad85dbbd231a71ac9690713a9b2e02a4f8778fe3fc329f15ac86ba93fc8b5b19.png" src="../../_images/ad85dbbd231a71ac9690713a9b2e02a4f8778fe3fc329f15ac86ba93fc8b5b19.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1405,9 +1448,6 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: lin enc</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/72a234af51965f3eee93ea8478cc2ed928ad2dfec8db739879fbf89629f3caaf.png" src="../../_images/72a234af51965f3eee93ea8478cc2ed928ad2dfec8db739879fbf89629f3caaf.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1417,7 +1457,14 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/741dfbe248777248e4a2bc45ba3d54b5437487c4bc08d78f6d4861969ed03cb8.png" src="../../_images/741dfbe248777248e4a2bc45ba3d54b5437487c4bc08d78f6d4861969ed03cb8.png" />
+<img alt="../../_images/565138ba4217346f945ba3c58a00b918e5a972470656458a0ec2606ce1a1cbe8.png" src="../../_images/565138ba4217346f945ba3c58a00b918e5a972470656458a0ec2606ce1a1cbe8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: prev implementation (init_scale did not exist back then)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1426,34 +1473,31 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/48cd88987dd9fca2842ed510405ef73dad661be13306f649c915b3c3a72c256a.png" src="../../_images/48cd88987dd9fca2842ed510405ef73dad661be13306f649c915b3c3a72c256a.png" />
-</div>
 </div>
 </section>
 <section id="id8">
 <h3>Some more distributions<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(0.0505, device=&#39;cuda:1&#39;), 1.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, tensor(0.0505, device=&#39;cuda:1&#39;), 1.0)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_rates</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_rates</span><span class="p">)[:,</span> <span class="o">~</span><span class="n">dead</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
 <span class="n">mu</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">sd</span> <span class="o">=</span> <span class="n">prior_rates</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
 <span class="n">rv</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sd</span><span class="p">)</span>
-<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">pdf</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1471,7 +1515,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/153c975b519e8c567d065cf4321dbde61600da3a763830a53cd7ef2d0de66aca.png" src="../../_images/153c975b519e8c567d065cf4321dbde61600da3a763830a53cd7ef2d0de66aca.png" />
+<img alt="../../_images/2f0ec250f4bf3f0fa93362e97bb269e556cf23369d96cb4bfd4009fca779882b.png" src="../../_images/2f0ec250f4bf3f0fa93362e97bb269e556cf23369d96cb4bfd4009fca779882b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1481,7 +1525,8 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-12.8669, -12.7883], device=&#39;cuda:1&#39;, grad_fn=&lt;IndexBackward0&gt;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-12.9201, -12.6113, -12.9751], device=&#39;cuda:1&#39;,
+       grad_fn=&lt;IndexBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -1493,7 +1538,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.5633952e-08, 2.3169928e-08], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([7.1859203e-09, 2.0228303e-08, 9.0271968e-09], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1566,7 +1611,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-model-trainer">Build model + trainer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ff-rmax-1-00">FF / rmax = 1.00</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eval">Eval</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
@@ -1577,7 +1622,7 @@ mc_b1000-ep3600-<span style="color: #800080; text-decoration-color: #800080; fon
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rmax-q-1-0">rmax_q = 1.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rmax-q-0-99">rmax_q = 0.99</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Train</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Eval</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Loss vld (freeze)</a></li>

@@ -1,0 +1,1291 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(06) DOVES—LapLin—1 &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-05/06_laplace-doves-1';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(06) DOVES—LapConv—0" href="06_laplace-doves-conv-0.html" />
+    <link rel="prev" title="(06) DOVES—PoisConv—1" href="06_categ-doves-conv-1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05/06_laplace-doves-1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-05/06_laplace-doves-1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(06) DOVES—LapLin—1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#archi-lin-lin">Archi: <code class="docutils literal notranslate"><span class="pre">&lt;lin|lin&gt;</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-enc-dec-weights">Plot enc/dec weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loggabor-analysis">Loggabor analysis</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="doveslaplin1">
+<h1>(06) DOVES—LapLin—1<a class="headerlink" href="#doveslaplin1" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Laplace + DOVES + Lin encoder. <code class="docutils literal notranslate"><span class="pre">prior_fit</span> <span class="pre">=</span> <span class="pre">False</span></code>. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;laplace&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="archi-lin-lin">
+<h2>Archi: <code class="docutils literal notranslate"><span class="pre">&lt;lin|lin&gt;</span></code><a class="headerlink" href="#archi-lin-lin" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;DOVES&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;lin|lin&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'DOVES'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'latent_act'</span>: <span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'exp'</span>, <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
+| Module Name | Num Params |
++-------------+------------+
+|  LaplaceVAE |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">393.2</span> K   |
+|     ---     |    ---     |
+|    fc_enc   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262.1</span> K   |
+|    fc_dec   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
++-------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_DOVES_z-512_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:e</span>xp-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_06,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">18:44</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/1da445c297e2a2199d6be63697319cf087438bd8fb84177dd1855dc96a59deac.png" src="../../_images/1da445c297e2a2199d6be63697319cf087438bd8fb84177dd1855dc96a59deac.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">bias</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(None, None)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="train">
+<h3>Train<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comment = f&quot;..._{tr.cfg.name()}&quot;</span>
+<span class="n">comment</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1904, avg loss: 170.036181:  63%|██████████████▌        | 1904/3000 [40:37&lt;28:26,  1.56s/it]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loss-vld-freeze">
+<h3>Loss vld (freeze)<a class="headerlink" href="#loss-vld-freeze" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="n">_loss</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">126.911865</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40.444523</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.07850062</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">167.35638</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: categorical with prior fit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165.39445</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.4255557</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.414346</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170.82</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Was: fixed prior</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165.01498</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.632016</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.6216135</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170.647</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="plot-enc-dec-weights">
+<h3>Plot enc/dec weights<a class="headerlink" href="#plot-enc-dec-weights" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">flatten_np</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">],</span> <span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/79bd68801d3d050cef7e82436759112728c1a3f726d6dc33a96d7fd0f2d4eb7e.png" src="../../_images/79bd68801d3d050cef7e82436759112728c1a3f726d6dc33a96d7fd0f2d4eb7e.png" />
+</div>
+</div>
+</section>
+<section id="some-more-distributions">
+<h3>Some more distributions<a class="headerlink" href="#some-more-distributions" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(1., device=&#39;cuda:1&#39;), 1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead_thres</span> <span class="o">=</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dead_thres</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_weights</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">110</span><span class="p">);</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0725e291a07da8d7bcb98bc0217ab7864accab9b7eb3496d8211285c22d18202.png" src="../../_images/0725e291a07da8d7bcb98bc0217ab7864accab9b7eb3496d8211285c22d18202.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">log_scale</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_weights</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="loggabor-analysis">
+<h2>Loggabor analysis<a class="headerlink" href="#loggabor-analysis" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead_thres</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">dead</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dead_thres</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.loggabor</span> <span class="kn">import</span> <span class="n">fit_loggabor</span>
+<span class="kn">from</span> <span class="nn">figures.theta</span> <span class="kn">import</span> <span class="n">plot_theta</span>
+<span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis</span> <span class="kn">import</span> <span class="n">loggabor</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">loggabor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;module &#39;analysis.loggabor&#39; from &#39;/home/hadi/Dropbox/git/_PoissonVAE/analysis/loggabor.py&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">loggabor</span><span class="o">.</span><span class="n">fit_loggabor</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|             | 2/512 [00:00&lt;00:39, 12.84it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=2.1860593012044163, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.540883986753505, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.12355123619197106, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.21484249011410916, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.2585069288661936, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.21056558164424144, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05181668084424762, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=1.1832488805453902, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=1.9379355120987691, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.11795188827836633, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.19798316487052137, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.39178657956389606, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.5781542867013788, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05290948461519662, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|▎           | 13/512 [00:01&lt;00:41, 12.06it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=10.819342326349839, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=12.145873074719434, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.2853373992429895, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.42390121143414616, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=12.05485184834894, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.020860132491679617, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.049976405431274684, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|▌           | 22/512 [00:02&lt;00:47, 10.32it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=5.5937918266302233e-05, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=14.372035588064454, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.7214549394495058, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.32360188058412, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.11497133994976418, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1596904846431636, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05285853217466696, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7%|▊           | 35/512 [00:03&lt;00:44, 10.73it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.1915756534229374, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=12.844280593113126, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.31113543424217527, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.29836602964770276, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.2825367224075166, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.058983253919369205, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04971069508332138, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|█           | 43/512 [00:04&lt;00:43, 10.81it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=14.539094040446034, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=10.291099339459844, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.32979396223566093, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2794014817850089, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.7860849355217536, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.16817870605125773, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052639336440543194, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|█▏          | 50/512 [00:04&lt;00:54,  8.47it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=2.573645376450486, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=4.6566208748645685, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.4491874573238492, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.13270585300269777, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.033332955209376, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.6892859321739112, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05236278351432999, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11%|█▎          | 58/512 [00:05&lt;00:28, 15.82it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=5.078907862117434, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.550372552800579, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.3641668542295178, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.6198217596232688, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.6894664734061415, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.3256161401896004, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05268390920006938, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█▉          | 82/512 [00:09&lt;00:55,  7.70it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.4501337198389948, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=11.196750829522294, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.7839300469186293, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.38451221611888553, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.30880652482439364, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.02887800183979794, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04859665899298482, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█▉          | 84/512 [00:09&lt;00:53,  8.00it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.772497607579813, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=6.945094845273436, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.3043066405268067, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.35223472049701054, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.4590928900763427, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.041128261670649535, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.03978138094697281, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19%|██▎         | 99/512 [00:12&lt;01:28,  4.66it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=1.7833518208220474, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=1.059541079587401, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.41286064454426397, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.33354136798030576, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.640321264670063, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.35180142581668494, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04952136475625302, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21%|██▎        | 110/512 [00:14&lt;00:52,  7.61it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=6.743929858998854e-09, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.6023154091234595, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.26657801129965186, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.35043114814435194, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.5907808714401, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.04288002446408179, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04691910340032435, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25%|██▊        | 128/512 [00:17&lt;00:32, 11.87it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=14.083064212445858, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=9.169846774317975, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.10213878488563899, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.29829443146580903, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.4578541864918906, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.19396057371218156, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05307160798013577, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|██▉        | 134/512 [00:17&lt;00:22, 16.66it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=9.008426535577126, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.695087654037367, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.3353835932953415, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3818953054550568, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.6987743906986306, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.08846193066511188, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.044052330993087474, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27%|██▉        | 136/512 [00:17&lt;00:26, 14.34it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.7340956100941565, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=4.009741253643432, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.11714369932850333, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2562175041579545, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-3.1472111075056515, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.22772348122902064, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.050729841785745244, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|███        | 144/512 [00:20&lt;01:14,  4.94it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=8.710796243598697, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.8234394773989591, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.7817686342663047, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3139851908609771, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.6485518169720668, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.06597126580328416, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05230153186639319, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35%|███▊       | 177/512 [00:24&lt;00:24, 13.41it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=8.513103241865247, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=6.432101851976769, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.2804394822965124, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3488169737413346, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-6.153137418317545, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.05677344979230636, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04590306876351613, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████▍      | 205/512 [00:29&lt;00:44,  6.90it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.8254495895048644, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=6.520205399192565, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.25817697553140784, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3493453045049123, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=4.344941263807369, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.043801397347657756, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04830057924096287, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=8.272799530600146, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=10.08201315940216, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.10792170242208865, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2793536998473075, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.1236514894093774, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.05048148836842026, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.050422784424251854, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|████▌      | 211/512 [00:31&lt;01:16,  3.95it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.739222321754802, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.076867386124097, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.9478268466948504, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.053396666066589105, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.9963671973978463, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.5583122379061428, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04720871304311369, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43%|████▋      | 219/512 [00:32&lt;00:34,  8.49it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.382961443704448, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.569504822788948, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.35665891703634434, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.635825063105106, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-2.039513554309966, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.7195823550314658, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05297571903638543, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47%|█████▏     | 240/512 [00:35&lt;00:32,  8.43it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=11.870432631758336, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.169366565675367, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.1080393581572556, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3529180035506775, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.0201714572510943, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.09443497738382678, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.043726898416646676, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.905179471717614, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=9.05958572049582, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.167369313019917, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3774023817669977, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-12.191717250548471, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.03206945446894649, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.041466142417085794, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 49%|█████▍     | 251/512 [00:35&lt;00:18, 13.91it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=13.96276194628383, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.014720894845952515, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.3066044273857198, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=1.4041845443145982, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-2.2191458961175803, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=2.03212106649531, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05220532358146823, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████▋     | 265/512 [00:37&lt;00:25,  9.62it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=0.35086293462134677, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.646346150346655, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.3602731886554171, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.4116623678630028, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.162426491126553, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.028811079391185657, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04271481042781511, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59%|██████▌    | 303/512 [00:41&lt;00:13, 15.77it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=6.904674617746493, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.868661701766373, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.655353920990967, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.126640874267964, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.342380981878731, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1276521680495012, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052131681725101964, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|██████▉    | 320/512 [00:43&lt;00:13, 14.28it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=1.3080910086704272, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=3.0013434453460244, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.09528223316586737, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2763619903380131, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.6147310155020578, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1852406436113735, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04855095580752822, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|███████    | 326/512 [00:44&lt;00:14, 12.42it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=10.123429325582038, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=2.040730472302676, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.09645499186483186, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2903105145746917, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.733657100495134, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.14955453369757155, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04522847565586219, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 71%|███████▊   | 364/512 [00:48&lt;00:11, 12.84it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.1943539479527416, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.926271295134894, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.12418862644194384, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.20399702648016016, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=1.6500582801902346, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.2731693799221483, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05252153528091352, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|████████▌  | 398/512 [00:53&lt;00:08, 14.22it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=8.390426918185803, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=2.3741148957072964, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.11092274645992783, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.2797484807599192, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.8484667995734234, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.04248521412768336, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04453638065369259, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=2.389976309426922, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.577283844482356, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-1.2964503106814522, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.36050302682417146, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=8.938511988108644, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.06736688302272908, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04791059501168837, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79%|████████▋  | 402/512 [00:54&lt;00:08, 13.13it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=14.468840336739026, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.242871215795371, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.4744418522601632, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3307263197481095, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.062009531970946, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.06727929089794682, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04976426910117937, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|████████▉  | 416/512 [00:55&lt;00:06, 14.66it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=3.317782979947024, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.967637923381613, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.28991023747743605, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.323893765373953, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-0.5477245160005263, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.11239154084607816, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05255191178196472, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|████████▉  | 418/512 [00:55&lt;00:07, 13.15it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=15.962969345858582, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=5.494945020967657, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.35901384353669874, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.27149428378912155, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=2.7711342235407415, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1275145856901666, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04854377719345637, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|█████████▍ | 439/512 [00:58&lt;00:08,  8.28it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=13.701667746580501, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.5603827520324085, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=1.3093186983966736, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3715923277422407, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-2.3868376459813354, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.09863089898154909, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05261466476918042, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|██████████ | 471/512 [01:02&lt;00:05,  7.17it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.5938876336788645, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=6.40698654618351, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.3055535657804558, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.31126659582442306, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-1.9487432734190167, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1062098563538808, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05021964586715855, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95%|██████████▍| 486/512 [01:05&lt;00:03,  8.05it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=9.93686371391593, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=7.218534548611223, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=-0.45672216971350466, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.35689427573285737, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.004011357869275534, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.07617355213502874, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04770991713367556, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|██████████▌| 494/512 [01:06&lt;00:01,  9.93it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=0.9979353004962981, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=13.508094761793814, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.9001782553798421, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.35483178338435806, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.43068059565191136, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.04822621313001518, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05109774033215342, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 97%|██████████▋| 499/512 [01:06&lt;00:01, 12.02it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=14.631597106312555, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=11.860426404794728, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.823220915623057, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.34240537158018347, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=0.8803593953626241, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.158950388558032, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.052892174147357696, bounds=[0.001:inf]&gt;)])
+warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=7.520554837910444, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=11.366194286946639, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.11113659056623915, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.25443687338567134, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=3.4210632588414063, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.15316369080691172, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05111094918120618, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 99%|██████████▊| 506/512 [01:08&lt;00:01,  5.33it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=4.357528207796795, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.17665746417794015, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.10724801098775205, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.27705795138144296, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=4.283543873290277, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.11887210779842683, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04000742727298212, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 99%|██████████▉| 508/512 [01:09&lt;00:00,  6.19it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=8.31190938329163, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=8.0344407510629, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.4651156653738595, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.3511688056593766, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-4.523988570296944, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.09665628672634707, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.04453882292512257, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████| 512/512 [01:09&lt;00:00,  7.39it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>warning: zero norm model with pars= Parameters([(&#39;x_pos&#39;, &lt;Parameter &#39;x_pos&#39;, value=9.011020054572327e-07, bounds=[0:16]&gt;), (&#39;y_pos&#39;, &lt;Parameter &#39;y_pos&#39;, value=0.9758457615171494, bounds=[0:16]&gt;), (&#39;theta&#39;, &lt;Parameter &#39;theta&#39;, value=0.7286757766091001, bounds=[-1.5707963267948966:1.5707963267948966]&gt;), (&#39;sf_0&#39;, &lt;Parameter &#39;sf_0&#39;, value=0.36383921424044285, bounds=[0.001:inf]&gt;), (&#39;phase&#39;, &lt;Parameter &#39;phase&#39;, value=-4.284974775542401, bounds=[-inf:inf]&gt;), (&#39;B_sf&#39;, &lt;Parameter &#39;B_sf&#39;, value=0.1560925950928117, bounds=[0.001:inf]&gt;), (&#39;B_theta&#39;, &lt;Parameter &#39;B_theta&#39;, value=0.05034693684501568, bounds=[0.001:inf]&gt;)])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">511</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span><span style="font-weight: bold">)</span>
+</pre>
+</div><div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">28</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">results</span> <span class="o">=</span> <span class="n">loggabor</span><span class="o">.</span><span class="n">fit_loggabor</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">File ~/Dropbox/git/_PoissonVAE/analysis/loggabor.py:73,</span> in <span class="ni">fit_loggabor</span><span class="nt">(tr, thres, verbose)</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> 	<span class="n">r_prior</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> 	<span class="n">results</span><span class="p">[</span><span class="s1">&#39;prior_rates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">r_prior</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">73</span> <span class="k">elif</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;categorical&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span> 	<span class="n">p</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span> 	<span class="n">results</span><span class="p">[</span><span class="s1">&#39;prior_probs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/pandas/core/frame.py:4311,</span> in <span class="ni">DataFrame.__setitem__</span><span class="nt">(self, key, value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4308</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_setitem_array</span><span class="p">([</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4309</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">4310</span>     <span class="c1"># set column</span>
+<span class="ne">-&gt; </span><span class="mi">4311</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_set_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/pandas/core/frame.py:4524,</span> in <span class="ni">DataFrame._set_item</span><span class="nt">(self, key, value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4514</span> <span class="k">def</span> <span class="nf">_set_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">4515</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">4516</span><span class="sd">     Add series to DataFrame in specified column.</span>
+<span class="g g-Whitespace">   </span><span class="mi">4517</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4522</span><span class="sd">     ensure homogeneity.</span>
+<span class="g g-Whitespace">   </span><span class="mi">4523</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">4524</span>     <span class="n">value</span><span class="p">,</span> <span class="n">refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize_column</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4526</span>     <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">4527</span>         <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+<span class="g g-Whitespace">   </span><span class="mi">4528</span>         <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="g g-Whitespace">   </span><span class="mi">4529</span>         <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">ExtensionDtype</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4530</span>     <span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">4531</span>         <span class="c1"># broadcast across multiple columns if necessary</span>
+<span class="g g-Whitespace">   </span><span class="mi">4532</span>         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">is_unique</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/pandas/core/frame.py:5266,</span> in <span class="ni">DataFrame._sanitize_column</span><span class="nt">(self, value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5263</span>     <span class="k">return</span> <span class="n">_reindex_for_setitem</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5265</span> <span class="k">if</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">5266</span>     <span class="n">com</span><span class="o">.</span><span class="n">require_length_match</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5267</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">sanitize_array</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5268</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">5269</span>     <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Index</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5270</span>     <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;object&quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5273</span>     <span class="c1"># TODO: Remove kludge in sanitize_array for string mode when enforcing</span>
+<span class="g g-Whitespace">   </span><span class="mi">5274</span>     <span class="c1"># this deprecation</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/pandas/core/common.py:573,</span> in <span class="ni">require_length_match</span><span class="nt">(data, index)</span>
+<span class="g g-Whitespace">    </span><span class="mi">569</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">570</span><span class="sd"> Check the length of data matches the length of the index.</span>
+<span class="g g-Whitespace">    </span><span class="mi">571</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">572</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">573</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span>         <span class="s2">&quot;Length of values &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">575</span>         <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">) &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">576</span>         <span class="s2">&quot;does not match length of index &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">577</span>         <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">578</span>     <span class="p">)</span>
+
+<span class="ne">ValueError</span>: Length of values (512) does not match length of index (511)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;sf_0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">dead</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]))]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">results</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">fit_prior</span> <span class="k">else</span> <span class="s1">&#39;kl&#39;</span>
+    <span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span><span class="w"> </span><span class="n">rates_oblique</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_oblique</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;portions,   axial: </span><span class="si">{</span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2"> —— vs. —— oblique: </span><span class="si">{</span><span class="n">b</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rates_axial</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;axial&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;phase&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">rates_oblique</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;oblique&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">dead</span><span class="p">,</span> <span class="s1">&#39;phase&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp_stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">,</span><span class="w"> </span><span class="n">rates_oblique</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_axial</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates_oblique</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">),</span> <span class="n">b</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_dec</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">w_dec</span> <span class="o">=</span> <span class="n">w_dec</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;sf_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[:</span><span class="mi">32</span><span class="p">]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_weights</span><span class="p">(</span><span class="n">w_dec</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:]],</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-05"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_categ-doves-conv-1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(06) DOVES—PoisConv—1</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_laplace-doves-conv-0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(06) DOVES—LapConv—0</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#archi-lin-lin">Archi: <code class="docutils literal notranslate"><span class="pre">&lt;lin|lin&gt;</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train">Train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-vld-freeze">Loss vld (freeze)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-enc-dec-weights">Plot enc/dec weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-more-distributions">Some more distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loggabor-analysis">Loggabor analysis</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

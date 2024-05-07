@@ -1,0 +1,2884 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(04) CategoricalVAE &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-05/04_categ-test';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(04) Exact recon loss" href="04_exact-test.html" />
+    <link rel="prev" title="(03) Shattering dim" href="03_shatter-dim.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05/04_categ-test.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-05/04_categ-test.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(04) CategoricalVAE</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="categoricalvae">
+<h1>(04) CategoricalVAE<a class="headerlink" href="#categoricalvae" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Test rsample. Does it really work? <br></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vase/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">sparse_score</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;categorical&#39;</span>
+<span class="kn">from</span> <span class="nn">base.distributions</span> <span class="kn">import</span> <span class="n">dists</span><span class="p">,</span> <span class="n">Categorical</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;conv+b|conv+b&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'n_categories'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>:
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'warm_restart'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0003</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+----------------+------------+
+|  Module Name   | Num Params |
++----------------+------------+
+| CategoricalVAE |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6.3</span> Mil   |
+|      ---       |    ---     |
+|      stem      |    <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">352</span>     |
+|      enc       |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.9</span> Mil   |
+|     fc_enc     |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25.7</span> K   |
+|     fc_dec     |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">103.4</span> K   |
+|      dec       |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.2</span> Mil   |
++----------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical_c-10_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>
+mc_b200-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_05,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">15:13</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/1caa538d24eb977b778c50d9a12f1732f5c695977cb9ec4022babcdf4a756d04.png" src="../../_images/1caa538d24eb977b778c50d9a12f1732f5c695977cb9ec4022babcdf4a756d04.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;categorical_c-10_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">runs_dir</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/home/hadi/Projects/PoissonVAE/runs/categorical_c-10_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">logits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000],
+         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000, 0.1000,
+          0.1000, 0.1000]]], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">logits</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="p">))</span>
+<span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([200, 1, 28, 28])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with torch.inference_mode():</span>
+<span class="n">dist</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">vae</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x2p</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x2p</span><span class="p">[</span><span class="n">x2p</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/4e932865c29e7871ca37e5ed7df44707ba29342ec0c09514c8292032fe2f2432.png" src="../../_images/4e932865c29e7871ca37e5ed7df44707ba29342ec0c09514c8292032fe2f2432.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">dist</span><span class="o">.</span><span class="n">rsample</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-29.6515, -46.2480,   5.2437,  21.2658, 113.2567, -13.7855,  19.9296,
+         -4.7984,  22.5497,  46.7027,  15.3849,   6.8394, -26.7323, 162.3295,
+        -58.8134,  13.6335,  58.8092,  30.2605, -12.6746, -15.3472, -38.8823,
+         41.3092,  -0.3783, -48.2880,  20.0336, -40.6113,  -3.5663, 119.4552,
+        -33.1864, -52.2635, -40.2610,  60.0013], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]], device=&#39;cuda:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">probs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0., 0., 1., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions.utils</span> <span class="kn">import</span> <span class="n">broadcast_all</span><span class="p">,</span> <span class="n">clamp_probs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dists</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clamp_probs</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1.1921e-07, 1.1921e-07, 1.1921e-07, 1.0000e+00, 1.1921e-07]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[-15.9420, -15.9420, -15.9420,  -0.0000, -15.9420]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+<span class="n">logits_eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">))</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">logits_eps</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[-15.9420, -15.9420, -15.9420,  15.9420, -15.9420]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits_eps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1.1921e-07, 1.1921e-07, 1.1921e-07, 1.0000e+00, 1.1921e-07]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+<span class="c1"># c = dists.RelaxedOneHotCategorical(temperature=1e-9, logits=logits)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">t</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/426bc7195c63ba911cc36e732552294891b5806e7efd02fea25088d7efee9b34.png" src="../../_images/426bc7195c63ba911cc36e732552294891b5806e7efd02fea25088d7efee9b34.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/17c52013181fcece23e0b3ed65d6342068a2acb1980c00f9cff6aee50cb91a53.png" src="../../_images/17c52013181fcece23e0b3ed65d6342068a2acb1980c00f9cff6aee50cb91a53.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.0864, 0.0930, 0.1122, 0.1057, 0.1070, 0.1274, 0.1006, 0.0899, 0.0853,
+        0.0925])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-2.3588, -2.2770, -2.0686, -2.1349, -2.1215, -1.9243, -2.1905, -2.3151,
+        -2.3730, -2.2834])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]));</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span> <span class="o">*</span> <span class="mf">1.04</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b272b604f48bb8439e7b8839605bab61b8b3f708477ad0809bb5510b9e046f7d.png" src="../../_images/b272b604f48bb8439e7b8839605bab61b8b3f708477ad0809bb5510b9e046f7d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+
+<span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+<span class="n">probs_eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">)</span>
+
+<span class="n">logits_eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">probs_eps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]));</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">logits_eps</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ca8e8375e059595568059a564850b4d3e5d307303843c62e2a40b96a9c160421.png" src="../../_images/ca8e8375e059595568059a564850b4d3e5d307303843c62e2a40b96a9c160421.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">logits</span> <span class="o">-</span> <span class="p">(</span><span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        ...,
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]],
+
+        [[0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         ...,
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.],
+         [0., 0., 0.,  ..., 0., 0., 0.]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rsample</span><span class="p">()</span>
+<span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;StemContainer object of 3 artists&gt;
+</pre></div>
+</div>
+<img alt="../../_images/cd23bf76811c54b2de82ace5f35f1ffd46c8e57b55ad1131eef599b8c447d46e.png" src="../../_images/cd23bf76811c54b2de82ace5f35f1ffd46c8e57b55ad1131eef599b8c447d46e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(9)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8b1dab1b56227c8f44b9a14869b1765d88dd99a4578c39f7a3db8c301ef32592.png" src="../../_images/8b1dab1b56227c8f44b9a14869b1765d88dd99a4578c39f7a3db8c301ef32592.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.005, 0.002, 0.   , 0.   , 0.113, 0.035, 0.004, 0.   , 0.   ,
+       0.841])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">ravel</span><span class="p">()),</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({0.0: 5877,
+         1e-07: 1008,
+         2e-07: 510,
+         3e-07: 308,
+         4e-07: 284,
+         5e-07: 232,
+         6e-07: 183,
+         7e-07: 138,
+         9e-07: 124,
+         8e-07: 120,
+         1e-06: 108,
+         1.1e-06: 101,
+         1.4e-06: 97,
+         1.2e-06: 93,
+         1.5e-06: 71,
+         1.6e-06: 68,
+         1.3e-06: 66,
+         1.7e-06: 64,
+         1.9e-06: 62,
+         2.1e-06: 59,
+         1.8e-06: 59,
+         2e-06: 56,
+         2.3e-06: 55,
+         2.5e-06: 55,
+         2.2e-06: 54,
+         2.7e-06: 49,
+         4e-06: 47,
+         3.1e-06: 47,
+         2.9e-06: 44,
+         3e-06: 43,
+         3.3e-06: 41,
+         2.8e-06: 40,
+         4.1e-06: 40,
+         3.2e-06: 40,
+         2.6e-06: 39,
+         2.4e-06: 35,
+         3.8e-06: 33,
+         3.6e-06: 32,
+         4.2e-06: 31,
+         4.3e-06: 29,
+         4.6e-06: 28,
+         3.4e-06: 28,
+         5e-06: 28,
+         4.9e-06: 27,
+         3.9e-06: 27,
+         7.6e-06: 27,
+         3.7e-06: 27,
+         5.2e-06: 27,
+         4.5e-06: 26,
+         6.7e-06: 26,
+         4.4e-06: 25,
+         5.4e-06: 24,
+         3.5e-06: 24,
+         5.9e-06: 24,
+         5.1e-06: 24,
+         7.3e-06: 23,
+         9.5e-06: 22,
+         4.7e-06: 22,
+         5.6e-06: 21,
+         4.8e-06: 21,
+         6e-06: 20,
+         6.9e-06: 20,
+         1.06e-05: 19,
+         8.5e-06: 19,
+         7.5e-06: 19,
+         8.4e-06: 19,
+         6.1e-06: 18,
+         7.1e-06: 18,
+         5.7e-06: 18,
+         7.2e-06: 18,
+         7.9e-06: 17,
+         6.2e-06: 17,
+         5.8e-06: 17,
+         5.3e-06: 17,
+         1.37e-05: 16,
+         1.12e-05: 16,
+         9.7e-06: 16,
+         5.5e-06: 16,
+         9.8e-06: 15,
+         7.4e-06: 15,
+         6.5e-06: 15,
+         9e-06: 15,
+         7e-06: 15,
+         1e-05: 14,
+         6.6e-06: 14,
+         6.3e-06: 14,
+         1.1e-05: 14,
+         7.7e-06: 14,
+         1.04e-05: 14,
+         1.07e-05: 14,
+         8e-06: 14,
+         7.8e-06: 13,
+         1.02e-05: 13,
+         8.2e-06: 13,
+         1.01e-05: 13,
+         8.8e-06: 13,
+         1.65e-05: 13,
+         1.0: 12,
+         1.42e-05: 12,
+         9.2e-06: 12,
+         8.1e-06: 12,
+         9.9e-06: 12,
+         8.3e-06: 12,
+         6.4e-06: 12,
+         8.6e-06: 12,
+         1.44e-05: 12,
+         9.4e-06: 12,
+         1.4e-05: 12,
+         1.19e-05: 12,
+         1.79e-05: 12,
+         3.13e-05: 11,
+         1.27e-05: 11,
+         1.18e-05: 11,
+         1.08e-05: 11,
+         1.21e-05: 11,
+         1.73e-05: 11,
+         6.8e-06: 11,
+         1.6e-05: 10,
+         9.3e-06: 10,
+         1.25e-05: 10,
+         1.16e-05: 10,
+         1.34e-05: 10,
+         1.76e-05: 10,
+         8.7e-06: 10,
+         8.9e-06: 10,
+         1.14e-05: 10,
+         1.13e-05: 10,
+         2.16e-05: 10,
+         1.61e-05: 10,
+         1.47e-05: 10,
+         1.53e-05: 9,
+         1.64e-05: 9,
+         2.44e-05: 9,
+         1.24e-05: 9,
+         1.15e-05: 9,
+         1.77e-05: 9,
+         2.18e-05: 9,
+         3.91e-05: 9,
+         1.49e-05: 9,
+         2.07e-05: 9,
+         1.2e-05: 9,
+         5.22e-05: 9,
+         1.38e-05: 9,
+         2.34e-05: 9,
+         1.23e-05: 9,
+         1.48e-05: 9,
+         1.52e-05: 9,
+         1.54e-05: 9,
+         1.11e-05: 9,
+         9.6e-06: 9,
+         1.39e-05: 9,
+         1.03e-05: 8,
+         1.97e-05: 8,
+         2.31e-05: 8,
+         1.66e-05: 8,
+         1.26e-05: 8,
+         1.45e-05: 8,
+         1.57e-05: 8,
+         2.43e-05: 8,
+         3.14e-05: 8,
+         2.84e-05: 8,
+         3.02e-05: 8,
+         3.89e-05: 8,
+         2.83e-05: 8,
+         2.38e-05: 8,
+         2.66e-05: 8,
+         1.93e-05: 8,
+         4.53e-05: 8,
+         9.1e-06: 8,
+         1.22e-05: 8,
+         2.22e-05: 8,
+         2.02e-05: 8,
+         1.3e-05: 8,
+         1.89e-05: 8,
+         1.28e-05: 8,
+         1.98e-05: 8,
+         2.97e-05: 8,
+         1.17e-05: 8,
+         1.5e-05: 8,
+         2.85e-05: 8,
+         1.81e-05: 7,
+         1.71e-05: 7,
+         3.24e-05: 7,
+         1.99e-05: 7,
+         3.04e-05: 7,
+         2.35e-05: 7,
+         2.28e-05: 7,
+         1.69e-05: 7,
+         1.09e-05: 7,
+         1.68e-05: 7,
+         1.94e-05: 7,
+         3.3e-05: 7,
+         2.52e-05: 7,
+         1.56e-05: 7,
+         3.46e-05: 7,
+         1.72e-05: 7,
+         1.51e-05: 7,
+         1.7e-05: 7,
+         2.61e-05: 7,
+         1.43e-05: 7,
+         2.96e-05: 7,
+         3.12e-05: 7,
+         1.32e-05: 7,
+         2.75e-05: 7,
+         3.47e-05: 7,
+         1.33e-05: 7,
+         1.78e-05: 6,
+         1.29e-05: 6,
+         0.0001044: 6,
+         1.75e-05: 6,
+         3.81e-05: 6,
+         3.21e-05: 6,
+         3.4e-05: 6,
+         4.38e-05: 6,
+         8.93e-05: 6,
+         3.95e-05: 6,
+         1.55e-05: 6,
+         3.05e-05: 6,
+         3.25e-05: 6,
+         2.36e-05: 6,
+         1.59e-05: 6,
+         3.07e-05: 6,
+         1.88e-05: 6,
+         4.99e-05: 6,
+         3.7e-05: 6,
+         2e-05: 6,
+         3.51e-05: 6,
+         1.74e-05: 6,
+         3.03e-05: 6,
+         2.98e-05: 6,
+         4.13e-05: 6,
+         2.46e-05: 6,
+         2.71e-05: 6,
+         5.87e-05: 6,
+         2.08e-05: 6,
+         3.62e-05: 6,
+         2.49e-05: 6,
+         2.54e-05: 6,
+         9.27e-05: 6,
+         2.23e-05: 5,
+         1.8e-05: 5,
+         3.53e-05: 5,
+         8.6e-05: 5,
+         5.15e-05: 5,
+         2.15e-05: 5,
+         2.03e-05: 5,
+         3.06e-05: 5,
+         6.09e-05: 5,
+         3.01e-05: 5,
+         2.88e-05: 5,
+         6.6e-05: 5,
+         6.75e-05: 5,
+         6.73e-05: 5,
+         2.09e-05: 5,
+         1.82e-05: 5,
+         6.57e-05: 5,
+         1.86e-05: 5,
+         4.68e-05: 5,
+         2.19e-05: 5,
+         2.56e-05: 5,
+         5.21e-05: 5,
+         4.63e-05: 5,
+         3.44e-05: 5,
+         4.03e-05: 5,
+         2.99e-05: 5,
+         2.93e-05: 5,
+         1.9e-05: 5,
+         0.0002883: 5,
+         1.84e-05: 5,
+         7.3e-05: 5,
+         4.02e-05: 5,
+         4.94e-05: 5,
+         1.31e-05: 5,
+         8.79e-05: 5,
+         3.8e-05: 5,
+         5.07e-05: 5,
+         2.45e-05: 5,
+         3.79e-05: 5,
+         3.97e-05: 5,
+         7.47e-05: 5,
+         2.33e-05: 5,
+         4.84e-05: 5,
+         2.05e-05: 5,
+         4.16e-05: 5,
+         3.33e-05: 5,
+         2.95e-05: 5,
+         2.86e-05: 5,
+         2.1e-05: 5,
+         3.56e-05: 5,
+         2.78e-05: 5,
+         1.05e-05: 5,
+         1.41e-05: 5,
+         2.01e-05: 5,
+         2.41e-05: 5,
+         3.28e-05: 5,
+         2.53e-05: 5,
+         4.18e-05: 5,
+         2.13e-05: 5,
+         2.4e-05: 5,
+         2.37e-05: 5,
+         6.37e-05: 5,
+         2.77e-05: 5,
+         5.14e-05: 5,
+         3.45e-05: 5,
+         8.03e-05: 5,
+         3.08e-05: 5,
+         3.96e-05: 5,
+         7.99e-05: 4,
+         3.86e-05: 4,
+         4.4e-05: 4,
+         3e-05: 4,
+         1.83e-05: 4,
+         0.0001183: 4,
+         4.28e-05: 4,
+         6.56e-05: 4,
+         5.9e-05: 4,
+         3.77e-05: 4,
+         6.06e-05: 4,
+         2.48e-05: 4,
+         1.91e-05: 4,
+         2.39e-05: 4,
+         4.33e-05: 4,
+         4.24e-05: 4,
+         0.0002052: 4,
+         8.56e-05: 4,
+         7.61e-05: 4,
+         3.29e-05: 4,
+         5.24e-05: 4,
+         3.52e-05: 4,
+         1.62e-05: 4,
+         5.99e-05: 4,
+         5.69e-05: 4,
+         5.08e-05: 4,
+         1.35e-05: 4,
+         7.46e-05: 4,
+         4.6e-05: 4,
+         5.12e-05: 4,
+         1.95e-05: 4,
+         4.19e-05: 4,
+         2.04e-05: 4,
+         2.12e-05: 4,
+         6.65e-05: 4,
+         4.98e-05: 4,
+         4.42e-05: 4,
+         3.19e-05: 4,
+         2.25e-05: 4,
+         5.06e-05: 4,
+         0.9999995: 4,
+         6.12e-05: 4,
+         2.74e-05: 4,
+         2.14e-05: 4,
+         7.66e-05: 4,
+         2.26e-05: 4,
+         3.83e-05: 4,
+         0.9999998: 4,
+         6.89e-05: 4,
+         2.76e-05: 4,
+         7.07e-05: 4,
+         4.8e-05: 4,
+         0.0001064: 4,
+         5.61e-05: 4,
+         3.78e-05: 4,
+         8.01e-05: 4,
+         0.000127: 4,
+         2.51e-05: 4,
+         0.0002813: 4,
+         4.93e-05: 4,
+         8.19e-05: 4,
+         2.47e-05: 4,
+         9.87e-05: 4,
+         2.89e-05: 4,
+         2.73e-05: 4,
+         4.56e-05: 4,
+         8.11e-05: 4,
+         0.999999: 4,
+         5.98e-05: 4,
+         3.61e-05: 4,
+         6.33e-05: 4,
+         7.02e-05: 4,
+         5.16e-05: 4,
+         1.67e-05: 4,
+         6.49e-05: 4,
+         0.0001234: 4,
+         3.48e-05: 4,
+         5.83e-05: 4,
+         0.0001231: 4,
+         3.26e-05: 4,
+         7.35e-05: 4,
+         1.92e-05: 4,
+         8.14e-05: 4,
+         8.23e-05: 4,
+         1.58e-05: 4,
+         2.72e-05: 4,
+         4.77e-05: 4,
+         2.63e-05: 4,
+         2.17e-05: 4,
+         3.59e-05: 4,
+         4.81e-05: 4,
+         2.64e-05: 4,
+         3.16e-05: 4,
+         3.15e-05: 4,
+         3.54e-05: 4,
+         2.06e-05: 4,
+         0.9999985: 4,
+         0.0002613: 4,
+         3.11e-05: 4,
+         6.02e-05: 3,
+         6.74e-05: 3,
+         7.1e-05: 3,
+         4.71e-05: 3,
+         9.02e-05: 3,
+         1.36e-05: 3,
+         6.1e-05: 3,
+         0.0001004: 3,
+         0.0001808: 3,
+         3.2e-05: 3,
+         7.51e-05: 3,
+         9.38e-05: 3,
+         5.79e-05: 3,
+         8.77e-05: 3,
+         0.0001264: 3,
+         5.1e-05: 3,
+         3.72e-05: 3,
+         0.9999971: 3,
+         5.37e-05: 3,
+         0.9999989: 3,
+         0.0002105: 3,
+         0.0002532: 3,
+         0.0003605: 3,
+         3.64e-05: 3,
+         7.03e-05: 3,
+         3.9e-05: 3,
+         0.000159: 3,
+         0.0002074: 3,
+         0.0001013: 3,
+         4.61e-05: 3,
+         5.68e-05: 3,
+         0.0001313: 3,
+         3.6e-05: 3,
+         0.0002249: 3,
+         0.0006942: 3,
+         4.5e-05: 3,
+         6.88e-05: 3,
+         6.17e-05: 3,
+         0.0002162: 3,
+         1.87e-05: 3,
+         3.38e-05: 3,
+         6.91e-05: 3,
+         5.5e-05: 3,
+         5.42e-05: 3,
+         7.86e-05: 3,
+         5.49e-05: 3,
+         3.18e-05: 3,
+         8.38e-05: 3,
+         7.55e-05: 3,
+         0.0001156: 3,
+         0.0004598: 3,
+         3.42e-05: 3,
+         0.0001331: 3,
+         5.82e-05: 3,
+         8.21e-05: 3,
+         0.0001825: 3,
+         0.0001469: 3,
+         7.21e-05: 3,
+         0.0002005: 3,
+         4.73e-05: 3,
+         0.0001704: 3,
+         2.9e-05: 3,
+         5.33e-05: 3,
+         5.84e-05: 3,
+         0.0001366: 3,
+         0.0001676: 3,
+         3.58e-05: 3,
+         2.42e-05: 3,
+         5.81e-05: 3,
+         0.0002663: 3,
+         4.36e-05: 3,
+         0.0001081: 3,
+         2.8e-05: 3,
+         3.22e-05: 3,
+         0.000153: 3,
+         0.000207: 3,
+         8.48e-05: 3,
+         7.29e-05: 3,
+         2.7e-05: 3,
+         5.77e-05: 3,
+         6.34e-05: 3,
+         5.19e-05: 3,
+         5.95e-05: 3,
+         5.54e-05: 3,
+         1.85e-05: 3,
+         2.21e-05: 3,
+         3.27e-05: 3,
+         6.07e-05: 3,
+         0.0001296: 3,
+         5.03e-05: 3,
+         0.0001991: 3,
+         2.92e-05: 3,
+         0.0001818: 3,
+         1.96e-05: 3,
+         0.000133: 3,
+         7.95e-05: 3,
+         7.69e-05: 3,
+         5.74e-05: 3,
+         4.26e-05: 3,
+         9.75e-05: 3,
+         0.0001361: 3,
+         4.41e-05: 3,
+         8.18e-05: 3,
+         8.87e-05: 3,
+         2.55e-05: 3,
+         0.0001667: 3,
+         7.39e-05: 3,
+         9.65e-05: 3,
+         8.2e-05: 3,
+         7.12e-05: 3,
+         7.71e-05: 3,
+         0.0001846: 3,
+         2.94e-05: 3,
+         5.65e-05: 3,
+         0.0001625: 3,
+         0.0002909: 3,
+         5.53e-05: 3,
+         0.0001109: 3,
+         0.0001084: 3,
+         7.58e-05: 3,
+         0.0002023: 3,
+         4.9e-05: 3,
+         8.35e-05: 3,
+         9.21e-05: 3,
+         0.0001591: 3,
+         3.98e-05: 3,
+         6.63e-05: 3,
+         4.1e-05: 3,
+         0.0001052: 3,
+         1.46e-05: 3,
+         3.09e-05: 3,
+         4.78e-05: 3,
+         0.0001026: 3,
+         0.000233: 3,
+         8.02e-05: 3,
+         0.000128: 3,
+         0.9999928: 3,
+         4.82e-05: 3,
+         6.64e-05: 3,
+         0.0002785: 3,
+         3.35e-05: 3,
+         0.0001228: 3,
+         9.78e-05: 3,
+         0.0001439: 3,
+         2.81e-05: 3,
+         7.33e-05: 3,
+         0.0003273: 3,
+         0.9999905: 3,
+         3.57e-05: 3,
+         7.36e-05: 3,
+         3.88e-05: 3,
+         7.88e-05: 3,
+         0.0001277: 3,
+         5.26e-05: 3,
+         0.0001544: 3,
+         5.04e-05: 3,
+         2.27e-05: 3,
+         2.24e-05: 3,
+         4e-05: 3,
+         2.2e-05: 3,
+         0.000164: 3,
+         0.0001281: 3,
+         3.71e-05: 3,
+         7.34e-05: 3,
+         0.0001681: 3,
+         4.57e-05: 3,
+         6.71e-05: 3,
+         0.0001015: 3,
+         7.05e-05: 3,
+         0.0001077: 3,
+         4.64e-05: 3,
+         5.55e-05: 3,
+         5.73e-05: 3,
+         0.0001124: 3,
+         5.34e-05: 3,
+         3.5e-05: 3,
+         0.9999994: 3,
+         0.0001606: 3,
+         2.5e-05: 3,
+         4.52e-05: 3,
+         5.09e-05: 3,
+         4.14e-05: 3,
+         5.76e-05: 3,
+         4.7e-05: 3,
+         0.000102: 3,
+         0.0013493: 3,
+         0.0003139: 3,
+         7.48e-05: 3,
+         0.0001014: 3,
+         4.37e-05: 3,
+         6.44e-05: 3,
+         0.0001176: 3,
+         0.0001557: 3,
+         7.7e-05: 3,
+         0.0004261: 2,
+         0.0003794: 2,
+         0.0008613: 2,
+         0.0018336: 2,
+         8.71e-05: 2,
+         0.0005874: 2,
+         7.81e-05: 2,
+         0.0010216: 2,
+         0.0003038: 2,
+         0.0001016: 2,
+         5.51e-05: 2,
+         0.0002413: 2,
+         3.65e-05: 2,
+         6.16e-05: 2,
+         5.86e-05: 2,
+         9.41e-05: 2,
+         0.000243: 2,
+         0.0005075: 2,
+         4.09e-05: 2,
+         0.9999771: 2,
+         8.58e-05: 2,
+         0.0002101: 2,
+         0.0003048: 2,
+         0.0001355: 2,
+         7.77e-05: 2,
+         0.0001337: 2,
+         0.0001783: 2,
+         0.0002507: 2,
+         0.0002286: 2,
+         2.11e-05: 2,
+         0.0002069: 2,
+         9.12e-05: 2,
+         8.27e-05: 2,
+         0.0002914: 2,
+         4.51e-05: 2,
+         0.0006058: 2,
+         5.25e-05: 2,
+         0.0014629: 2,
+         4.31e-05: 2,
+         0.0001181: 2,
+         0.0002578: 2,
+         0.0009203: 2,
+         0.0001842: 2,
+         5.17e-05: 2,
+         0.0001447: 2,
+         0.0001365: 2,
+         0.0002148: 2,
+         0.0001387: 2,
+         0.000441: 2,
+         0.0006316: 2,
+         0.0001947: 2,
+         0.0002887: 2,
+         6.77e-05: 2,
+         0.0001304: 2,
+         9.4e-05: 2,
+         0.0002193: 2,
+         0.0001613: 2,
+         7.43e-05: 2,
+         0.999972: 2,
+         4.66e-05: 2,
+         0.9999952: 2,
+         0.0001063: 2,
+         2.62e-05: 2,
+         0.0001074: 2,
+         5.64e-05: 2,
+         0.0001755: 2,
+         0.0001984: 2,
+         0.0004839: 2,
+         0.0001002: 2,
+         0.0001624: 2,
+         0.0001843: 2,
+         0.0001204: 2,
+         0.0001751: 2,
+         0.0002287: 2,
+         0.0001075: 2,
+         0.0011207: 2,
+         0.0002339: 2,
+         0.0039906: 2,
+         0.0010208: 2,
+         7.63e-05: 2,
+         0.0004203: 2,
+         0.0004794: 2,
+         0.0005151: 2,
+         0.000183: 2,
+         0.0003262: 2,
+         0.0004012: 2,
+         0.0018554: 2,
+         4.15e-05: 2,
+         2.82e-05: 2,
+         6.13e-05: 2,
+         5.85e-05: 2,
+         0.0002901: 2,
+         0.0001011: 2,
+         0.0001395: 2,
+         0.0006849: 2,
+         0.0003873: 2,
+         0.0004103: 2,
+         4.87e-05: 2,
+         0.001979: 2,
+         6.41e-05: 2,
+         0.0013946: 2,
+         0.0008144: 2,
+         0.0003841: 2,
+         0.0001242: 2,
+         0.0002163: 2,
+         8.49e-05: 2,
+         0.0001669: 2,
+         3.93e-05: 2,
+         4.75e-05: 2,
+         0.000819: 2,
+         0.0001446: 2,
+         0.0001033: 2,
+         0.0004337: 2,
+         0.0001086: 2,
+         0.0001936: 2,
+         0.0046002: 2,
+         0.0001305: 2,
+         0.0003006: 2,
+         9e-05: 2,
+         0.0033005: 2,
+         0.0002297: 2,
+         7.09e-05: 2,
+         0.0004472: 2,
+         0.0001607: 2,
+         0.00029: 2,
+         0.0001083: 2,
+         0.0002879: 2,
+         0.000103: 2,
+         0.0002166: 2,
+         0.0004657: 2,
+         0.0001789: 2,
+         0.0001738: 2,
+         0.0022555: 2,
+         0.0177787: 2,
+         0.9999976: 2,
+         9.28e-05: 2,
+         6.81e-05: 2,
+         0.0001473: 2,
+         0.001125: 2,
+         0.0002725: 2,
+         0.0001677: 2,
+         0.0008256: 2,
+         2.29e-05: 2,
+         6.84e-05: 2,
+         8.12e-05: 2,
+         0.0007821: 2,
+         0.0007601: 2,
+         4.45e-05: 2,
+         9.95e-05: 2,
+         1e-04: 2,
+         0.9999986: 2,
+         8.98e-05: 2,
+         0.0001505: 2,
+         0.0019611: 2,
+         0.0002029: 2,
+         0.0004119: 2,
+         2.91e-05: 2,
+         0.0014493: 2,
+         0.0002467: 2,
+         0.0006486: 2,
+         0.000129: 2,
+         0.0011059: 2,
+         0.0017724: 2,
+         0.0004788: 2,
+         0.0001129: 2,
+         0.000534: 2,
+         0.000332: 2,
+         0.0001757: 2,
+         4.32e-05: 2,
+         0.0007241: 2,
+         0.0001041: 2,
+         0.0004958: 2,
+         0.000144: 2,
+         6.42e-05: 2,
+         0.0001776: 2,
+         0.0003939: 2,
+         0.0003164: 2,
+         0.0004624: 2,
+         0.0005657: 2,
+         0.001942: 2,
+         9.04e-05: 2,
+         0.0001568: 2,
+         0.0005385: 2,
+         0.0001882: 2,
+         0.0001143: 2,
+         0.000143: 2,
+         7.28e-05: 2,
+         0.00084: 2,
+         4.59e-05: 2,
+         0.0001184: 2,
+         7.75e-05: 2,
+         3.76e-05: 2,
+         0.0003904: 2,
+         0.0001865: 2,
+         0.0001774: 2,
+         0.0015674: 2,
+         0.0001189: 2,
+         0.0001618: 2,
+         7.72e-05: 2,
+         0.0001057: 2,
+         6.38e-05: 2,
+         0.000105: 2,
+         0.0033271: 2,
+         0.0001262: 2,
+         0.0018767: 2,
+         5.13e-05: 2,
+         5.28e-05: 2,
+         0.0005044: 2,
+         0.000139: 2,
+         0.0002438: 2,
+         5.23e-05: 2,
+         9.23e-05: 2,
+         0.0002956: 2,
+         8.62e-05: 2,
+         9.46e-05: 2,
+         0.9993455: 2,
+         0.0001131: 2,
+         7.6e-05: 2,
+         0.0016153: 2,
+         8.15e-05: 2,
+         2.58e-05: 2,
+         0.0001766: 2,
+         0.0005648: 2,
+         9.86e-05: 2,
+         0.0002143: 2,
+         0.000136: 2,
+         0.000319: 2,
+         0.000149: 2,
+         6.8e-05: 2,
+         0.0001631: 2,
+         0.0001637: 2,
+         0.0001916: 2,
+         9.72e-05: 2,
+         0.0002721: 2,
+         0.0001148: 2,
+         6.76e-05: 2,
+         0.0002041: 2,
+         0.0003665: 2,
+         0.0001484: 2,
+         0.0002014: 2,
+         9.8e-05: 2,
+         3.75e-05: 2,
+         9.42e-05: 2,
+         0.0003596: 2,
+         0.0001922: 2,
+         0.0004647: 2,
+         0.0001318: 2,
+         0.0002727: 2,
+         0.0001752: 2,
+         0.0005081: 2,
+         0.0001881: 2,
+         0.000768: 2,
+         0.0005295: 2,
+         0.0002861: 2,
+         0.0002117: 2,
+         0.0001957: 2,
+         0.0011995: 2,
+         0.0001504: 2,
+         0.0001908: 2,
+         0.0037136: 2,
+         6.46e-05: 2,
+         0.0007617: 2,
+         4.95e-05: 2,
+         6.94e-05: 2,
+         0.000683: 2,
+         0.0001191: 2,
+         7.2e-05: 2,
+         0.9999938: 2,
+         9.93e-05: 2,
+         0.0008372: 2,
+         4.69e-05: 2,
+         0.0003281: 2,
+         0.000232: 2,
+         3.66e-05: 2,
+         9.03e-05: 2,
+         0.0001023: 2,
+         0.0001556: 2,
+         0.000131: 2,
+         7.25e-05: 2,
+         0.0004842: 2,
+         0.0006391: 2,
+         0.0001561: 2,
+         0.001321: 2,
+         6.36e-05: 2,
+         0.000799: 2,
+         0.0012829: 2,
+         0.0007091: 2,
+         0.0005131: 2,
+         0.0067475: 2,
+         0.0001996: 2,
+         0.0004763: 2,
+         0.0050666: 2,
+         0.0007113: 2,
+         0.0003951: 2,
+         4.83e-05: 2,
+         3.34e-05: 2,
+         0.0001401: 2,
+         0.0021043: 2,
+         7.31e-05: 2,
+         7.84e-05: 2,
+         8.83e-05: 2,
+         0.000162: 2,
+         5.92e-05: 2,
+         0.0001146: 2,
+         0.0086736: 2,
+         0.0019698: 2,
+         0.001761: 2,
+         0.0001235: 2,
+         5.66e-05: 2,
+         8.78e-05: 2,
+         0.0001508: 2,
+         0.0020138: 2,
+         0.000124: 2,
+         0.0011774: 2,
+         0.9988029: 2,
+         0.9999729: 2,
+         0.0013103: 2,
+         8.22e-05: 2,
+         0.0001207: 2,
+         3.32e-05: 2,
+         0.000175: 2,
+         0.0002173: 2,
+         0.00032: 2,
+         0.0003676: 2,
+         5.97e-05: 2,
+         5.7e-05: 2,
+         9.85e-05: 2,
+         7.13e-05: 2,
+         0.0003565: 2,
+         7.42e-05: 2,
+         0.0002428: 2,
+         0.0001479: 2,
+         7.67e-05: 2,
+         3.94e-05: 2,
+         7.87e-05: 2,
+         0.0002159: 2,
+         0.0003454: 2,
+         2.57e-05: 2,
+         0.0002773: 2,
+         5.91e-05: 2,
+         0.0001203: 2,
+         0.0001441: 2,
+         0.0008945: 2,
+         5.41e-05: 2,
+         0.0002625: 2,
+         2.68e-05: 2,
+         0.0004373: 2,
+         0.0018575: 2,
+         0.0001166: 2,
+         5.72e-05: 2,
+         0.000805: 2,
+         0.0013682: 2,
+         0.0008731: 2,
+         2.65e-05: 2,
+         0.0001035: 2,
+         5e-05: 2,
+         0.0009531: 2,
+         5.88e-05: 2,
+         9.67e-05: 2,
+         0.0008608: 2,
+         4.3e-05: 2,
+         0.000146: 2,
+         9.74e-05: 2,
+         6.78e-05: 2,
+         5.96e-05: 2,
+         4.48e-05: 2,
+         4.34e-05: 2,
+         6.08e-05: 2,
+         0.0003427: 2,
+         0.0001155: 2,
+         5.47e-05: 2,
+         0.0010035: 2,
+         0.0001197: 2,
+         7.32e-05: 2,
+         6.14e-05: 2,
+         0.0001316: 2,
+         0.0001538: 2,
+         0.0007795: 2,
+         9.68e-05: 2,
+         0.0003844: 2,
+         0.0001608: 2,
+         0.0001536: 2,
+         0.0033978: 2,
+         0.0011388: 2,
+         0.0001733: 2,
+         0.9999602: 2,
+         0.0001001: 2,
+         0.0005129: 2,
+         0.0003757: 2,
+         0.00071: 2,
+         9.92e-05: 2,
+         0.9999065: 2,
+         8.84e-05: 2,
+         8.37e-05: 2,
+         8.07e-05: 2,
+         3.74e-05: 2,
+         0.0007385: 2,
+         0.9999852: 2,
+         0.0005255: 2,
+         8.76e-05: 2,
+         ...})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">123</span> <span class="o">*</span> <span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2460
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kl1</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">kl</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_categories</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">n_categories</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_categories</span><span class="p">),</span> <span class="c1"># torch.ones(size) / 10,</span>
+    <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kl2</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">kl</span><span class="o">.</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kl1</span> <span class="o">-</span> <span class="n">kl2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_categories</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">n_categories</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_categories</span><span class="p">),</span> <span class="c1"># torch.ones(size) / 10,</span>
+    <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kl</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">kl</span><span class="o">.</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">kl</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">event_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-1, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span>  <span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">/</span> <span class="n">c</span><span class="o">.</span><span class="n">event_shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">104</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">c</span><span class="o">.</span><span class="n">event_shape</span><span class="o">.</span><span class="n">index</span>
+
+<span class="ne">TypeError</span>: unsupported operand type(s) for /: &#39;int&#39; and &#39;builtin_function_or_method&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">param_shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">112</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">c</span><span class="o">.</span><span class="n">param_shape</span>
+
+<span class="ne">AttributeError</span>: &#39;RelaxedOneHotCategorical&#39; object has no attribute &#39;param_shape&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="o">.</span><span class="n">param_shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">probs</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 20, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 200])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">20</span><span class="p">,</span>
+	<span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[2.0343e-08, 1.6731e-02, 9.3222e-04,  ..., 5.1121e-07,
+          3.5668e-06, 9.7658e-01],
+         [8.7147e-03, 1.9185e-09, 4.4628e-01,  ..., 4.0765e-03,
+          2.6350e-04, 1.4894e-03],
+         [2.2575e-12, 1.0000e+00, 4.0989e-11,  ..., 5.4019e-12,
+          2.5910e-18, 2.8957e-09],
+         ...,
+         [2.6499e-06, 4.6758e-10, 9.7590e-09,  ..., 6.7215e-10,
+          1.7269e-11, 7.7847e-12],
+         [4.6269e-01, 1.0878e-05, 1.7513e-05,  ..., 1.8178e-03,
+          2.5622e-07, 5.3485e-01],
+         [6.8516e-03, 7.5416e-07, 3.4506e-04,  ..., 2.0248e-05,
+          8.8802e-04, 2.1402e-04]],
+
+        [[8.2235e-05, 7.7732e-06, 1.8785e-05,  ..., 9.9985e-01,
+          2.3180e-05, 1.8540e-05],
+         [7.7721e-06, 2.4302e-08, 4.8627e-04,  ..., 7.5737e-05,
+          2.3589e-05, 9.7820e-01],
+         [2.3479e-06, 2.9716e-09, 1.8253e-02,  ..., 1.9738e-01,
+          2.0779e-06, 8.0593e-09],
+         ...,
+         [4.0129e-08, 2.6942e-03, 8.4930e-07,  ..., 4.5331e-06,
+          8.3626e-01, 7.3129e-05],
+         [1.3037e-08, 1.3359e-03, 1.4855e-10,  ..., 4.2412e-05,
+          1.5797e-01, 1.6192e-05],
+         [9.9958e-01, 7.0438e-11, 8.9124e-07,  ..., 8.3230e-08,
+          4.8573e-07, 2.2770e-04]],
+
+        [[1.2132e-07, 1.9919e-03, 3.7958e-05,  ..., 2.0990e-10,
+          9.0520e-05, 3.1303e-13],
+         [1.1967e-06, 4.3312e-07, 1.1327e-06,  ..., 2.5999e-01,
+          1.7469e-04, 3.4535e-07],
+         [4.9347e-03, 7.0632e-11, 4.9491e-10,  ..., 1.8026e-08,
+          2.3176e-04, 1.8446e-13],
+         ...,
+         [2.1406e-01, 2.6688e-09, 1.3547e-12,  ..., 2.8587e-04,
+          7.4425e-01, 9.4920e-06],
+         [1.5907e-04, 1.6918e-05, 1.5886e-03,  ..., 4.1756e-02,
+          1.6742e-04, 4.6745e-03],
+         [4.8316e-13, 1.2827e-10, 1.3936e-14,  ..., 6.8701e-05,
+          1.5068e-10, 9.4621e-12]],
+
+        ...,
+
+        [[3.2995e-03, 9.9418e-01, 1.0861e-03,  ..., 2.1473e-05,
+          1.3347e-03, 7.9438e-05],
+         [5.2820e-08, 2.5735e-02, 2.0138e-08,  ..., 8.0525e-01,
+          3.4468e-09, 2.5845e-09],
+         [3.7987e-02, 3.1618e-01, 2.6137e-06,  ..., 2.8852e-02,
+          3.0458e-06, 3.6806e-03],
+         ...,
+         [2.1167e-07, 8.1967e-10, 1.2231e-09,  ..., 2.8809e-10,
+          9.5982e-01, 9.4250e-09],
+         [2.1623e-07, 3.9783e-03, 4.4431e-02,  ..., 9.4209e-01,
+          9.6180e-04, 6.5314e-06],
+         [3.2226e-01, 2.3301e-07, 4.6876e-03,  ..., 6.7159e-01,
+          1.0400e-04, 6.4439e-05]],
+
+        [[4.1222e-08, 2.7861e-07, 6.5092e-07,  ..., 4.5308e-08,
+          1.2880e-06, 1.0000e+00],
+         [1.3514e-05, 4.4903e-04, 8.2464e-07,  ..., 3.6480e-01,
+          4.5311e-02, 1.4434e-09],
+         [1.2642e-04, 1.1194e-07, 8.2617e-07,  ..., 2.5074e-09,
+          9.5350e-18, 3.4105e-02],
+         ...,
+         [3.0649e-03, 1.3208e-02, 3.7278e-07,  ..., 2.0802e-02,
+          9.6292e-01, 2.1728e-11],
+         [6.3965e-07, 6.6662e-03, 9.3680e-01,  ..., 1.1959e-02,
+          1.8010e-03, 1.7094e-08],
+         [1.1742e-04, 9.7822e-01, 1.6255e-02,  ..., 3.6522e-05,
+          2.2216e-04, 8.5369e-04]],
+
+        [[2.0934e-01, 7.7476e-08, 3.9963e-06,  ..., 3.3248e-02,
+          7.2889e-06, 2.2670e-05],
+         [1.7434e-04, 8.1407e-06, 5.0974e-04,  ..., 7.0754e-01,
+          4.2204e-08, 1.2653e-01],
+         [1.0208e-05, 2.2054e-06, 5.2039e-10,  ..., 3.4010e-03,
+          4.2683e-08, 4.8894e-04],
+         ...,
+         [1.2420e-04, 4.5885e-05, 9.1923e-01,  ..., 1.0034e-07,
+          6.2599e-08, 4.4906e-08],
+         [7.7939e-04, 2.0605e-02, 1.1315e-03,  ..., 2.8994e-05,
+          3.3212e-05, 8.4019e-03],
+         [4.4663e-01, 4.5607e-03, 3.6162e-05,  ..., 8.7825e-03,
+          4.4723e-09, 1.6454e-05]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">rsample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[3.5777e-08, 4.8138e-03, 5.7727e-04,  ..., 2.7965e-07,
+          9.6432e-06, 9.9358e-01],
+         [8.6567e-04, 5.7138e-11, 5.8050e-02,  ..., 2.3321e-04,
+          1.4182e-05, 1.6902e-03],
+         [1.4158e-10, 1.0000e+00, 2.9084e-09,  ..., 5.2576e-10,
+          4.0218e-17, 1.2068e-07],
+         ...,
+         [7.0375e-06, 6.7239e-10, 3.3706e-09,  ..., 6.0250e-09,
+          4.2770e-11, 1.2207e-11],
+         [9.8590e-01, 3.6454e-05, 4.1891e-05,  ..., 7.7844e-03,
+          9.3244e-09, 5.6628e-03],
+         [3.1902e-01, 4.4852e-06, 1.6881e-03,  ..., 2.2527e-05,
+          1.4267e-03, 1.8543e-02]],
+
+        [[2.0085e-02, 9.8565e-04, 1.0404e-03,  ..., 9.7720e-01,
+          7.1245e-05, 6.1249e-04],
+         [4.2363e-05, 1.6385e-08, 1.0887e-03,  ..., 2.5213e-04,
+          7.9673e-06, 9.6497e-01],
+         [7.3741e-06, 2.8955e-07, 6.7648e-03,  ..., 9.9028e-01,
+          6.2019e-06, 8.4911e-08],
+         ...,
+         [8.2201e-08, 3.6230e-04, 1.5276e-07,  ..., 6.0347e-06,
+          8.4899e-02, 3.3607e-05],
+         [3.9976e-08, 1.8882e-03, 8.7332e-11,  ..., 7.4100e-04,
+          5.9879e-02, 3.8668e-05],
+         [9.9711e-01, 1.9196e-11, 2.0243e-07,  ..., 1.1590e-08,
+          2.4260e-07, 1.2423e-06]],
+
+        [[6.9759e-06, 1.0655e-02, 3.8480e-02,  ..., 1.8574e-08,
+          4.1781e-02, 4.1802e-10],
+         [4.8442e-10, 6.4527e-08, 2.3921e-09,  ..., 3.9450e-06,
+          4.1540e-08, 2.0611e-11],
+         [1.7589e-06, 4.8702e-17, 2.0451e-15,  ..., 3.7751e-14,
+          1.3686e-08, 7.6710e-16],
+         ...,
+         [1.1692e-02, 8.5684e-09, 4.0359e-11,  ..., 3.8579e-04,
+          9.8697e-01, 3.7068e-08],
+         [2.4962e-07, 8.1024e-08, 1.0468e-06,  ..., 2.9436e-04,
+          2.7945e-04, 1.1772e-03],
+         [2.1944e-11, 2.1837e-10, 4.2101e-14,  ..., 1.1434e-05,
+          3.8852e-10, 4.5853e-11]],
+
+        ...,
+
+        [[1.3151e-03, 9.9559e-01, 2.4683e-03,  ..., 6.2129e-07,
+          1.7648e-04, 4.0965e-04],
+         [2.9663e-09, 3.5737e-03, 7.8816e-06,  ..., 1.9021e-01,
+          5.2616e-09, 3.9748e-10],
+         [1.3954e-02, 3.7525e-01, 1.9111e-05,  ..., 8.9261e-03,
+          9.4641e-06, 5.7383e-05],
+         ...,
+         [1.3329e-06, 2.2589e-08, 5.5077e-09,  ..., 3.7430e-09,
+          4.2022e-01, 3.1361e-07],
+         [9.3071e-07, 6.2943e-02, 4.1792e-04,  ..., 9.3551e-01,
+          6.2421e-04, 3.4653e-06],
+         [2.9119e-04, 1.8031e-09, 8.7877e-03,  ..., 9.8836e-01,
+          2.2342e-03, 3.7397e-06]],
+
+        [[3.2321e-10, 3.2671e-06, 3.8826e-07,  ..., 2.2151e-08,
+          1.9083e-06, 9.9999e-01],
+         [2.4432e-04, 8.6723e-03, 3.6475e-07,  ..., 1.3282e-02,
+          4.2968e-03, 3.2505e-09],
+         [7.3375e-03, 3.3895e-06, 1.3008e-05,  ..., 2.9887e-08,
+          2.3626e-14, 2.0569e-02],
+         ...,
+         [4.1868e-08, 1.8547e-08, 1.0008e-12,  ..., 5.6513e-05,
+          9.9994e-01, 1.2741e-14],
+         [4.7751e-06, 9.4257e-03, 9.6824e-01,  ..., 1.0160e-02,
+          1.5094e-04, 1.2717e-08],
+         [1.2416e-05, 9.9799e-01, 1.3922e-03,  ..., 8.5418e-06,
+          2.8199e-05, 5.6667e-04]],
+
+        [[8.1074e-01, 8.6765e-10, 1.0128e-06,  ..., 3.1528e-03,
+          1.4700e-06, 2.9108e-06],
+         [1.2252e-04, 2.2767e-08, 1.4118e-05,  ..., 2.3327e-01,
+          1.4845e-08, 7.4130e-01],
+         [1.3072e-04, 1.8488e-05, 3.4390e-10,  ..., 3.8852e-03,
+          4.1070e-09, 2.4991e-04],
+         ...,
+         [4.3698e-03, 6.2884e-04, 5.0250e-01,  ..., 4.4214e-08,
+          8.0837e-06, 1.4975e-07],
+         [3.8019e-04, 1.5746e-03, 5.3219e-05,  ..., 1.1627e-04,
+          8.3154e-07, 9.1604e-01],
+         [6.1918e-01, 4.5193e-04, 6.4219e-05,  ..., 1.6015e-03,
+          1.1868e-07, 4.3434e-05]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">125</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([125, 200]), torch.Size([125, 20, 10]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">gumbel_softmax</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;StemContainer object of 3 artists&gt;
+</pre></div>
+</div>
+<img alt="../../_images/ea16bb1c0e9c9b1691b892f2c7b2e65a73cf45354d0a2aaeac7cf83482fed8d3.png" src="../../_images/ea16bb1c0e9c9b1691b892f2c7b2e65a73cf45354d0a2aaeac7cf83482fed8d3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0., 0., 1., 0., 0., 0., 0., 0., 0., 0.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gumbel_distribution_sample</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Samples from the Gumbel distribution given a tensor shape and value of epsilon.</span>
+<span class="sd">    </span>
+<span class="sd">    note: the \eps here is just for numerical stability. The code is basically just doing</span>
+<span class="sd">            &gt; -log(-log(rand(shape)))</span>
+<span class="sd">    where rand generates random numbers on U(0, 1). </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">U</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gumbel_softmax_distribution_sample</span><span class="p">(</span><span class="n">logits</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds Gumbel noise to `logits` and applies softmax along the last dimension.</span>
+<span class="sd">    </span>
+<span class="sd">    Softmax is applied wrt a given temperature value. A higher temperature will make the softmax</span>
+<span class="sd">    softer (less spiky). Lower temperature will make softmax more spiky and less soft. As</span>
+<span class="sd">    temperature -&gt; 0, this distribution approaches a categorical distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="c1"># (should be of shape (b, n_classes))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">+</span> <span class="n">gumbel_distribution_sample</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gumbel_softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gumbel-softmax.</span>
+<span class="sd">    input: [*, n_classes] (or [b, *, n_classes] for batch)</span>
+<span class="sd">    return: flatten --&gt; [*, n_class] a one-hot vector (or b, *, n_classes for batch)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">batch</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">input_shape</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">gumbel_softmax_distribution_sample</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>    
+    <span class="n">n_classes</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">gumbel_softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([123, 10, 14])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/342956a339b7928e191e49a8660e01f4502b69974a70c6c3d8f83a99862c8191.png" src="../../_images/342956a339b7928e191e49a8660e01f4502b69974a70c6c3d8f83a99862c8191.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;conv+b|conv+b&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'n_categories'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>:
+<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1200</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'warm_restart'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0003</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical_c-10_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">fc_dec</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear(in_features=10, out_features=1024, bias=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">base.distributions</span> <span class="kn">import</span> <span class="n">dists</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Dist</span> <span class="o">=</span> <span class="n">dists</span><span class="o">.</span><span class="n">Distribution</span><span class="p">()</span>  <span class="c1"># Initialization here</span>
+
+    <span class="k">def</span> <span class="nf">some_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Now you can use self.Dist</span>
+        <span class="k">pass</span>
+
+<span class="c1"># Create an instance of MyClass</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+
+<span class="c1"># Access self.Dist</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">Dist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/hadi/anaconda3/lib/python3.11/site-packages/torch/distributions/distribution.py:53: UserWarning: &lt;class &#39;torch.distributions.distribution.Distribution&#39;&gt; does not define `arg_constraints`. Please set `arg_constraints = {}` or initialize the distribution with `validate_args=False` to turn off validation.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># Access self.Dist</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">Dist</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/rich/jupyter.py:101,</span> in <span class="ni">print</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Proxy for Console print.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="n">console</span> <span class="o">=</span> <span class="n">get_console</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">101</span> <span class="k">return</span> <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/rich/console.py:1674,</span> in <span class="ni">Console.print</span><span class="nt">(self, sep, end, style, justify, overflow, no_wrap, emoji, markup, highlight, width, height, crop, soft_wrap, new_line_start, *objects)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1672</span> <span class="n">render_hooks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_render_hooks</span><span class="p">[:]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1673</span> <span class="k">with</span> <span class="bp">self</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1674</span>     <span class="n">renderables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_renderables</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1675</span>         <span class="n">objects</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1676</span>         <span class="n">sep</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1677</span>         <span class="n">end</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1678</span>         <span class="n">justify</span><span class="o">=</span><span class="n">justify</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1679</span>         <span class="n">emoji</span><span class="o">=</span><span class="n">emoji</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1680</span>         <span class="n">markup</span><span class="o">=</span><span class="n">markup</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1681</span>         <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1682</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1683</span>     <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="n">render_hooks</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1684</span>         <span class="n">renderables</span> <span class="o">=</span> <span class="n">hook</span><span class="o">.</span><span class="n">process_renderables</span><span class="p">(</span><span class="n">renderables</span><span class="p">)</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/rich/console.py:1551,</span> in <span class="ni">Console._collect_renderables</span><span class="nt">(self, objects, sep, end, justify, emoji, markup, highlight)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1549</span>         <span class="n">append</span><span class="p">(</span><span class="n">Pretty</span><span class="p">(</span><span class="n">renderable</span><span class="p">,</span> <span class="n">highlighter</span><span class="o">=</span><span class="n">_highlighter</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1550</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1551</span>         <span class="n">append_text</span><span class="p">(</span><span class="n">_highlighter</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">renderable</span><span class="p">)))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1553</span> <span class="n">check_text</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1555</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/torch/distributions/distribution.py:329,</span> in <span class="ni">Distribution.__repr__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span> <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">329</span>     <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arg_constraints</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>     <span class="n">args_string</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>         <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span>             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">333</span>             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param_names</span>
+<span class="g g-Whitespace">    </span><span class="mi">334</span>         <span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">335</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">args_string</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+
+<span class="nn">File ~/anaconda3/lib/python3.11/site-packages/torch/distributions/distribution.py:120,</span> in <span class="ni">Distribution.arg_constraints</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span> <span class="nd">@property</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span> <span class="k">def</span> <span class="nf">arg_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">constraints</span><span class="o">.</span><span class="n">Constraint</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span><span class="sd">     Returns a dictionary from argument names to</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span><span class="sd">     :class:`~torch.distributions.constraints.Constraint` objects that</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span><span class="sd">     should be satisfied by each argument of this distribution. Args that</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span><span class="sd">     are not tensors need not appear in this dict.</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">120</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<span class="ne">NotImplementedError</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Dist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>a<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Type:</span>      Distribution
+<span class=" -Color -Color-Red">File:</span>      ~/anaconda3/lib/python3.11/site-packages/torch/distributions/distribution.py
+<span class=" -Color -Color-Red">Docstring:</span> Distribution is the abstract base class for probability distributions.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-05"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_shatter-dim.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(03) Shattering dim</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_exact-test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(04) Exact recon loss</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

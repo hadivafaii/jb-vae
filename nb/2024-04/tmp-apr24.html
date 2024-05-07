@@ -267,6 +267,32 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
 </li>
@@ -515,7 +541,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
 
 <span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
@@ -525,7 +551,167 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;</span><span class="p">,</span>
+<span class="p">])</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'timestamp'</span>: <span style="color: #008000; text-decoration-color: #008000">'2024_05_01,17:07'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'checkpoint'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1050</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'global_step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">315000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-1050_(2024_05_01,20:07).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'path'</span>: 
+<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/initscale-0.05</span>
+<span style="color: #008000; text-decoration-color: #008000">_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">],</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">epochs</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">fresh_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1200, avg loss: 32.957339: 100%|██████████████████████████| 150/150 [26:54&lt;00:00, 10.76s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">chkpt_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">=</span> <span class="n">tr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">optim_schedule</span><span class="o">.</span><span class="n">T_max</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>71700.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">timestamp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2024_05_01,17:07&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">chkpt_dir</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'ConfigTrainVAE.json'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0050_(2024_05_01,17:16).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0100_(2024_05_01,17:25).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0150_(2024_05_01,17:34).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0200_(2024_05_01,17:42).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0250_(2024_05_01,17:51).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0300_(2024_05_01,18:00).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0350_(2024_05_01,18:09).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0400_(2024_05_01,18:17).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0450_(2024_05_01,18:26).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0500_(2024_05_01,18:35).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0550_(2024_05_01,18:43).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0600_(2024_05_01,18:52).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0650_(2024_05_01,19:01).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0700_(2024_05_01,19:09).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0750_(2024_05_01,19:18).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0800_(2024_05_01,19:27).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0850_(2024_05_01,19:35).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0900_(2024_05_01,19:43).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0950_(2024_05_01,19:51).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-1000_(2024_05_01,19:59).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-1050_(2024_05_01,20:07).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'TrainerVAE.log'</span>
+<span style="font-weight: bold">]</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;grad&#39;,
+ &#39;loss&#39;,
+ &#39;eval/mse&#39;,
+ &#39;eval/kl&#39;,
+ &#39;eval/kl_diag&#39;,
+ &#39;sprs/%-zero&#39;,
+ &#39;sprs/lifetime&#39;,
+ &#39;sprs/population&#39;,
+ &#39;knn/size=200&#39;,
+ &#39;knn/size=1000&#39;,
+ &#39;knn/size=5000&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">chkpt_dir</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;warm_restart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1200</span>
 <span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-3</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -534,13 +720,14 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: 
-<span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'weight_norm'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3.0</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>, <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'conv'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'weight_norm'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>
 
 Trainer:
 <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'mc'</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_anneal'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'lambda_init'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, 
 <span style="color: #008000; text-decoration-color: #008000">'lambda_norm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">900</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0005</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">}</span>
+<span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1200</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0005</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'warm_restart'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -570,20 +757,10 @@ Trainer:
 
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-3</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_rmax</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>
-mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_01,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">12:42</span><span style="font-weight: bold">)</span>
+mc_b200-ep1200-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.005</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_05_01,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">15:59</span><span style="font-weight: bold">)</span>
 
 </pre>
-</div><img alt="../../_images/9ee62326c24f177c9ca6327c8bdccb729fe9363741bc6c482b7499068fb637c3.png" src="../../_images/9ee62326c24f177c9ca6327c8bdccb729fe9363741bc6c482b7499068fb637c3.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## w/o my normal init</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/43c5c98d2f26740ef8a6d803011ca7dad7c979c2d04610bf34bf7cde6bb27309.png" src="../../_images/43c5c98d2f26740ef8a6d803011ca7dad7c979c2d04610bf34bf7cde6bb27309.png" />
+</div><img alt="../../_images/3b54c91fff39170c67dd139bfdd62740685b1ab47a9f40ed04fd8651866e289f.png" src="../../_images/3b54c91fff39170c67dd139bfdd62740685b1ab47a9f40ed04fd8651866e289f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -599,6 +776,16 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </pre></div>
 </div>
 <img alt="../../_images/549c74de583f2a4090db29106a4d104207f7beac53c6465f3dd9124328a01eb1.png" src="../../_images/549c74de583f2a4090db29106a4d104207f7beac53c6465f3dd9124328a01eb1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## w/o my normal init</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/43c5c98d2f26740ef8a6d803011ca7dad7c979c2d04610bf34bf7cde6bb27309.png" src="../../_images/43c5c98d2f26740ef8a6d803011ca7dad7c979c2d04610bf34bf7cde6bb27309.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -947,14 +1134,14 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;initscale_0.05_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;initscale-0.05_warmrestart-1_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="c1"># comment = tr.cfg.name()</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 900, avg loss: 32.763443: 100%|█████████████████████████| 900/900 [2:44:57&lt;00:00, 11.00s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1200, avg loss: 33.007702: 100%|██████████████████████| 1200/1200 [3:28:17&lt;00:00, 10.41s/it]
 </pre></div>
 </div>
 </div>
@@ -970,7 +1157,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.640179</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.918519</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8918519</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36.558697</span><span style="font-weight: bold">}</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.3229</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.879111</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.88791114</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36.20201</span><span style="font-weight: bold">}</span>
 </pre>
 </div></div>
 </div>
@@ -981,8 +1168,8 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/297cf162d02bbe8a4dd3811b762bad3e0250cecae550188dece495dfd0054add.png" src="../../_images/297cf162d02bbe8a4dd3811b762bad3e0250cecae550188dece495dfd0054add.png" />
-<img alt="../../_images/5a7c7e0743f7020dc9152838676d99a300969f845a191ee3ba1cba551029aaab.png" src="../../_images/5a7c7e0743f7020dc9152838676d99a300969f845a191ee3ba1cba551029aaab.png" />
+<img alt="../../_images/e0cd6d162eb1aa590d25b60671f671010a503499bffc3848af3139dfd977dc3f.png" src="../../_images/e0cd6d162eb1aa590d25b60671f671010a503499bffc3848af3139dfd977dc3f.png" />
+<img alt="../../_images/203e4fd9f5cf7f68f5b2cae74361c76ab84324324494dcaa6cbbba5aac11fb8b.png" src="../../_images/203e4fd9f5cf7f68f5b2cae74361c76ab84324324494dcaa6cbbba5aac11fb8b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -993,7 +1180,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">],</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]),</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">]),</span>
-        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
     <span class="p">})</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;lbl&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1015,51 +1202,51 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d33935c2a1f61d62a0aba8c085ec0f7a99439299a4aa05d9997c870a574e8e3f.png" src="../../_images/d33935c2a1f61d62a0aba8c085ec0f7a99439299a4aa05d9997c870a574e8e3f.png" />
-<img alt="../../_images/7e025bf30f9941b755e10222bc274e520b7531e9f24b1e080fa5e5c17cc33323.png" src="../../_images/7e025bf30f9941b755e10222bc274e520b7531e9f24b1e080fa5e5c17cc33323.png" />
-<img alt="../../_images/42c807ffffe77968c2b6a7d5b7884e62a6cfe82b7dcda4ba1b53433c5704becb.png" src="../../_images/42c807ffffe77968c2b6a7d5b7884e62a6cfe82b7dcda4ba1b53433c5704becb.png" />
-<img alt="../../_images/0a2af0f5451b8a81788e7337369e4da3bfcfa30bdc7f84f8391427ade1da4692.png" src="../../_images/0a2af0f5451b8a81788e7337369e4da3bfcfa30bdc7f84f8391427ade1da4692.png" />
-<img alt="../../_images/fc0f7c233522fbdae15a1b4f5d6c8cce9728bd6efdad71306d80c0489b649e63.png" src="../../_images/fc0f7c233522fbdae15a1b4f5d6c8cce9728bd6efdad71306d80c0489b649e63.png" />
-<img alt="../../_images/59297a2f64c018556b13de3f18a6a108cb80ef7a7ef6f3071ac944078d11deec.png" src="../../_images/59297a2f64c018556b13de3f18a6a108cb80ef7a7ef6f3071ac944078d11deec.png" />
-<img alt="../../_images/aba67d405667aecc1b26cb08eb4db8f158cbb0d254262fbf02383319f02581a9.png" src="../../_images/aba67d405667aecc1b26cb08eb4db8f158cbb0d254262fbf02383319f02581a9.png" />
-<img alt="../../_images/60908bb724c9dec9f1f9144263ab6235fe03547920423dafa44422e33778f52c.png" src="../../_images/60908bb724c9dec9f1f9144263ab6235fe03547920423dafa44422e33778f52c.png" />
-<img alt="../../_images/7b22b5604aec1d7d8640f8b39121ca19f642bb8fc3b6d02d712c1de4ce1d102f.png" src="../../_images/7b22b5604aec1d7d8640f8b39121ca19f642bb8fc3b6d02d712c1de4ce1d102f.png" />
-<img alt="../../_images/11e027449e85a5f5b81d5c872e534875d98e977a243820e7883a942b0d2cea84.png" src="../../_images/11e027449e85a5f5b81d5c872e534875d98e977a243820e7883a942b0d2cea84.png" />
-<img alt="../../_images/121d24f5687ec7b1f066f7ed67b330ec6ce4fc0ad56e441275931bb2b03eed9f.png" src="../../_images/121d24f5687ec7b1f066f7ed67b330ec6ce4fc0ad56e441275931bb2b03eed9f.png" />
-<img alt="../../_images/ef07069888a8473bf7b1754983326f41e2a9d21278735aaad57b2e3fce156b91.png" src="../../_images/ef07069888a8473bf7b1754983326f41e2a9d21278735aaad57b2e3fce156b91.png" />
-<img alt="../../_images/1ac12fceb3ecdee8ce04caca1aa954b7691d3f8237cb4710d17d2be1020b3aca.png" src="../../_images/1ac12fceb3ecdee8ce04caca1aa954b7691d3f8237cb4710d17d2be1020b3aca.png" />
-<img alt="../../_images/65d638118d16225e17c3724dec32a0437347af2e010d1cb6a13cec97571c5132.png" src="../../_images/65d638118d16225e17c3724dec32a0437347af2e010d1cb6a13cec97571c5132.png" />
-<img alt="../../_images/87609bce9cf65f5bf51f07a23a8724698326af827ebe0d159657d75ce4addc75.png" src="../../_images/87609bce9cf65f5bf51f07a23a8724698326af827ebe0d159657d75ce4addc75.png" />
-<img alt="../../_images/e712b8aaa35020ce425b6e5f12e0bede352c8a3326d54a9c087257b07db28776.png" src="../../_images/e712b8aaa35020ce425b6e5f12e0bede352c8a3326d54a9c087257b07db28776.png" />
-<img alt="../../_images/058d358dda02bd199ea7031355f363757a80953183bdd7df098c60761e08bdcd.png" src="../../_images/058d358dda02bd199ea7031355f363757a80953183bdd7df098c60761e08bdcd.png" />
-<img alt="../../_images/a7cc6c085fc22321f8a00045a96785bfca7d02f7a00931f5e58e6d0be4d62df0.png" src="../../_images/a7cc6c085fc22321f8a00045a96785bfca7d02f7a00931f5e58e6d0be4d62df0.png" />
-<img alt="../../_images/9f403d1b32efeca5b7027615e8c032a5a87b4d15260c71c5e56e3165deef2559.png" src="../../_images/9f403d1b32efeca5b7027615e8c032a5a87b4d15260c71c5e56e3165deef2559.png" />
-<img alt="../../_images/6af1686f32db68db5234011d6cd59d814b380d2ac77a271b120812a8d860702c.png" src="../../_images/6af1686f32db68db5234011d6cd59d814b380d2ac77a271b120812a8d860702c.png" />
-<img alt="../../_images/79780240aa13157ccb1c242b2bac06d8f198c866134bdf756d2ab8f43d72f7f3.png" src="../../_images/79780240aa13157ccb1c242b2bac06d8f198c866134bdf756d2ab8f43d72f7f3.png" />
-<img alt="../../_images/2d6a2204690dd0cbf659c71b1a33538cff5cbe72aa68dda5468894ee4f158cf2.png" src="../../_images/2d6a2204690dd0cbf659c71b1a33538cff5cbe72aa68dda5468894ee4f158cf2.png" />
-<img alt="../../_images/6b10aed6ed67fc46ad1615a74d0ae3b114fd750a7d38bc762437a24aa1763176.png" src="../../_images/6b10aed6ed67fc46ad1615a74d0ae3b114fd750a7d38bc762437a24aa1763176.png" />
-<img alt="../../_images/3ac37dfc69b9e9ef694d9d27e7a8c9f30bb2169ce1207e9e2f842eb19fab304c.png" src="../../_images/3ac37dfc69b9e9ef694d9d27e7a8c9f30bb2169ce1207e9e2f842eb19fab304c.png" />
-<img alt="../../_images/71d9bda0efdc7b330db587baac3aa370d04257f537d55b0c0fabbaf9e3fbeb3f.png" src="../../_images/71d9bda0efdc7b330db587baac3aa370d04257f537d55b0c0fabbaf9e3fbeb3f.png" />
-<img alt="../../_images/5f1796e8a2cc8cb65effd10204f874c5ef231dce398644141909149c2c24b9fe.png" src="../../_images/5f1796e8a2cc8cb65effd10204f874c5ef231dce398644141909149c2c24b9fe.png" />
-<img alt="../../_images/a3213aa89a7c3fcf2aefc6b4852b11bb51566f6af973d31499a7a6b2882a458d.png" src="../../_images/a3213aa89a7c3fcf2aefc6b4852b11bb51566f6af973d31499a7a6b2882a458d.png" />
-<img alt="../../_images/4a84f9f2d15bd30ebde8ce192af317f4828b61840239e50af9c6b62ed5c62d94.png" src="../../_images/4a84f9f2d15bd30ebde8ce192af317f4828b61840239e50af9c6b62ed5c62d94.png" />
-<img alt="../../_images/2ee2354e44c0e593294b061e22d077ab65853eb18acc65a83b6fc5aded5a3a37.png" src="../../_images/2ee2354e44c0e593294b061e22d077ab65853eb18acc65a83b6fc5aded5a3a37.png" />
-<img alt="../../_images/36cbb580813ce48f46e9284b9db8bd4f5b34f06a0598c19c9d32e31b580fbca5.png" src="../../_images/36cbb580813ce48f46e9284b9db8bd4f5b34f06a0598c19c9d32e31b580fbca5.png" />
-<img alt="../../_images/6dc4adf57dfce5456f0846862bd2384110dbb3b4fbf1831e74dc38853554ba27.png" src="../../_images/6dc4adf57dfce5456f0846862bd2384110dbb3b4fbf1831e74dc38853554ba27.png" />
-<img alt="../../_images/2bf2dc8a7bcf1df57d51703c9f70582c882ea71d9aca2003683db6250e2b7c2e.png" src="../../_images/2bf2dc8a7bcf1df57d51703c9f70582c882ea71d9aca2003683db6250e2b7c2e.png" />
-<img alt="../../_images/15738cce6309f3700d1ff8d1af153cb47f002cd3594b858d5f7a4bcee58872a9.png" src="../../_images/15738cce6309f3700d1ff8d1af153cb47f002cd3594b858d5f7a4bcee58872a9.png" />
-<img alt="../../_images/50c20324c5672d1d0179720a2fc01a12446b8d22960dfee5a7c847156975c958.png" src="../../_images/50c20324c5672d1d0179720a2fc01a12446b8d22960dfee5a7c847156975c958.png" />
-<img alt="../../_images/36e6dc9b789df0cdb5da9541d66f0a2cea0a309277573671f8b0dbf0f49c27e8.png" src="../../_images/36e6dc9b789df0cdb5da9541d66f0a2cea0a309277573671f8b0dbf0f49c27e8.png" />
-<img alt="../../_images/b373a2cc40256e6449ec4001f51c4adae9f3209084885f1267a8a72eac38bc75.png" src="../../_images/b373a2cc40256e6449ec4001f51c4adae9f3209084885f1267a8a72eac38bc75.png" />
-<img alt="../../_images/b0d22d8e12e3f6e8b17bf046fe02af2e3f4c25a553c6281a5b96520e4528829b.png" src="../../_images/b0d22d8e12e3f6e8b17bf046fe02af2e3f4c25a553c6281a5b96520e4528829b.png" />
-<img alt="../../_images/c506ea53b9df3a00e5a9134ea0669add9f1378999e605cb4b1c92c994bc13bbc.png" src="../../_images/c506ea53b9df3a00e5a9134ea0669add9f1378999e605cb4b1c92c994bc13bbc.png" />
-<img alt="../../_images/9eb4772b8aaa4fa24bb38beed663580954215c521d472d4652d503efb3fd93f7.png" src="../../_images/9eb4772b8aaa4fa24bb38beed663580954215c521d472d4652d503efb3fd93f7.png" />
-<img alt="../../_images/b7e7c8f974c63426bdfc99b94653a8e787dcf7e49e96a15825cb833c8ee895a0.png" src="../../_images/b7e7c8f974c63426bdfc99b94653a8e787dcf7e49e96a15825cb833c8ee895a0.png" />
-<img alt="../../_images/7e36bff10a96ec4dc6d2744b07d79ac9f202e10858384511415af9b3adeb89cc.png" src="../../_images/7e36bff10a96ec4dc6d2744b07d79ac9f202e10858384511415af9b3adeb89cc.png" />
-<img alt="../../_images/4f2dca11eb2659d271ad1baff89409b1e25d40d96a467673da2fea1abae04957.png" src="../../_images/4f2dca11eb2659d271ad1baff89409b1e25d40d96a467673da2fea1abae04957.png" />
-<img alt="../../_images/2508878c225d893b1f951c7bd5386b914b01694b9840e1dfdc410a807386262b.png" src="../../_images/2508878c225d893b1f951c7bd5386b914b01694b9840e1dfdc410a807386262b.png" />
-<img alt="../../_images/786f4232bbaf10df1df766d2e2a07a3dadee60631cd4a5b87d6531a6f57768e8.png" src="../../_images/786f4232bbaf10df1df766d2e2a07a3dadee60631cd4a5b87d6531a6f57768e8.png" />
-<img alt="../../_images/bae9ed1cca73ce2a3f7704574ed6ea9ee5f4c2e116f3528d9ae33afdf5c2bbcf.png" src="../../_images/bae9ed1cca73ce2a3f7704574ed6ea9ee5f4c2e116f3528d9ae33afdf5c2bbcf.png" />
+<img alt="../../_images/ad863ad2367932388405a80271b62fc6768efbcc7589ebce325d1312360262b1.png" src="../../_images/ad863ad2367932388405a80271b62fc6768efbcc7589ebce325d1312360262b1.png" />
+<img alt="../../_images/b70deb67ab5773b6516b10143716348e73960c4c3a3e296b3d48eff4988b7006.png" src="../../_images/b70deb67ab5773b6516b10143716348e73960c4c3a3e296b3d48eff4988b7006.png" />
+<img alt="../../_images/dd8a8b05ad0427455ac45c26aea6dee529eb1a54e8bf404e158ddc71ff1bf9d2.png" src="../../_images/dd8a8b05ad0427455ac45c26aea6dee529eb1a54e8bf404e158ddc71ff1bf9d2.png" />
+<img alt="../../_images/db7759c6dc98ffbeb5470d4c2e41ba97ffee41163e2a8647e245fb30f6ac742b.png" src="../../_images/db7759c6dc98ffbeb5470d4c2e41ba97ffee41163e2a8647e245fb30f6ac742b.png" />
+<img alt="../../_images/1fab27138505228740a80643bd863e1f7c16c4c8c436557fe36692c923636a98.png" src="../../_images/1fab27138505228740a80643bd863e1f7c16c4c8c436557fe36692c923636a98.png" />
+<img alt="../../_images/f8f3ff1c6daeb80f9027eee104052fa73af556f1b4ecfb4b303804882494430f.png" src="../../_images/f8f3ff1c6daeb80f9027eee104052fa73af556f1b4ecfb4b303804882494430f.png" />
+<img alt="../../_images/4e4708336f56d8207ef2cb0f6794c15c2c0799b7bd611e4772333886886d739c.png" src="../../_images/4e4708336f56d8207ef2cb0f6794c15c2c0799b7bd611e4772333886886d739c.png" />
+<img alt="../../_images/b5cb71a5b3c0eb0ac427dbae3701218184d349afe4b7b4526f56793f43bf481a.png" src="../../_images/b5cb71a5b3c0eb0ac427dbae3701218184d349afe4b7b4526f56793f43bf481a.png" />
+<img alt="../../_images/33d33cdcda2ac46ff6ccb061d959fc26fde1d7a6c581f00d8fae4a4b2bfad22f.png" src="../../_images/33d33cdcda2ac46ff6ccb061d959fc26fde1d7a6c581f00d8fae4a4b2bfad22f.png" />
+<img alt="../../_images/1b1ffb859ec0271cd50210bbf843c874e9955e8b992b7bc2a23b599fe72662ed.png" src="../../_images/1b1ffb859ec0271cd50210bbf843c874e9955e8b992b7bc2a23b599fe72662ed.png" />
+<img alt="../../_images/c3b879982379a93beabd3e01ba7a4ab68e2d9011679bf86d9cc406c86313205f.png" src="../../_images/c3b879982379a93beabd3e01ba7a4ab68e2d9011679bf86d9cc406c86313205f.png" />
+<img alt="../../_images/45cfc5f32fe3d767b8f155c89b0ca038e7f6e16c617b8073ca4fcdbf8e307f09.png" src="../../_images/45cfc5f32fe3d767b8f155c89b0ca038e7f6e16c617b8073ca4fcdbf8e307f09.png" />
+<img alt="../../_images/f2c63f709e451dc3d56714bbb414801622ccc4daf316c1d6ad45083a31902f9b.png" src="../../_images/f2c63f709e451dc3d56714bbb414801622ccc4daf316c1d6ad45083a31902f9b.png" />
+<img alt="../../_images/f482adbab63d17a9a1d4592ef62927834f29be3af736f50fac4564ea27b60372.png" src="../../_images/f482adbab63d17a9a1d4592ef62927834f29be3af736f50fac4564ea27b60372.png" />
+<img alt="../../_images/76202db358ce34d89a896888546fac4c6f019d443d19c885e04e584d88efa066.png" src="../../_images/76202db358ce34d89a896888546fac4c6f019d443d19c885e04e584d88efa066.png" />
+<img alt="../../_images/a3c89f1b096d056a3b9502a450762cfa968b47e0e04b49a0c1bf78b92fec5e85.png" src="../../_images/a3c89f1b096d056a3b9502a450762cfa968b47e0e04b49a0c1bf78b92fec5e85.png" />
+<img alt="../../_images/2a520dc9d581a8513dbdf124142d6cfde21b1dfa51c8239bb2d8bbae0e50a773.png" src="../../_images/2a520dc9d581a8513dbdf124142d6cfde21b1dfa51c8239bb2d8bbae0e50a773.png" />
+<img alt="../../_images/53a04cc6f71be19a02cc9372479abf48ba411bf8e985d4beae7b0b24ba5150b3.png" src="../../_images/53a04cc6f71be19a02cc9372479abf48ba411bf8e985d4beae7b0b24ba5150b3.png" />
+<img alt="../../_images/5767cb9b553fa0c36c6f0bd3e27676a7d50a7cb94cc4434289ae3a1ad562a8fa.png" src="../../_images/5767cb9b553fa0c36c6f0bd3e27676a7d50a7cb94cc4434289ae3a1ad562a8fa.png" />
+<img alt="../../_images/f29ff20b657be189794fb0e0aaff98507fe5d68789775b96c57719c88800dcd4.png" src="../../_images/f29ff20b657be189794fb0e0aaff98507fe5d68789775b96c57719c88800dcd4.png" />
+<img alt="../../_images/d3038c2421d8008e6fe024c22afb41b548ecba0ea109b3992931efab39ceea39.png" src="../../_images/d3038c2421d8008e6fe024c22afb41b548ecba0ea109b3992931efab39ceea39.png" />
+<img alt="../../_images/bc16ed58782fdbbe0a898468f6d14725401ac90fc79db7275b8fa1821065d86d.png" src="../../_images/bc16ed58782fdbbe0a898468f6d14725401ac90fc79db7275b8fa1821065d86d.png" />
+<img alt="../../_images/aa2fcb28d3182c0e016597c1a292f7531ddc4e57d43dc626bbeb31d9e76146fe.png" src="../../_images/aa2fcb28d3182c0e016597c1a292f7531ddc4e57d43dc626bbeb31d9e76146fe.png" />
+<img alt="../../_images/2f6fc6888d0d0647d454ce14807f840c7a1357e259f6ecf696c7af5a11884e33.png" src="../../_images/2f6fc6888d0d0647d454ce14807f840c7a1357e259f6ecf696c7af5a11884e33.png" />
+<img alt="../../_images/c15bcdd6c6ab075fc19ec3e6048f5972d07243f5d5f58b9c13201d10fe2c3dd8.png" src="../../_images/c15bcdd6c6ab075fc19ec3e6048f5972d07243f5d5f58b9c13201d10fe2c3dd8.png" />
+<img alt="../../_images/ba377a316a95afc33523fcd89b89f56f89fd65e9cf93b66da1dbc720386c85f0.png" src="../../_images/ba377a316a95afc33523fcd89b89f56f89fd65e9cf93b66da1dbc720386c85f0.png" />
+<img alt="../../_images/072c3f4b2d0dbd726cbbb4edda667392bce748b7051de5e70316d21fcce45f67.png" src="../../_images/072c3f4b2d0dbd726cbbb4edda667392bce748b7051de5e70316d21fcce45f67.png" />
+<img alt="../../_images/81693b65adcde44ca91007b0be10534829441bcf442b8e5f9b38dfb959dd57bc.png" src="../../_images/81693b65adcde44ca91007b0be10534829441bcf442b8e5f9b38dfb959dd57bc.png" />
+<img alt="../../_images/570bc3de68e5f9f1410defe85fd3461db50dedcab44d72fdbeec3993c7078c69.png" src="../../_images/570bc3de68e5f9f1410defe85fd3461db50dedcab44d72fdbeec3993c7078c69.png" />
+<img alt="../../_images/b382fe7c7f8016ee63790420fb01b179eb6a383798973980112fd5ee7d8c0fd8.png" src="../../_images/b382fe7c7f8016ee63790420fb01b179eb6a383798973980112fd5ee7d8c0fd8.png" />
+<img alt="../../_images/65a88434eacb359b3fc3e185140d74107b5293a33b646152e70af8e0364900b8.png" src="../../_images/65a88434eacb359b3fc3e185140d74107b5293a33b646152e70af8e0364900b8.png" />
+<img alt="../../_images/475d39a851ff8ca3f9b4076c41f4f86af743888e6b858e756b8be4c274b33a73.png" src="../../_images/475d39a851ff8ca3f9b4076c41f4f86af743888e6b858e756b8be4c274b33a73.png" />
+<img alt="../../_images/0cd83fb4fe56525bf4197cf7e7d513e820b49dfeefa8c85ac8a2c850c8ddcf71.png" src="../../_images/0cd83fb4fe56525bf4197cf7e7d513e820b49dfeefa8c85ac8a2c850c8ddcf71.png" />
+<img alt="../../_images/f0e8553f7d43a21ac52ca74bba269ecf084f7d676a2520d1db4709e603ba432d.png" src="../../_images/f0e8553f7d43a21ac52ca74bba269ecf084f7d676a2520d1db4709e603ba432d.png" />
+<img alt="../../_images/ef9f8bab7645f26914cc4b4120f062ebf1eec9a52f19543cd1356a23ef7c2174.png" src="../../_images/ef9f8bab7645f26914cc4b4120f062ebf1eec9a52f19543cd1356a23ef7c2174.png" />
+<img alt="../../_images/6683994bdb8b4757e5bfa935ca1c7d16467f094e1b094e158390c0792e8d4772.png" src="../../_images/6683994bdb8b4757e5bfa935ca1c7d16467f094e1b094e158390c0792e8d4772.png" />
+<img alt="../../_images/cd54573d6fd6b3a10ad8d5ad2ce41072b96a3d088f1ba859e75d43505ae670d2.png" src="../../_images/cd54573d6fd6b3a10ad8d5ad2ce41072b96a3d088f1ba859e75d43505ae670d2.png" />
+<img alt="../../_images/67232bcba0c13ca3594f294bed0e5e1f27caa4c65431a3315e4c47cafb4ffb8f.png" src="../../_images/67232bcba0c13ca3594f294bed0e5e1f27caa4c65431a3315e4c47cafb4ffb8f.png" />
+<img alt="../../_images/f69090514511eb48f33f6f6a2e8f9bb969a147626b604ced979ca0b38a448172.png" src="../../_images/f69090514511eb48f33f6f6a2e8f9bb969a147626b604ced979ca0b38a448172.png" />
+<img alt="../../_images/c51d3ce030d7dd748f37b1210cb542b0ff33fee7b4f2a71c4e807402dcf89c81.png" src="../../_images/c51d3ce030d7dd748f37b1210cb542b0ff33fee7b4f2a71c4e807402dcf89c81.png" />
+<img alt="../../_images/876b201682fb47bddcc6175398c5e8118fc1c06c4ebbcc88ad891707604498fb.png" src="../../_images/876b201682fb47bddcc6175398c5e8118fc1c06c4ebbcc88ad891707604498fb.png" />
+<img alt="../../_images/71d0540db6838ff56d1bfb3a62e776fb0e38d1e9026814eb80798e05c484f84c.png" src="../../_images/71d0540db6838ff56d1bfb3a62e776fb0e38d1e9026814eb80798e05c484f84c.png" />
+<img alt="../../_images/49242ea7a9ac1861c8ed6cf3686bdf4875b5048a525ca247aa6046dea9803025.png" src="../../_images/49242ea7a9ac1861c8ed6cf3686bdf4875b5048a525ca247aa6046dea9803025.png" />
+<img alt="../../_images/d34f18de003cb55af6c853c088cca57da605434dcea3af577e807cf0403a9e7f.png" src="../../_images/d34f18de003cb55af6c853c088cca57da605434dcea3af577e807cf0403a9e7f.png" />
+<img alt="../../_images/1712868c8f8f8dda1e1521f5943cac4b2fb1cb8d46d61eb94dcbd7b1054a6684.png" src="../../_images/1712868c8f8f8dda1e1521f5943cac4b2fb1cb8d46d61eb94dcbd7b1054a6684.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1074,7 +1261,7 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 5000, iter #0: 100%|█████████████████| 801/801 [01:46&lt;00:00,  7.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 5000, iter #0: 100%|█████████████████| 801/801 [01:47&lt;00:00,  7.46it/s]
 </pre></div>
 </div>
 </div>
@@ -1116,47 +1303,47 @@ mc_b200-ep900-<span style="color: #800080; text-decoration-color: #800080; font-
   <tbody>
     <tr>
       <th>20</th>
-      <td>0.371322</td>
-      <td>0.058108</td>
+      <td>0.349374</td>
+      <td>0.045278</td>
     </tr>
     <tr>
       <th>50</th>
-      <td>0.592400</td>
-      <td>0.051815</td>
+      <td>0.573944</td>
+      <td>0.044474</td>
     </tr>
     <tr>
       <th>100</th>
-      <td>0.731664</td>
-      <td>0.031262</td>
+      <td>0.717862</td>
+      <td>0.040679</td>
     </tr>
     <tr>
       <th>200</th>
-      <td>0.823070</td>
-      <td>0.021470</td>
+      <td>0.831302</td>
+      <td>0.028114</td>
     </tr>
     <tr>
       <th>500</th>
-      <td>0.888536</td>
-      <td>0.010468</td>
+      <td>0.903882</td>
+      <td>0.013580</td>
     </tr>
     <tr>
       <th>1000</th>
-      <td>0.913136</td>
-      <td>0.007166</td>
+      <td>0.930574</td>
+      <td>0.006954</td>
     </tr>
     <tr>
       <th>2000</th>
-      <td>0.928002</td>
-      <td>0.004271</td>
+      <td>0.942512</td>
+      <td>0.005159</td>
     </tr>
     <tr>
       <th>4000</th>
-      <td>0.940450</td>
-      <td>0.002237</td>
+      <td>0.952166</td>
+      <td>0.001908</td>
     </tr>
     <tr>
       <th>5000</th>
-      <td>0.944000</td>
+      <td>0.955000</td>
       <td>NaN</td>
     </tr>
   </tbody>

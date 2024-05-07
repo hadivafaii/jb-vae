@@ -267,6 +267,32 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
 </li>
@@ -533,7 +559,7 @@ document.write(`
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">],</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]),</span>
         <span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">_log&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;r*dr&#39;</span><span class="p">][:,</span> <span class="n">j</span><span class="p">]),</span>
-        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+        <span class="s1">&#39;lbl&#39;</span><span class="p">:</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
     <span class="p">})</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;z-</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;lbl&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab10&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -551,10 +577,17 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;init-scale-0.05_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,10:31)&#39;</span><span class="p">,</span>
     <span class="c1"># &#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;,</span>
-    <span class="c1"># &#39;ResConvPool-SwishOnlyOnRes_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_04_30,21:50)&#39;,</span>
+    <span class="c1"># &#39;init0.05_warm2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,20:10)&#39;,</span>
+
+    <span class="c1"># &#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;,</span>
+    <span class="c1"># &#39;initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;, # checkpoint: 1050</span>
+    
+    <span class="c1"># &#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;,</span>
+    <span class="c1"># &#39;init-scale-0.05_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,10:31)&#39;,</span>
+    
+    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ResConvPool-SwishOnlyOnRes_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_04_30,21:50)&#39;</span><span class="p">,</span>
 <span class="p">])</span>
 <span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
@@ -565,13 +598,13 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
-    <span style="color: #008000; text-decoration-color: #008000">'timestamp'</span>: <span style="color: #008000; text-decoration-color: #008000">'2024_05_01,10:31'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'timestamp'</span>: <span style="color: #008000; text-decoration-color: #008000">'2024_04_30,21:50'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'checkpoint'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">900</span>,
     <span style="color: #008000; text-decoration-color: #008000">'global_step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">270000</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0900_(2024_05_01,13:14).pt'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-0900_(2024_05_01,00:24).pt'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'path'</span>: 
-<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/init-scale-0.0</span>
-<span style="color: #008000; text-decoration-color: #008000">5_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,10:31)'</span>
+<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/ResConvPool-Sw</span>
+<span style="color: #008000; text-decoration-color: #008000">ishOnlyOnRes_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_04_30,21:50)'</span>
 <span style="font-weight: bold">}</span>
 </pre>
 </div></div>
@@ -583,8 +616,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5954ebbfaaa2a0e84c712a916f360f98d28e30c23f29b0e3d42130eb98d295c6.png" src="../../_images/5954ebbfaaa2a0e84c712a916f360f98d28e30c23f29b0e3d42130eb98d295c6.png" />
-<img alt="../../_images/89500e0b769b6860039bb02c5efda09b7bb2c71a5f97ee6724a55ef2640ee6b1.png" src="../../_images/89500e0b769b6860039bb02c5efda09b7bb2c71a5f97ee6724a55ef2640ee6b1.png" />
+<img alt="../../_images/63a81dcf7ab7abb9ef61e325971419d76ba8f38f578fe2565f77c737f53534c7.png" src="../../_images/63a81dcf7ab7abb9ef61e325971419d76ba8f38f578fe2565f77c737f53534c7.png" />
+<img alt="../../_images/35d64d57b9da2dfb1139bd8e60d2feb0618972049d7db0ee9bbcce4157bfc887.png" src="../../_images/35d64d57b9da2dfb1139bd8e60d2feb0618972049d7db0ee9bbcce4157bfc887.png" />
 </div>
 </div>
 </section>
@@ -621,13 +654,13 @@ document.write(`
         <span class="n">maximize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">n_iter</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
         <span class="n">kws_optim</span><span class="o">=</span><span class="p">{</span>
-            <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-            <span class="s1">&#39;weight_decay&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span>
+            <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="s1">&#39;weight_decay&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">},</span>
     <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
     <span class="c1"># fit</span>
     <span class="n">mei</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">which_k</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">x2p</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">mei</span><span class="o">.</span><span class="n">_x</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">mei</span><span class="o">.</span><span class="n">_x</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
 
     <span class="c1"># plot</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">),</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
@@ -670,17 +703,17 @@ document.write(`
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                     | 0/1 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<img alt="../../_images/422e8645823d44daf71fa644e24fdb3f936e55308dcbb483b40511e9bcdd3eb3.png" src="../../_images/422e8645823d44daf71fa644e24fdb3f936e55308dcbb483b40511e9bcdd3eb3.png" />
-<img alt="../../_images/6e12f85310a909a74f728c0b08fdffa601b88b039405589ff45ba8839785c82b.png" src="../../_images/6e12f85310a909a74f728c0b08fdffa601b88b039405589ff45ba8839785c82b.png" />
-<img alt="../../_images/9fedfb145809b36e4e2af0f76d25c925acc7b52056c470d5c1af10e1e69e0bf8.png" src="../../_images/9fedfb145809b36e4e2af0f76d25c925acc7b52056c470d5c1af10e1e69e0bf8.png" />
-<img alt="../../_images/53cbbd3ab3afa3721f157dbd388347d97497b3ee120970f89ad8f5b1de2dec32.png" src="../../_images/53cbbd3ab3afa3721f157dbd388347d97497b3ee120970f89ad8f5b1de2dec32.png" />
-<img alt="../../_images/d9d48ccb3dd4a0e345d76c697d3f9e945afa1689b52d76722829e401242703cc.png" src="../../_images/d9d48ccb3dd4a0e345d76c697d3f9e945afa1689b52d76722829e401242703cc.png" />
-<img alt="../../_images/c1737266a1bcf6e01f50a5d8acd783628f6ef3d42bbf511ca698e45227a1ca64.png" src="../../_images/c1737266a1bcf6e01f50a5d8acd783628f6ef3d42bbf511ca698e45227a1ca64.png" />
-<img alt="../../_images/6a8df6a1a41211dad5d9d011cb831b104e4b5f0ccbcf98a135099b6d905a9cb4.png" src="../../_images/6a8df6a1a41211dad5d9d011cb831b104e4b5f0ccbcf98a135099b6d905a9cb4.png" />
-<img alt="../../_images/3a07ac90edbd812b47e079af089a5c8e9bbda95538b70c24dea21c36e3e57ed5.png" src="../../_images/3a07ac90edbd812b47e079af089a5c8e9bbda95538b70c24dea21c36e3e57ed5.png" />
-<img alt="../../_images/1c1f95a3e0e336081d618e18a43aea4dee1c248ab5bfb0480d7e25c4c0aaff6d.png" src="../../_images/1c1f95a3e0e336081d618e18a43aea4dee1c248ab5bfb0480d7e25c4c0aaff6d.png" />
-<img alt="../../_images/2d8a613cd5978af4bf90868f33360084a846929a72e4f7f3753844e29728b05b.png" src="../../_images/2d8a613cd5978af4bf90868f33360084a846929a72e4f7f3753844e29728b05b.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 1/1 [00:15&lt;00:00, 15.51s/it]
+<img alt="../../_images/32e5ccc86224dc2c6c1f8d0769b1abc0c5cd2c153410b468f4714b298a661468.png" src="../../_images/32e5ccc86224dc2c6c1f8d0769b1abc0c5cd2c153410b468f4714b298a661468.png" />
+<img alt="../../_images/2b7e0174bb68e8aec8d51d5f9e7bbef5ee041d7fcd4f8817fb1ea50c195fa889.png" src="../../_images/2b7e0174bb68e8aec8d51d5f9e7bbef5ee041d7fcd4f8817fb1ea50c195fa889.png" />
+<img alt="../../_images/ef821dd9bc79a57a9b340f0b6659f1c50f522eebf19f0aa67afe4fb7c4fb8151.png" src="../../_images/ef821dd9bc79a57a9b340f0b6659f1c50f522eebf19f0aa67afe4fb7c4fb8151.png" />
+<img alt="../../_images/a073a581a761684e85788777a3e6626a449df23f7802b59f0e6b1e942004b11f.png" src="../../_images/a073a581a761684e85788777a3e6626a449df23f7802b59f0e6b1e942004b11f.png" />
+<img alt="../../_images/dbca1e37341542a5b0557c813993fe0e66cf3eeedee71a12cb6c624afad60227.png" src="../../_images/dbca1e37341542a5b0557c813993fe0e66cf3eeedee71a12cb6c624afad60227.png" />
+<img alt="../../_images/64aff81c9f76e72e9deb03af40f5d6ca7abe21c583ace4d40986ba379e50ceed.png" src="../../_images/64aff81c9f76e72e9deb03af40f5d6ca7abe21c583ace4d40986ba379e50ceed.png" />
+<img alt="../../_images/94c34f19ecb8486353e0cba2ba80b45437f18abb4a2cd929f5418166df0823b5.png" src="../../_images/94c34f19ecb8486353e0cba2ba80b45437f18abb4a2cd929f5418166df0823b5.png" />
+<img alt="../../_images/45086fc69575fca8107e42857b1881a2452c47fcd4e8450a85a8e8e736cac262.png" src="../../_images/45086fc69575fca8107e42857b1881a2452c47fcd4e8450a85a8e8e736cac262.png" />
+<img alt="../../_images/145e68c5e804da4cbbe31e53addd6c182996aad13c029b9c5f8a7054191f61c5.png" src="../../_images/145e68c5e804da4cbbe31e53addd6c182996aad13c029b9c5f8a7054191f61c5.png" />
+<img alt="../../_images/9203ae5b700e46a5647f9815be68eda3fd1a2f03a9fdb3629046fca236725059.png" src="../../_images/9203ae5b700e46a5647f9815be68eda3fd1a2f03a9fdb3629046fca236725059.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████| 1/1 [00:15&lt;00:00, 15.65s/it]
 </pre></div>
 </div>
 </div>
@@ -701,64 +734,60 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2cefa5a1a664ebe8e24e1e072ad1622ed9c7994d6052c2770de6ed75260bdcd8.png" src="../../_images/2cefa5a1a664ebe8e24e1e072ad1622ed9c7994d6052c2770de6ed75260bdcd8.png" />
+<img alt="../../_images/2bf7a8361457143c7763170b93e5721ba345fa63d238b384b0f5c0af440346f0.png" src="../../_images/2bf7a8361457143c7763170b93e5721ba345fa63d238b384b0f5c0af440346f0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_show_pairwise</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_show_pairwise</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c5dc340f6502c1b03a5df4a4f43911782eaf737a3d21dbbb89724441534543c0.png" src="../../_images/c5dc340f6502c1b03a5df4a4f43911782eaf737a3d21dbbb89724441534543c0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_show_pairwise</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/6c418e73120c9e4b4f666873ac94c90df6d59f5a1d80053f3800428940e3b9b9.png" src="../../_images/6c418e73120c9e4b4f666873ac94c90df6d59f5a1d80053f3800428940e3b9b9.png" />
+<img alt="../../_images/9d5720dd90452ace5dacc9ff24265612dd15977fb0befaf62f394b0dfc0e24a7.png" src="../../_images/9d5720dd90452ace5dacc9ff24265612dd15977fb0befaf62f394b0dfc0e24a7.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">202</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.0005</span><span class="p">);</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">202</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.0005</span><span class="p">,</span>
+<span class="p">);</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.0568,  0.0482, -0.0025,  0.0368, -0.0258, -0.0134,  0.0498, -0.0302,
-        -0.0179,  0.0478], device=&#39;cuda:0&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 0.0177, -0.0224, -0.0028,  0.0305,  0.0457,  0.0547,  0.0349,  0.0211,
+         0.0512, -0.0089], device=&#39;cuda:0&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/3fe61d824adb1375fb21614f611ffc7463f4094f8a45a84d1358281d7cdc221c.png" src="../../_images/3fe61d824adb1375fb21614f611ffc7463f4094f8a45a84d1358281d7cdc221c.png" />
+<img alt="../../_images/5e47ec8abb35ad16204b0d6cdb5af2c80e7dfbde3d36962e538eb8b6a0904479.png" src="../../_images/5e47ec8abb35ad16204b0d6cdb5af2c80e7dfbde3d36962e538eb8b6a0904479.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">to_np</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">101</span><span class="p">));</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span>
+<span class="p">);</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([3.4550e-04, 1.1910e-04, 1.1315e-04,  ..., 3.7017e-05, 5.7094e-05,
-        1.1399e-04], device=&#39;cuda:0&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-4.9805e-05, -1.1153e-03, -2.6188e-03,  ..., -3.2359e-03,
+         1.1214e-03,  1.5004e-03], device=&#39;cuda:0&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/1a2d281dc2524698bf29c6330e4c8b28b3702633ecbfa70057d6c9334440de4a.png" src="../../_images/1a2d281dc2524698bf29c6330e4c8b28b3702633ecbfa70057d6c9334440de4a.png" />
+<img alt="../../_images/b4852035e913684c864cacd8f777ce26d4a00d5deb88265c862017edca1f85bd.png" src="../../_images/b4852035e913684c864cacd8f777ce26d4a00d5deb88265c862017edca1f85bd.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="s1">&#39;vld&#39;</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -769,14 +798,13 @@ document.write(`
     <span class="n">x</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span>
     <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
     <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">200</span><span class="p">],</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 30000, iter #0: 100%|████████████████| 101/101 [01:07&lt;00:00,  1.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train sample size: 5000, iter #0: 100%|█████████████████| 801/801 [01:40&lt;00:00,  8.00it/s]
 </pre></div>
 </div>
 </div>
@@ -817,13 +845,48 @@ document.write(`
   </thead>
   <tbody>
     <tr>
-      <th>200</th>
-      <td>0.859841</td>
-      <td>0.011672</td>
+      <th>20</th>
+      <td>0.418638</td>
+      <td>0.062253</td>
     </tr>
     <tr>
-      <th>30000</th>
-      <td>0.962200</td>
+      <th>50</th>
+      <td>0.658010</td>
+      <td>0.055708</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>0.796354</td>
+      <td>0.034670</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>0.882576</td>
+      <td>0.021348</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>0.936824</td>
+      <td>0.010214</td>
+    </tr>
+    <tr>
+      <th>1000</th>
+      <td>0.953332</td>
+      <td>0.007023</td>
+    </tr>
+    <tr>
+      <th>2000</th>
+      <td>0.960502</td>
+      <td>0.005561</td>
+    </tr>
+    <tr>
+      <th>4000</th>
+      <td>0.963162</td>
+      <td>0.002998</td>
+    </tr>
+    <tr>
+      <th>5000</th>
+      <td>0.962600</td>
       <td>NaN</td>
     </tr>
   </tbody>

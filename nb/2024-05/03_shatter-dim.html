@@ -1,0 +1,1926 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(03) Shattering dim &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-05/03_shatter-dim';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(04) CategoricalVAE" href="04_categ-test.html" />
+    <link rel="prev" title="(03) MEI" href="03_mei.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_default-cfgs.html">(03) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05/03_shatter-dim.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-05/03_shatter-dim.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(03) Shattering dim</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-logreg-vs-svm-vs-knn">Experiment: LogReg vs. SVM vs. KNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-trainer">Load trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xtract-data">Xtract data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disjoint-grouping-of-digits">Disjoint grouping of digits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classify">Classify</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-accuracy">Overall accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Shattering Dim</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm">SVM</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="shattering-dim">
+<h1>(03) Shattering dim<a class="headerlink" href="#shattering-dim" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: Accuracy in all possible pairwise categorization of MNIST digits. 5 digits per category. <br></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vase/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">sparse_score</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.shatter</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">shatter_analysis</span><span class="p">,</span>
+    <span class="n">disjoint_groups</span><span class="p">,</span>
+    <span class="n">digit2category</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="experiment-logreg-vs-svm-vs-knn">
+<h2>Experiment: LogReg vs. SVM vs. KNN<a class="headerlink" href="#experiment-logreg-vs-svm-vs-knn" title="Permalink to this heading">#</a></h2>
+<section id="load-trainer">
+<h3>Load trainer<a class="headerlink" href="#load-trainer" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;</span><span class="p">,</span>
+<span class="p">])</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<span class="n">loss_avg</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">loss_avg</span><span class="p">[</span><span class="s1">&#39;tot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_avg</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">loss_avg</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss_avg</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.612318</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.89106</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8891061</span>, <span style="color: #008000; text-decoration-color: #008000">'tot'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36.50338</span><span style="font-weight: bold">}</span>
+
+
+<span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'timestamp'</span>: <span style="color: #008000; text-decoration-color: #008000">'2024_05_01,17:07'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'checkpoint'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1200</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'global_step'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">360000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'root'</span>: 
+<span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;/initscale-0.05</span>
+<span style="color: #008000; text-decoration-color: #008000">_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'file'</span>: <span style="color: #008000; text-decoration-color: #008000">'PoissonVAE+TrainerVAE-1200_(2024_05_01,22:04).pt'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e5ddc02706ae958d9570c49ed9990622772f230054ec9b7e03e484e4430269f4.png" src="../../_images/e5ddc02706ae958d9570c49ed9990622772f230054ec9b7e03e484e4430269f4.png" />
+<img alt="../../_images/f0f63a184a74e8515a487c2040debc6b9c3513b79152c00b5544cd3b1e603704.png" src="../../_images/f0f63a184a74e8515a487c2040debc6b9c3513b79152c00b5544cd3b1e603704.png" />
+</div>
+</div>
+</section>
+<section id="xtract-data">
+<h3>Xtract data<a class="headerlink" href="#xtract-data" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="s1">&#39;vld&#39;</span><span class="p">]:</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">etc</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+        <span class="n">dl_name</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">loss_avg</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15.2 s, sys: 348 ms, total: 15.6 s
+Wall time: 3.25 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="disjoint-grouping-of-digits">
+<h3>Disjoint grouping of digits<a class="headerlink" href="#disjoint-grouping-of-digits" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="n">disjoint_groups</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">digits</span><span class="p">)))</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>252
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="classify">
+<h3>Classify<a class="headerlink" href="#classify" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">clf_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;logreg&#39;</span><span class="p">,</span> <span class="s1">&#39;svm&#39;</span><span class="p">,</span> <span class="s1">&#39;knn&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">clf_name</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">digit2category</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">],</span> <span class="n">c1</span><span class="p">)</span>
+        <span class="n">y_vld</span> <span class="o">=</span> <span class="n">digit2category</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">],</span> <span class="n">c1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clf_name</span> <span class="o">==</span> <span class="s1">&#39;logreg&#39;</span><span class="p">:</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">clf_name</span> <span class="o">==</span> <span class="s1">&#39;svm&#39;</span><span class="p">:</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">dual</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">clf_name</span> <span class="o">==</span> <span class="s1">&#39;knn&#39;</span><span class="p">:</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">clf_name</span><span class="p">)</span>
+
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">])</span>
+    
+        <span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span>
+            <span class="n">y_true</span><span class="o">=</span><span class="n">y_vld</span><span class="p">,</span>
+            <span class="n">y_pred</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span>
+            <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;category_0&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">c0</span><span class="p">],</span>
+            <span class="s1">&#39;category_1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">c1</span><span class="p">],</span>
+            <span class="s1">&#39;classifier&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">],</span>
+            <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]],</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span><span class="p">],</span>
+        <span class="p">})</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">merge_dicts</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>logreg: 100%|█████████████████████████████████| 252/252 [00:11&lt;00:00, 21.54it/s]
+svm: 100%|████████████████████████████████████| 252/252 [00:16&lt;00:00, 15.74it/s]
+knn: 100%|████████████████████████████████████| 252/252 [02:13&lt;00:00,  1.89it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category_0</th>
+      <th>category_1</th>
+      <th>classifier</th>
+      <th>accuracy</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[0, 1, 2, 3, 4]</td>
+      <td>[5, 6, 7, 8, 9]</td>
+      <td>LogisticRegression</td>
+      <td>0.7013</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[0, 1, 2, 3, 5]</td>
+      <td>[4, 6, 7, 8, 9]</td>
+      <td>LogisticRegression</td>
+      <td>0.8461</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[0, 1, 2, 3, 6]</td>
+      <td>[4, 5, 7, 8, 9]</td>
+      <td>LogisticRegression</td>
+      <td>0.8733</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[0, 1, 2, 3, 7]</td>
+      <td>[4, 5, 6, 8, 9]</td>
+      <td>LogisticRegression</td>
+      <td>0.8612</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>[0, 1, 2, 3, 8]</td>
+      <td>[4, 5, 6, 7, 9]</td>
+      <td>LogisticRegression</td>
+      <td>0.8659</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>751</th>
+      <td>[4, 5, 6, 7, 9]</td>
+      <td>[0, 1, 2, 3, 8]</td>
+      <td>KNeighborsClassifier</td>
+      <td>0.9834</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>752</th>
+      <td>[4, 5, 6, 8, 9]</td>
+      <td>[0, 1, 2, 3, 7]</td>
+      <td>KNeighborsClassifier</td>
+      <td>0.9807</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>753</th>
+      <td>[4, 5, 7, 8, 9]</td>
+      <td>[0, 1, 2, 3, 6]</td>
+      <td>KNeighborsClassifier</td>
+      <td>0.9824</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>754</th>
+      <td>[4, 6, 7, 8, 9]</td>
+      <td>[0, 1, 2, 3, 5]</td>
+      <td>KNeighborsClassifier</td>
+      <td>0.9842</td>
+      <td>poisson</td>
+    </tr>
+    <tr>
+      <th>755</th>
+      <td>[5, 6, 7, 8, 9]</td>
+      <td>[0, 1, 2, 3, 4]</td>
+      <td>KNeighborsClassifier</td>
+      <td>0.9736</td>
+      <td>poisson</td>
+    </tr>
+  </tbody>
+</table>
+<p>756 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span>
+    <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">),</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9205ab69ede2368a3185ea4344551e146d12f3871e162353db1d23e55565528e.png" src="../../_images/9205ab69ede2368a3185ea4344551e146d12f3871e162353db1d23e55565528e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;chance level&#39;</span><span class="p">)</span>
+
+<span class="n">classifiers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;classifier&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">())</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="n">classifiers</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;muted&#39;</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
+<span class="p">)</span>
+<span class="n">move_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">se</span> <span class="o">=</span> <span class="n">sd</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">classifiers</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">clf</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">clf</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">sd</span><span class="p">[</span><span class="n">clf</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Show plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># plt.show()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/25d9cec1aef7b806745144ff1d64800094a6445de35085d51b2a8901ad4fd7c0.png" src="../../_images/25d9cec1aef7b806745144ff1d64800094a6445de35085d51b2a8901ad4fd7c0.png" />
+</div>
+</div>
+</section>
+<section id="overall-accuracy">
+<h3>Overall accuracy<a class="headerlink" href="#overall-accuracy" title="Permalink to this heading">#</a></h3>
+<p>10-way classification</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># LinearSVC</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">dual</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span> 
+    <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">]),</span>
+    <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> ——— accuracy: </span><span class="si">{</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># LogisticRegression</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span> 
+    <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">]),</span>
+    <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> ——— accuracy: </span><span class="si">{</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># KNeighborsClassifier</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">],</span> 
+    <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;g&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">etc</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;log_dr&#39;</span><span class="p">]),</span>
+    <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> ——— accuracy: </span><span class="si">{</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">LinearSVC ——— accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9261</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">LogisticRegression ——— accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9417</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">KNeighborsClassifier ——— accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9613</span>
+</pre>
+</div></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Shattering Dim<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">groups</span> <span class="o">=</span> <span class="n">disjoint_groups</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>252
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;poisson&#39;</span><span class="p">:</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="s1">&#39;poisson_uniform_c(-3)_rmax(1)_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;initscale-0.05_warmrestart-2_mc_b200-ep1200-lr(0.002)_beta(1:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_05_01,17:07)&#39;</span>
+    <span class="p">]),</span>
+    <span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="s1">&#39;gaussian_None_MNIST_z-10_k-32_&lt;conv+b|conv+b&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;eps1.0-warm2_mc_b200-ep900-lr(0.002)_beta(1:0x0.5)_gr(1000)_(2024_05_02,08:38)&#39;</span><span class="p">,</span>
+    <span class="p">]),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="logistic-regression">
+<h3>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">model_type</span><span class="p">,</span> <span class="n">load_string</span> <span class="ow">in</span> <span class="n">selected_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">load_string</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">model_type</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+    <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="s1">&#39;vld&#39;</span><span class="p">]:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">etc</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+            <span class="n">dl_name</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">loss_avg</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">loss_avg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+    <span class="c1"># prep to fit</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;log_dr&#39;</span> <span class="k">if</span> <span class="n">model_type</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span> <span class="k">else</span> <span class="s1">&#39;mu&#39;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">etc</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="c1"># fit</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">shatter_analysis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">clf_type</span><span class="o">=</span><span class="s1">&#39;logreg&#39;</span><span class="p">)</span>
+    <span class="n">_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'trn'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.381172</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.876027</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8876025</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'vld'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.433294</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.89106</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8891061</span><span style="font-weight: bold">}}</span>
+</pre>
+</div><img alt="../../_images/6d2bd81af17c7d216f44781bbc845a5cb50219e300e394d8123f3f0e1728bd65.png" src="../../_images/6d2bd81af17c7d216f44781bbc845a5cb50219e300e394d8123f3f0e1728bd65.png" />
+<img alt="../../_images/5062c340bf46f00ebd98c0759139deba28113e92c8f37b38e768cccdc5febdcb.png" src="../../_images/5062c340bf46f00ebd98c0759139deba28113e92c8f37b38e768cccdc5febdcb.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>logreg: 252it [00:11, 21.59it/s]
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'trn'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.200378</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13.181685</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3181688</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'vld'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11.519066</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13.1146965</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3114696</span><span style="font-weight: bold">}}</span>
+</pre>
+</div><img alt="../../_images/b270f9796a966d2a0e0483b0d0b68a94fa8303a8a6036d86cbdc2317986556bd.png" src="../../_images/b270f9796a966d2a0e0483b0d0b68a94fa8303a8a6036d86cbdc2317986556bd.png" />
+<img alt="../../_images/f8458560b840db7d3f8c03e4fcd605d910f7e8ceee7c25d442319e53642c69ad.png" src="../../_images/f8458560b840db7d3f8c03e4fcd605d910f7e8ceee7c25d442319e53642c69ad.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>logreg: 252it [00:05, 43.43it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    0.762935
+poisson     0.800558
+Name: accuracy, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    0.061123
+poisson     0.082196
+Name: accuracy, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;chance level&#39;</span><span class="p">)</span>
+
+<span class="n">model_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">())</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="n">model_types</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;muted&#39;</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
+<span class="p">)</span>
+<span class="n">move_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">),</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model_types</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">sd</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b231b8e293304cd1b56ec8356ac3de8f41dccfa61c8f6f9449b02457cb8de931.png" src="../../_images/b231b8e293304cd1b56ec8356ac3de8f41dccfa61c8f6f9449b02457cb8de931.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracies</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">accuracies</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    [0.6438, 0.7781, 0.758, 0.7747, 0.7886, 0.6387...
+poisson     [0.7013, 0.8461, 0.8733, 0.8612, 0.8659, 0.742...
+Name: accuracy, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">accuracies</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">],</span>
+    <span class="n">b</span><span class="o">=</span><span class="n">accuracies</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.89075561234778e-09</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_ids</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="n">sorted_ids</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;gaussian&#39;: array([219,  32, 221,  30, 246,   5,   0, 251, 237,  14,  10, 241,  25,
+        226,  52, 199, 205,  46,  60, 191, 229,  22, 130, 121,   6, 245,
+        231,  20,  17, 234, 227,  24, 178,  73,  23, 228, 239,  12, 177,
+        167,  84,  74,  21, 230, 170,  81, 236,  15, 107, 144,  72, 179,
+         19, 232,  53, 198, 165,  86, 233, 242,  18,   9, 220,  31, 150,
+        101, 137, 114, 143, 171, 108,  80,   8, 243, 164,  87, 195,  56,
+        197,  48, 203,  54, 173,  78,  13, 238, 166,  85, 100, 151,  95,
+        156,  49, 202, 240,  11,  35, 216, 213,  38, 142, 109, 211,  40,
+        161,  90, 157,  94, 192,  59, 126, 125,  83, 168,  92, 159,  98,
+        153,  26, 225,  70, 181,   2, 249, 214,  37,  97, 154, 204,  47,
+        184,  67, 187,  64, 129, 122, 217,  34, 218,  33, 162,  89, 235,
+         16,  88, 163, 111, 140,  93, 158, 134, 117, 208,  43,  58, 193,
+        212,  39, 248,   3,   1, 250,  41, 210,  42, 209, 222,  29, 206,
+         45, 155,  96,  36, 215, 103, 148, 186,  65, 182,  69,   4, 247,
+         91, 160, 244,   7,  51, 200,  55, 196, 123, 128,  27, 224,  50,
+        201, 116, 135, 112, 139,  62, 189,  68, 183, 127, 124,  57, 194,
+        152,  99, 180,  71, 110, 141, 147, 104,  82, 169, 223,  28,  79,
+        172,  77, 174, 176,  75, 119, 132, 146, 105, 138, 113, 175,  76,
+        102, 149, 106, 145, 136, 115,  44, 207, 131, 120,  63, 188,  66,
+        185, 190,  61, 118, 133]),
+ &#39;poisson&#39;: array([ 52, 199,  24, 227, 219,  32, 222,  29,  46, 205,  21, 230, 221,
+         30, 210,  41, 213,  38,  25, 226, 198,  53, 117, 134,  48, 203,
+          9, 242,  22, 229, 211,  40,   0, 251,  73, 178, 217,  34,  26,
+        225, 208,  43, 173,  78,  60, 191, 114, 137, 202,  49, 108, 143,
+        103, 148,  31, 220,  87, 164,  47, 204, 246, 130, 121,   5,  84,
+        167, 187,  64,  33, 218, 126, 125,  23, 228,  39, 212, 215,  36,
+         59, 192,  35, 216,  56, 195,  15, 236, 197,  54, 122, 129, 144,
+        107, 153,  98, 214,  37,  27, 224,  42, 209,  94, 157, 245,   6,
+        163,  88,  81, 170,  67, 184, 243,   8, 206,  45, 233,  18,  76,
+        175,  55, 196,  93, 158, 151, 100, 146, 105, 154,  97, 201,  50,
+         69, 182,  72, 179, 150, 101, 177,  74,  58, 193, 166,  85, 223,
+         28, 161,  90, 171,  80,  68, 183,  12,  14, 239, 237, 156,  95,
+        139, 112, 155,  96,  70, 181, 109, 142,  13, 238, 241,  10, 200,
+         51,   1, 250,  86, 165,  75, 176, 141, 110, 186,  65, 140, 111,
+         83, 168,  17, 234, 248,   3, 106, 145, 147, 104,  92, 159,   4,
+        247, 249,   2,  11, 240,   7, 244, 116, 135, 232,  19, 127, 124,
+        188,  63, 160,  91, 123, 128,  57, 194,  20, 231,  62, 189, 152,
+         99, 235,  16,  44, 207, 138, 113, 118, 133, 132, 119, 180,  71,
+        120, 131,  77, 174,  89, 162, 172,  79, 169,  82, 185,  66,  61,
+        190, 115, 136, 149, 102])}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">][:</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group_idx</th>
+      <th>category_0</th>
+      <th>category_1</th>
+      <th>type</th>
+      <th>classifier</th>
+      <th>accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>136</th>
+      <td>136</td>
+      <td>[1, 2, 3, 6, 8]</td>
+      <td>[0, 4, 5, 7, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9377</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>149</td>
+      <td>[1, 2, 4, 7, 9]</td>
+      <td>[0, 3, 5, 6, 8]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9425</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>102</td>
+      <td>[0, 3, 5, 6, 8]</td>
+      <td>[1, 2, 4, 7, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9425</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>52</td>
+      <td>[0, 1, 6, 7, 8]</td>
+      <td>[2, 3, 4, 5, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.5669</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>199</td>
+      <td>[2, 3, 4, 5, 9]</td>
+      <td>[0, 1, 6, 7, 8]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.5669</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>24</td>
+      <td>[0, 1, 3, 4, 8]</td>
+      <td>[2, 5, 6, 7, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.5964</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">][:</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group_idx</th>
+      <th>category_0</th>
+      <th>category_1</th>
+      <th>type</th>
+      <th>classifier</th>
+      <th>accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>61</th>
+      <td>61</td>
+      <td>[0, 2, 3, 5, 6]</td>
+      <td>[1, 4, 7, 8, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9351</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>118</td>
+      <td>[0, 4, 6, 7, 9]</td>
+      <td>[1, 2, 3, 5, 8]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9082</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>133</td>
+      <td>[1, 2, 3, 5, 8]</td>
+      <td>[0, 4, 6, 7, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.9082</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>219</td>
+      <td>[2, 4, 5, 7, 8]</td>
+      <td>[0, 1, 3, 6, 9]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.6087</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>32</td>
+      <td>[0, 1, 3, 6, 9]</td>
+      <td>[2, 4, 5, 7, 8]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.6087</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>221</td>
+      <td>[2, 4, 5, 8, 9]</td>
+      <td>[0, 1, 3, 6, 7]</td>
+      <td>poisson</td>
+      <td>LogisticRegression</td>
+      <td>0.6573</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="svm">
+<h3>SVM<a class="headerlink" href="#svm" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">model_type</span><span class="p">,</span> <span class="n">load_string</span> <span class="ow">in</span> <span class="n">selected_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span><span class="n">load_string</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">model_type</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+    <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="s1">&#39;vld&#39;</span><span class="p">]:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">etc</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+            <span class="n">dl_name</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">loss_avg</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">loss_avg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+
+    <span class="c1"># prep to fit</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;log_dr&#39;</span> <span class="k">if</span> <span class="n">model_type</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span> <span class="k">else</span> <span class="s1">&#39;mu&#39;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">etc</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="c1"># fit</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">shatter_analysis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">clf_type</span><span class="o">=</span><span class="s1">&#39;svm&#39;</span><span class="p">)</span>
+    <span class="n">_df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'trn'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.381172</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.876027</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8876025</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'vld'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27.433294</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.89106</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8891061</span><span style="font-weight: bold">}}</span>
+</pre>
+</div><img alt="../../_images/6d2bd81af17c7d216f44781bbc845a5cb50219e300e394d8123f3f0e1728bd65.png" src="../../_images/6d2bd81af17c7d216f44781bbc845a5cb50219e300e394d8123f3f0e1728bd65.png" />
+<img alt="../../_images/5062c340bf46f00ebd98c0759139deba28113e92c8f37b38e768cccdc5febdcb.png" src="../../_images/5062c340bf46f00ebd98c0759139deba28113e92c8f37b38e768cccdc5febdcb.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>svm: 252it [00:15, 16.02it/s]
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'trn'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.200378</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13.181685</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3181688</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'vld'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11.519066</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13.1146965</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_diag'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3114696</span><span style="font-weight: bold">}}</span>
+</pre>
+</div><img alt="../../_images/55845aa966c4f7b1870aaf9a68de34d3aa3fb910b2fe578175e3f39d281ac083.png" src="../../_images/55845aa966c4f7b1870aaf9a68de34d3aa3fb910b2fe578175e3f39d281ac083.png" />
+<img alt="../../_images/f8458560b840db7d3f8c03e4fcd605d910f7e8ceee7c25d442319e53642c69ad.png" src="../../_images/f8458560b840db7d3f8c03e4fcd605d910f7e8ceee7c25d442319e53642c69ad.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>svm: 252it [00:07, 31.98it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    0.762971
+poisson     0.800638
+Name: accuracy, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    0.061050
+poisson     0.081627
+Name: accuracy, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;chance level&#39;</span><span class="p">)</span>
+
+<span class="n">model_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">())</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="n">model_types</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;muted&#39;</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
+<span class="p">)</span>
+<span class="n">move_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.03</span><span class="p">),</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model_types</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">sd</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f37a094f236806cf82317ba531bba00d2aa1b02c74368742dff0393ecec0ca12.png" src="../../_images/f37a094f236806cf82317ba531bba00d2aa1b02c74368742dff0393ecec0ca12.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracies</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">accuracies</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>type
+gaussian    [0.6443, 0.7786, 0.7575, 0.7759, 0.7886, 0.638...
+poisson     [0.7, 0.843, 0.8711, 0.8574, 0.8661, 0.74, 0.7...
+Name: accuracy, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">accuracies</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">],</span>
+    <span class="n">b</span><span class="o">=</span><span class="n">accuracies</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.103069557708762e-09</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_ids</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="n">sorted_ids</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;gaussian&#39;: array([219,  32, 221,  30, 246,   5,   0, 251,  14, 237,  10, 241,  25,
+        226, 199,  52, 205,  46, 191,  60, 229,  22, 231,  20, 121, 130,
+        245,   6,  17, 234,  24, 227,  73, 178,  23, 228, 239,  12,  84,
+        167, 177,  74, 230,  21, 170,  81, 107, 144,  72, 179,  15, 236,
+        232,  19, 198,  53, 165,  86,   9, 242, 233,  18, 220,  31, 150,
+        101, 137, 114, 171,  80, 143, 108,   8, 243,  87, 164,  56, 195,
+        197,  54,  78, 173, 166,  85,  48, 203, 151, 100, 238,  13, 202,
+         49, 156,  95, 240,  11, 216,  35, 213,  38, 109, 142, 161,  90,
+        211,  40, 192,  59,  94, 157, 126, 125,  83, 168,  98, 153,  92,
+        159, 249,   2,  70, 181, 225,  26, 214,  37,  97, 154, 204,  47,
+        184,  67, 187,  64, 129, 122, 218,  33, 158,  93, 217,  34,  16,
+        235,  88, 163,  89, 162, 134,  58, 117, 193, 208,  43, 111, 140,
+         39, 212, 248,   3, 250,   1,  41, 210,  42, 209,  29, 222,  45,
+        206, 155,  96, 103, 148,   7, 244,  36, 215,  69, 182, 186,  65,
+        247,   4, 160,  91,  51, 200,  55, 196, 123, 128, 224,  27,  50,
+        201, 116, 135, 112, 139,  62, 189,  68, 183, 127, 124,  57, 194,
+        180,  71, 152,  99, 110, 141, 147, 104,  82, 169,  79, 172,  77,
+        174,  28, 223, 176,  75, 119, 132, 105, 146, 138, 113,  76, 175,
+        102, 149, 106, 145, 136, 115,  44, 207, 131, 120,  63, 188,  66,
+        185, 190,  61, 118, 133]),
+ &#39;poisson&#39;: array([ 52, 199, 227,  24, 219,  32,  29, 222,  46, 205, 230,  21, 221,
+         30,  41, 210, 213,  38, 226,  25, 229,  22, 198,  53, 203,  48,
+          0, 251, 134, 117, 242,   9, 211,  40, 208,  43, 225,  26, 178,
+         73, 217,  34, 173,  78,  49, 202,  60, 191, 114, 137, 143, 108,
+         31, 220, 148, 103,   5, 204,  47, 246,  33, 218,  64, 187, 121,
+        130, 167,  84, 125, 126, 228,  23, 164,  87,  39, 212,  36, 215,
+         59, 192,  35, 216,  56, 195,  15, 236, 197,  54, 153,  98, 107,
+        144, 129, 122, 224,  27, 214,  37,  88, 163, 209,  42,  94, 157,
+        184,  67,   6, 245, 170,  81,  45, 206, 243,   8,  18, 233, 100,
+        151, 196,  55, 175,  76, 158,  93, 182,  69, 105, 146,  97, 154,
+         50, 201,  72, 179, 150, 101, 177,  74, 166,  85,  58, 193, 161,
+         90, 223,  28,  80, 171,  68, 183, 239,  12,  95, 156, 237,  14,
+        139, 112, 109, 142,  13, 238,  96, 155,  70, 181,   1, 250,  51,
+        200, 241,  10,  86, 165, 186,  65,  75, 176, 110, 141, 140, 111,
+         83, 168,   3, 248, 234,  17,  92, 159, 104, 147, 106, 145,   4,
+        247, 249,   2,  11, 240, 244,   7, 116, 135, 127, 124,  19, 232,
+         63, 188, 160,  91, 123, 128, 189,  62, 194,  57,  16, 235,  20,
+        231, 152,  99, 138, 113, 207,  44, 132, 119, 118, 133,  77, 174,
+         71, 180, 131, 120, 162,  89, 172,  79, 169,  82,  66, 185,  61,
+        136, 190, 115, 102, 149])}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;poisson&#39;</span><span class="p">][:</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group_idx</th>
+      <th>category_0</th>
+      <th>category_1</th>
+      <th>type</th>
+      <th>classifier</th>
+      <th>accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>115</th>
+      <td>115</td>
+      <td>[0, 4, 5, 7, 9]</td>
+      <td>[1, 2, 3, 6, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9359</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>102</td>
+      <td>[0, 3, 5, 6, 8]</td>
+      <td>[1, 2, 4, 7, 9]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9414</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>149</td>
+      <td>[1, 2, 4, 7, 9]</td>
+      <td>[0, 3, 5, 6, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9414</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>52</td>
+      <td>[0, 1, 6, 7, 8]</td>
+      <td>[2, 3, 4, 5, 9]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.5651</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>199</td>
+      <td>[2, 3, 4, 5, 9]</td>
+      <td>[0, 1, 6, 7, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.5651</td>
+    </tr>
+    <tr>
+      <th>227</th>
+      <td>227</td>
+      <td>[2, 5, 6, 7, 9]</td>
+      <td>[0, 1, 3, 4, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.5971</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span>
+    <span class="n">sorted_ids</span><span class="p">[</span><span class="s1">&#39;gaussian&#39;</span><span class="p">][:</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group_idx</th>
+      <th>category_0</th>
+      <th>category_1</th>
+      <th>type</th>
+      <th>classifier</th>
+      <th>accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>61</th>
+      <td>61</td>
+      <td>[0, 2, 3, 5, 6]</td>
+      <td>[1, 4, 7, 8, 9]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9359</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>118</td>
+      <td>[0, 4, 6, 7, 9]</td>
+      <td>[1, 2, 3, 5, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9103</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>133</td>
+      <td>[1, 2, 3, 5, 8]</td>
+      <td>[0, 4, 6, 7, 9]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.9103</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>219</td>
+      <td>[2, 4, 5, 7, 8]</td>
+      <td>[0, 1, 3, 6, 9]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.6099</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>32</td>
+      <td>[0, 1, 3, 6, 9]</td>
+      <td>[2, 4, 5, 7, 8]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.6099</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>221</td>
+      <td>[2, 4, 5, 8, 9]</td>
+      <td>[0, 1, 3, 6, 7]</td>
+      <td>poisson</td>
+      <td>LinearSVC</td>
+      <td>0.6564</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-05"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_mei.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(03) MEI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_categ-test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(04) CategoricalVAE</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-logreg-vs-svm-vs-knn">Experiment: LogReg vs. SVM vs. KNN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-trainer">Load trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xtract-data">Xtract data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disjoint-grouping-of-digits">Disjoint grouping of digits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classify">Classify</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-accuracy">Overall accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Shattering Dim</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#svm">SVM</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
