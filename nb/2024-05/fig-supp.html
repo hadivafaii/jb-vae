@@ -1,0 +1,1089 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Fig: supp &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-05/fig-supp';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Table: active" href="table-active.html" />
+    <link rel="prev" title="Fig: Phi" href="fig-phi.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-conv-0.html">(02) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_mnist-gaus-1.html">(02) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_doves-cat-lin-3.html">(08) DOVES—Categ—Lin—3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_doves-gaus-lin-1.html">(08) DOVES—Gaus—Lin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_doves-lap-lin-2.html">(08) DOVES—Laplace—Lin—2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_doves-pois-lin-0.html">(08) DOVES—Pois—Lin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_mnist-0.html">(08) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_mnist-1.html">(08) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_default-cfgs.html">(09) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_figs-nips.html">(09) Figs: NeurIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_jobs-bookkeeping.html">(10) Jobs: bookkeeping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_jobs-table1.html">(10) Jobs: main table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_jobs-beta.html">(11) Jobs: beta fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_jobs-knn.html">(12) Jobs: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_figs-washu.html">(13) Figs: NeuroAI Symp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_load-fits.html">(15) Load fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16_df-main.html">(16) df: main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_df-knn.html">(18) df: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_df-shatter.html">(18) df: shatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_df-beta.html">(19) df: beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_df-lca-inference.html">(19) df: lca inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_df-lca-ista.html">(19) df: lca + ista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_dead-neuron-verify.html">(21) dead algo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_dekel-share.html">(21) Dekel Sharing Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_jobs-only-exc.html">(28) jobs: only exc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="29_jobs-temp.html">(29) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-lifetime-mse.html">Fig: lifetime vs. mse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-phi.html">Fig: Phi</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Fig: supp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table-active.html">Table: active</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table-geom.html">Table: geom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table-loss.html">Table: loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-chewie-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-mach-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05/fig-supp.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-05/fig-supp.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fig: supp</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fig-save-dir">Fig save dir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recon-sample-mnist">Recon/sample MNIST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ex-mc-st">EX/MC/ST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dead-neuron-kl">Dead neuron: KL</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fig-supp">
+<h1>Fig: supp<a class="headerlink" href="#fig-supp" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: All supp figs. Device = <code class="docutils literal notranslate"><span class="pre">cuda:1</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">analysis.eval</span> <span class="kn">import</span> <span class="n">sparse_score</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="fig-save-dir">
+<h2>Fig save dir<a class="headerlink" href="#fig-save-dir" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+
+<span class="n">fig_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">fig_base_dir</span><span class="p">,</span> <span class="s1">&#39;nips_may22&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">))</span>
+
+<span class="n">kws_fig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;transparent&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;bbox_inches&#39;</span><span class="p">:</span> <span class="s1">&#39;tight&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dpi&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'phi_conv_categorical.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'rate_dist_lca.pdf'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_lca.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_conv_laplace.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_conv_poisson.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_lin_laplace.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_fista.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_conv_gaussian.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_lin_poisson.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'recons_samples'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_lin_categorical.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'nelbo_point.pdf'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_lin_gaussian.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'phi_ista.png'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'rate_dist_vae.pdf'</span>
+<span style="font-weight: bold">]</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="device">
+<h2>Device<a class="headerlink" href="#device" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_idx</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="kn">from</span> <span class="nn">analysis.final</span> <span class="kn">import</span> <span class="n">sort_fits</span><span class="p">,</span> <span class="n">analyze_fits</span><span class="p">,</span> <span class="n">add_nelbo_diff</span>
+<span class="kn">from</span> <span class="nn">figures.table</span> <span class="kn">import</span> <span class="n">table_entry_loss</span>
+<span class="kn">from</span> <span class="nn">figures.point</span> <span class="kn">import</span> <span class="n">nelbo_point</span>
+<span class="kn">from</span> <span class="nn">analysis.stats</span> <span class="kn">import</span> <span class="n">ttest</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">add_home</span><span class="p">(</span><span class="s1">&#39;Dropbox/chkpts/PoissonVAE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="recon-sample-mnist">
+<h2>Recon/sample MNIST<a class="headerlink" href="#recon-sample-mnist" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">accept_fn</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">archi</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">accept</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">archi</span> <span class="o">==</span> <span class="s1">&#39;&lt;conv+b|conv+b&gt;&#39;</span>
+        <span class="ow">and</span> <span class="s1">&#39;MNIST&#39;</span> <span class="ow">in</span> <span class="n">name</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">accept</span>
+
+
+<span class="n">fits</span><span class="p">,</span> <span class="n">fits_st</span><span class="p">,</span> <span class="n">fits_etc</span> <span class="o">=</span> <span class="n">sort_fits</span><span class="p">()</span>
+<span class="n">fits_nonlin</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">accept_fn</span><span class="p">,</span> <span class="n">fits</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fits_nonlin</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_dir_recon_sample</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="s1">&#39;recons_samples&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">fig_dir_recon_sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trainers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fits_nonlin</span><span class="p">:</span>
+    <span class="n">tr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span>
+        <span class="n">pjoin</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+        <span class="n">lite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;categorical&#39;</span><span class="p">:</span>
+        <span class="n">skip</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_categories</span> <span class="o">!=</span> <span class="mi">10</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">skip</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">n_latents</span> <span class="o">!=</span> <span class="mi">10</span>
+    <span class="k">if</span> <span class="n">skip</span><span class="p">:</span>
+        <span class="k">continue</span>
+    
+    <span class="n">trainers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">model2temp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_recon</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir_recon_sample</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;recon_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">show_samples</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir_recon_sample</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;sample_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical-10_MNIST_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
+</div><img alt="../../_images/5208a6d6fedbbc1469b86ebd4d42cb34bed2000ac6c449d78a0eca5138e3150d.png" src="../../_images/5208a6d6fedbbc1469b86ebd4d42cb34bed2000ac6c449d78a0eca5138e3150d.png" />
+<img alt="../../_images/593f757e0e171167d36348b95e7002791692d2e2ef03ce64f6359e19a7a414c7.png" src="../../_images/593f757e0e171167d36348b95e7002791692d2e2ef03ce64f6359e19a7a414c7.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical-10_MNIST_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div><img alt="../../_images/f7990faf0176ce27506f0bb33a1e85b7f23fc21a66c94b8407f764f6f6989ab1.png" src="../../_images/f7990faf0176ce27506f0bb33a1e85b7f23fc21a66c94b8407f764f6f6989ab1.png" />
+<img alt="../../_images/9b134fd8e65a73015f39f7daeec06e90685e91cb1c60be79b370938016a79b8d.png" src="../../_images/9b134fd8e65a73015f39f7daeec06e90685e91cb1c60be79b370938016a79b8d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical-10_MNIST_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>
+</pre>
+</div><img alt="../../_images/261cbef5016d9278a74b9fca46695562accec26093a1e2c223af690394b0e6a4.png" src="../../_images/261cbef5016d9278a74b9fca46695562accec26093a1e2c223af690394b0e6a4.png" />
+<img alt="../../_images/de142a05f06f9842e3808e903405afa139758578b5d8cd2762c1875d281c1405.png" src="../../_images/de142a05f06f9842e3808e903405afa139758578b5d8cd2762c1875d281c1405.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical-10_MNIST_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>
+</pre>
+</div><img alt="../../_images/c1b7e21cb826e412d525a897dc1ae6495e72e7bc389ffef79d9633c3d25e4a55.png" src="../../_images/c1b7e21cb826e412d525a897dc1ae6495e72e7bc389ffef79d9633c3d25e4a55.png" />
+<img alt="../../_images/1a65736e6160fdd3880f74904e5afb5b47aeca0c537543f9417aee3fcd083397.png" src="../../_images/1a65736e6160fdd3880f74904e5afb5b47aeca0c537543f9417aee3fcd083397.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">categorical-10_MNIST_z-1_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>
+</pre>
+</div><img alt="../../_images/db7cda3aba6f289f463b6f4c2bc00b7a79bd2228440ebe045b79b98788f27c60.png" src="../../_images/db7cda3aba6f289f463b6f4c2bc00b7a79bd2228440ebe045b79b98788f27c60.png" />
+<img alt="../../_images/7f6795a8a53e5939bb1094d2349d6e9f65822b28892edfee387dcecd6e4dbb6a.png" src="../../_images/7f6795a8a53e5939bb1094d2349d6e9f65822b28892edfee387dcecd6e4dbb6a.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
+</div><img alt="../../_images/a66eb358b1411f961036ec750f31b35f748fde1842ac96f383138c6881253992.png" src="../../_images/a66eb358b1411f961036ec750f31b35f748fde1842ac96f383138c6881253992.png" />
+<img alt="../../_images/8eb201bcd7d481c163822a9dd36fd834ebe5db99ca8bd54ba885d3d9bd0aabd2.png" src="../../_images/8eb201bcd7d481c163822a9dd36fd834ebe5db99ca8bd54ba885d3d9bd0aabd2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div><img alt="../../_images/f3f514ebc275701c3c3e2eb27d8885aecfdb10fd4c2ecd6d0c88abd433b2ed1c.png" src="../../_images/f3f514ebc275701c3c3e2eb27d8885aecfdb10fd4c2ecd6d0c88abd433b2ed1c.png" />
+<img alt="../../_images/f31b11ad0ec030e472846ae6eac070b3888b5189109f6576014a89efd1b2fa9f.png" src="../../_images/f31b11ad0ec030e472846ae6eac070b3888b5189109f6576014a89efd1b2fa9f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>
+</pre>
+</div><img alt="../../_images/b2f26499334ac509405ba50f7a1ceaedca0d4eddb41da2e82aafedbd8638b6ce.png" src="../../_images/b2f26499334ac509405ba50f7a1ceaedca0d4eddb41da2e82aafedbd8638b6ce.png" />
+<img alt="../../_images/c09899085b81002c850be5c942836f90231ae4ff2bdc220c340f6473153b2df0.png" src="../../_images/c09899085b81002c850be5c942836f90231ae4ff2bdc220c340f6473153b2df0.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>
+</pre>
+</div><img alt="../../_images/1ec2ff8bc6dae46c730fddd0c6c9fdc0766a77afc2a48bc142b8a6dc990c1751.png" src="../../_images/1ec2ff8bc6dae46c730fddd0c6c9fdc0766a77afc2a48bc142b8a6dc990c1751.png" />
+<img alt="../../_images/af96fffb2a941832f8676cc7d5361d929d19d1c88f66c66e758b74a2588f8337.png" src="../../_images/af96fffb2a941832f8676cc7d5361d929d19d1c88f66c66e758b74a2588f8337.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">gaussian_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>
+</pre>
+</div><img alt="../../_images/6d12c34c1638e4bb1f066bf1f0f05031d5569b0f7c98d4ca92b363291dbc8e7a.png" src="../../_images/6d12c34c1638e4bb1f066bf1f0f05031d5569b0f7c98d4ca92b363291dbc8e7a.png" />
+<img alt="../../_images/02a8a2814ad40ae02b22e6a57732876d858715ef4331ecac694b1f6ee3304557.png" src="../../_images/02a8a2814ad40ae02b22e6a57732876d858715ef4331ecac694b1f6ee3304557.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
+</div><img alt="../../_images/c3a01ff4784711ffc10291a6e48f57fd97b5de8125cc214fb2d87d6c5093681f.png" src="../../_images/c3a01ff4784711ffc10291a6e48f57fd97b5de8125cc214fb2d87d6c5093681f.png" />
+<img alt="../../_images/a759e869b2197abee8e1572185d9ef76130b5802b931e6b6c657178f4643117d.png" src="../../_images/a759e869b2197abee8e1572185d9ef76130b5802b931e6b6c657178f4643117d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div><img alt="../../_images/c47885e21e4caacc0648134f097937b5d130bcda27568ee259ca284b8ac193a0.png" src="../../_images/c47885e21e4caacc0648134f097937b5d130bcda27568ee259ca284b8ac193a0.png" />
+<img alt="../../_images/c976431bd89ec72f54f5046187495250f14af62f155ef9fa537b73ebe084f984.png" src="../../_images/c976431bd89ec72f54f5046187495250f14af62f155ef9fa537b73ebe084f984.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>
+</pre>
+</div><img alt="../../_images/3453c525bf67cb7ded4eea6d2bf8f0d8879efa36f2f41669ae23c66579aeb170.png" src="../../_images/3453c525bf67cb7ded4eea6d2bf8f0d8879efa36f2f41669ae23c66579aeb170.png" />
+<img alt="../../_images/693dbae831d936a0db5216dae9bd91c43820fee20922656cb9feff3428c8b0e4.png" src="../../_images/693dbae831d936a0db5216dae9bd91c43820fee20922656cb9feff3428c8b0e4.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>
+</pre>
+</div><img alt="../../_images/9a94d81cdaee6fada4e46cb9381ab23d7d9a3359d81b7afa9b70b3ceaa8a7a2d.png" src="../../_images/9a94d81cdaee6fada4e46cb9381ab23d7d9a3359d81b7afa9b70b3ceaa8a7a2d.png" />
+<img alt="../../_images/463f15246234e1d028d79967faa622ed65139737c0b7015caed5f7f0934065cd.png" src="../../_images/463f15246234e1d028d79967faa622ed65139737c0b7015caed5f7f0934065cd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">laplace_MNIST_z-10_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>
+</pre>
+</div><img alt="../../_images/7884ee73c83b26ba0ee51f45ab5ece368dec06abbe21fce08437c624583758ef.png" src="../../_images/7884ee73c83b26ba0ee51f45ab5ece368dec06abbe21fce08437c624583758ef.png" />
+<img alt="../../_images/f491ebfab96e145aa4b761eac66e98cdef98143610879d07a032ed16b711ba4f.png" src="../../_images/f491ebfab96e145aa4b761eac66e98cdef98143610879d07a032ed16b711ba4f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-2</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_fp_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
+</div><img alt="../../_images/dd088cc05de93f5239ce5c71806dfd2c004e6a7c119bf0c04cc77785314ce304.png" src="../../_images/dd088cc05de93f5239ce5c71806dfd2c004e6a7c119bf0c04cc77785314ce304.png" />
+<img alt="../../_images/8c49f6b8b3e91d6750e5ce81f5b5a1f0e228e85219ce1bf6427b3a87fd9d0a15.png" src="../../_images/8c49f6b8b3e91d6750e5ce81f5b5a1f0e228e85219ce1bf6427b3a87fd9d0a15.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-2</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_fp_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div><img alt="../../_images/b1e916c0d00eab69fb92d891eb1d29f5ca012f0e4256e8f85c54ce04e56434e3.png" src="../../_images/b1e916c0d00eab69fb92d891eb1d29f5ca012f0e4256e8f85c54ce04e56434e3.png" />
+<img alt="../../_images/fa3ee63daeda0e2d2d04c95c069025df091a03b096fd461801845d543eb938b2.png" src="../../_images/fa3ee63daeda0e2d2d04c95c069025df091a03b096fd461801845d543eb938b2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-2</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_fp_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>
+</pre>
+</div><img alt="../../_images/c6e931ffb54fd70b13da52f7242e143edcb9ae9f666903c2e3e394d49a991663.png" src="../../_images/c6e931ffb54fd70b13da52f7242e143edcb9ae9f666903c2e3e394d49a991663.png" />
+<img alt="../../_images/5c698b3053f92f50ac1689aae88f18a204c833c9debc06d807259cf927e5f223.png" src="../../_images/5c698b3053f92f50ac1689aae88f18a204c833c9debc06d807259cf927e5f223.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-2</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_fp_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>
+</pre>
+</div><img alt="../../_images/dda65b0974a8dbb5174b59f90f40594e6e51006964f6b38e502899fb7005589f.png" src="../../_images/dda65b0974a8dbb5174b59f90f40594e6e51006964f6b38e502899fb7005589f.png" />
+<img alt="../../_images/b889a0afc4b9daffb260edc840e3f4604bc3fd0878e88a0e3ab0c2a23619a07f.png" src="../../_images/b889a0afc4b9daffb260edc840e3f4604bc3fd0878e88a0e3ab0c2a23619a07f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-2</span><span style="font-weight: bold">)</span>_MNIST_z-10_k-32_fp_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv</span><span style="color: #000000; text-decoration-color: #000000">+b|conv+b</span><span style="font-weight: bold">&gt;</span>_seed-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>
+</pre>
+</div><img alt="../../_images/2de4efa8f0e51d0f8a373607a6ee8231fd4e4dca5ef19f57fd60972b0d555cee.png" src="../../_images/2de4efa8f0e51d0f8a373607a6ee8231fd4e4dca5ef19f57fd60972b0d555cee.png" />
+<img alt="../../_images/4943a1bccb8907aaf5bad55b26521bde5c6494c6250a97c2b088752078026919.png" src="../../_images/4943a1bccb8907aaf5bad55b26521bde5c6494c6250a97c2b088752078026919.png" />
+</div>
+</div>
+</section>
+<section id="ex-mc-st">
+<h2>EX/MC/ST<a class="headerlink" href="#ex-mc-st" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;df_main.df&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">add_nelbo_diff</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(150, 9)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">nelbo_point</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="s1">&#39;nelbo_point.pdf&#39;</span><span class="p">),</span> <span class="o">**</span><span class="n">kws_fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e9daa70cf9aaa141a78bcff75f45f1b435a856d37850be86f42d750920d47828.png" src="../../_images/e9daa70cf9aaa141a78bcff75f45f1b435a856d37850be86f42d750920d47828.png" />
+</div>
+</div>
+</section>
+<section id="dead-neuron-kl">
+<h2>Dead neuron: KL<a class="headerlink" href="#dead-neuron-kl" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="k">def</span> <span class="nf">detect_dead_neurons</span><span class="p">(</span><span class="n">tr</span><span class="p">:</span> <span class="n">TrainerVAE</span><span class="p">):</span>
+    <span class="n">dead_thres</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;poisson&#39;</span><span class="p">:</span> <span class="mf">0.0082</span><span class="p">,</span>
+        <span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="mf">0.09</span><span class="p">,</span>
+        <span class="s1">&#39;laplace&#39;</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;categorical&#39;</span><span class="p">:</span>
+        <span class="n">thres</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dead</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">find_dead_neurons</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">thres</span> <span class="o">=</span> <span class="n">dead_thres</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="n">dead</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">thres</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span><span class="p">,</span> <span class="n">thres</span><span class="p">,</span> <span class="n">dead</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models2load</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="s1">&#39;gaussian-&lt;lin|lin&gt;-DOVES-mc_mach-5_(2024_05_14,04:09)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;poisson&#39;</span><span class="p">:</span> <span class="s1">&#39;poisson-&lt;lin|lin&gt;-DOVES-mc_mach-5_(2024_05_14,04:46)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;laplace&#39;</span><span class="p">:</span> <span class="s1">&#39;laplace-&lt;lin|lin&gt;-DOVES-mc_mach-5_(2024_05_14,04:12)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;categorical&#39;</span><span class="p">:</span> <span class="s1">&#39;categorical-&lt;lin|lin&gt;-DOVES-mc_mach-5_(2024_05_14,04:04)&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">models2load</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">models2load</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trainers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">load_path</span> <span class="ow">in</span> <span class="n">models2load</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">trainers</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_quick</span><span class="p">(</span>
+            <span class="n">pjoin</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">load_path</span><span class="p">),</span>
+            <span class="n">lite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">continue</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+# params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">394.2</span> K
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+# params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262.7</span> K
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+# params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">394.2</span> K
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+# params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262.7</span> K
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;poisson&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">111</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">112</span><span class="p">),</span>
+    <span class="s1">&#39;gaussian&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">81</span><span class="p">),</span>
+    <span class="s1">&#39;laplace&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">81</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pal</span> <span class="o">=</span> <span class="n">get_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tr</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trainers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">pal</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span><span class="p">,</span> <span class="n">thres</span><span class="p">,</span> <span class="n">dead</span> <span class="o">=</span> <span class="n">detect_dead_neurons</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;categorical&#39;</span><span class="p">:</span>
+        <span class="n">norms</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span>
+        <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">thres</span> <span class="o">=</span> <span class="mf">4.435</span>
+        <span class="n">dead</span> <span class="o">=</span> <span class="n">norms</span> <span class="o">&lt;</span> <span class="n">thres</span>
+
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="n">dead</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dead&#39;</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="o">~</span><span class="n">dead</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;alive&#39;</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">][</span><span class="n">dead</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dead&#39;</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">dead</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;alive&#39;</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">thres</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> (# dead neurons: </span><span class="si">{</span><span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">add_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/364a223f6d2bdd2428f257b9d1dff5067ce3dfac9f639ec4352aebc41bc2ca37.png" src="../../_images/364a223f6d2bdd2428f257b9d1dff5067ce3dfac9f639ec4352aebc41bc2ca37.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="s1">&#39;dead_kl_gap.pdf&#39;</span><span class="p">),</span> <span class="o">**</span><span class="n">kws_fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-05"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="fig-phi.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Fig: Phi</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="table-active.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Table: active</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fig-save-dir">Fig save dir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recon-sample-mnist">Recon/sample MNIST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ex-mc-st">EX/MC/ST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dead-neuron-kl">Dead neuron: KL</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
