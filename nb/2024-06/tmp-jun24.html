@@ -61,6 +61,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-06/tmp-jun24';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Summary" href="../../md/2024-07.html" />
     <link rel="prev" title="Updates" href="../../md/2024-06_updates.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -253,7 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(11) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(28) Gabor: CIFAR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
@@ -332,6 +333,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">tmp — jun24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/15_temp-bench.html">(15) results: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
 </li>
 </ul>
@@ -576,6 +589,149 @@ document.write(`
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;p = </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;exp&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dbb9ec3dd1d3d195c9f1cdeaf593b9641d2e3b32bc5fce7d9efe30213848f27e.png" src="../../_images/dbb9ec3dd1d3d195c9f1cdeaf593b9641d2e3b32bc5fce7d9efe30213848f27e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># a, b, c, d = 1.4, 2, -5, 14</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">mat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.4,  2. , -inf, -inf],
+       [ 2. ,  1.4,  2. , -inf],
+       [-inf,  2. ,  1.4,  2. ],
+       [-inf, -inf,  2. ,  1.4]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[4.05519997, 7.3890561 , 0.        , 0.        ],
+       [7.3890561 , 4.05519997, 7.3890561 , 0.        ],
+       [0.        , 7.3890561 , 4.05519997, 7.3890561 ],
+       [0.        , 0.        , 7.3890561 , 4.05519997]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="o">**</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/903134c674275320314e14b97bf5b429f1f8dad1f70a4afc869a1e4f8bb641ae.png" src="../../_images/903134c674275320314e14b97bf5b429f1f8dad1f70a4afc869a1e4f8bb641ae.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build_toeplitz_matrix</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">beta</span> <span class="o">**</span> <span class="n">i</span> <span class="k">for</span>
+        <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="n">row</span> <span class="o">*=</span> <span class="n">magnitude</span>
+
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">looper</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
+        <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">looper</span><span class="p">:</span>
+        <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">get_rng</span><span class="p">()</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">build_toeplitz_matrix</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">mat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;nipy_spectral&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/262fea6777351719d382ededfa7dc34823f8af7bd927e7d29a6f2737c72c0f3e.png" src="../../_images/262fea6777351719d382ededfa7dc34823f8af7bd927e7d29a6f2737c72c0f3e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eigvals</span><span class="p">)</span>
+<span class="c1"># ax.set_ylim(top=0)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/43844fbbc925de977849d75a16c23be7fba95de5d80738af0429b1db80c13ffd.png" src="../../_images/43844fbbc925de977849d75a16c23be7fba95de5d80738af0429b1db80c13ffd.png" />
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -616,6 +772,15 @@ document.write(`
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Updates</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../../md/2024-07.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Summary</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
