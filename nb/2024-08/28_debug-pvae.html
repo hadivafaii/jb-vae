@@ -1,0 +1,1419 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(28) debug — why different from pvae? &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-08/28_debug-pvae';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(29) jacobian — bench" href="29_jacobian.html" />
+    <link rel="prev" title="(28) debug — why different from pvae?" href="28_debug-iterative.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(28) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(02) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(02) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-cat-lin-3.html">(08) DOVES—Categ—Lin—3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-gaus-lin-1.html">(08) DOVES—Gaus—Lin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-lap-lin-2.html">(08) DOVES—Laplace—Lin—2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-pois-lin-0.html">(08) DOVES—Pois—Lin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_mnist-0.html">(08) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_mnist-1.html">(08) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/09_default-cfgs.html">(09) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/09_figs-nips.html">(09) Figs: NeurIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/10_jobs-bookkeeping.html">(10) Jobs: bookkeeping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/10_jobs-table1.html">(10) Jobs: main table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/11_jobs-beta.html">(11) Jobs: beta fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/12_jobs-knn.html">(12) Jobs: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/13_figs-washu.html">(13) Figs: NeuroAI Symp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/15_load-fits.html">(15) Load fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/16_df-main.html">(16) df: main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/18_df-knn.html">(18) df: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/18_df-shatter.html">(18) df: shatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-beta.html">(19) df: beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-lca-inference.html">(19) df: lca inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-lca-ista.html">(19) df: lca + ista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/21_dead-neuron-verify.html">(21) dead algo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/21_dekel-share.html">(21) Dekel Sharing Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/28_jobs-only-exc.html">(28) jobs: only exc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/29_jobs-temp.html">(29) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-lifetime-mse.html">Fig: lifetime vs. mse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-phi.html">Fig: Phi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-supp.html">Fig: supp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-active.html">Table: active</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-geom.html">Table: geom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-loss.html">Table: loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-chewie-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/15_temp-bench.html">(15) results: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/24_jobs-beta-conv.html">(24) jobs: beta+conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/25_jobs-norm.html">(25) jobs: normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/28_fit.html">(28) Fit: Iterative P-VAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_fit-iterative-1.html">(30) fit iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_fit-pvae-2.html">(30) fit pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-0.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-1.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-2.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-df-logreg.html">(04) rebuttal df: LogReg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-df-temp.html">(04) rebuttal df: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-fig-anneal.html">(04) rebuttal fig: temp anneal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-results-dim.html">(04) rebuttal results: dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-results-logreg.html">(04) rebuttal results: LogReg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-results-poishist.html">(04) rebuttal results: poisson sample hist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_rebut-results-temp.html">(04) rebuttal results: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_iterative-0.html">(18) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_iterative-1.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_iterative-0.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_iterative-1.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_iterative-2.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_iterative-3.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="20_fig-rate-distort.html">(20) fig: rate-distort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="28_debug-iterative.html">(28) debug — why different from pvae?</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(28) debug — why different from pvae?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="29_jacobian.html">(29) jacobian — bench</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_iterative-0.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_iterative-1.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_iterative-2.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="30_iterative-3.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-aug24.html">tmp — aug24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-08/28_debug-pvae.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-08/28_debug-pvae.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(28) debug — why different from pvae?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#init-iterative-pvae">Init Iterative PVAE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-configs">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-model-trainer">Make model + trainer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-a-model">Fit a model</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="debug-why-different-from-pvae">
+<h1>(28) debug — why different from pvae?<a class="headerlink" href="#debug-why-different-from-pvae" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: host = <code class="docutils literal notranslate"><span class="pre">mach</span></code>, device = <code class="docutils literal notranslate"><span class="pre">cuda:3</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_PoissonVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">base.utils_model</span> <span class="kn">import</span> <span class="n">load_quick</span>
+
+<span class="n">device_idx</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="init-iterative-pvae">
+<h2>Init Iterative PVAE<a class="headerlink" href="#init-iterative-pvae" title="Permalink to this heading">#</a></h2>
+<section id="get-configs">
+<h3>Get configs<a class="headerlink" href="#get-configs" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;vH16&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;lin|lin&#39;</span><span class="p">)</span>
+
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;init_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-2</span>
+
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2e-3</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'vH16'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span>, <span style="color: #008000; text-decoration-color: #008000">'fit_prior'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'init_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'Normal'</span>, <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.01</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_const_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="make-model-trainer">
+<h3>Make model + trainer<a class="headerlink" href="#make-model-trainer" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr_pvae</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span>
+    <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">)),</span>
+    <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr_pvae</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
+| Module Name | Num Params |
++-------------+------------+
+|  PoissonVAE |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262.7</span> K   |
+|     ---     |    ---     |
+|    fc_enc   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
+|    fc_dec   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
++-------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span><span style="font-weight: bold">)</span>_vH16_z-512_fp_nrm-none_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_08_28,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">12:19</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/58f7491c1f6b1e945f4871897bd44d91a064fb0dd04bc83d9aab97229b8b81c5.png" src="../../_images/58f7491c1f6b1e945f4871897bd44d91a064fb0dd04bc83d9aab97229b8b81c5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'prior_log_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'uniform'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'hard_fwd'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'exc_only'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'rmax_q'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'type'</span>: <span style="color: #008000; text-decoration-color: #008000">'poisson'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'enc_norm'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'dec_norm'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'vH16'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'input_sz'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'fit_prior'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'use_bn'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'use_se'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'res_eps'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'init_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'Normal'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.01</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'activation_fn'</span>: <span style="color: #008000; text-decoration-color: #008000">'swish'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'seed'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'base_dir'</span>: <span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'data_dir'</span>: <span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Datasets'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'runs_dir'</span>: <span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/runs/poisson_uniform_c(-4)_vH16_z-512_fp_nrm-none_&lt;lin|lin&gt;'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
+<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'mods_dir'</span><span style="color: #000000; text-decoration-color: #000000">: </span><span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/models/poisson_uniform_c(-4)_vH16_z-512_fp_nrm-none_&lt;lin|lin&gt;'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'results_dir'</span>: <span style="color: #008000; text-decoration-color: #008000">'/home/hadi/Projects/PoissonVAE/results'</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">tr_pvae</span><span class="o">.</span><span class="n">cfg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'warm_restart'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'warmup_epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'optimizer'</span>: <span style="color: #008000; text-decoration-color: #008000">'adamax_fast'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'betas'</span>: <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.999</span><span style="font-weight: bold">)</span>, <span style="color: #008000; text-decoration-color: #008000">'eps'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-08</span><span style="font-weight: bold">}</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'scheduler_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'cosine'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'scheduler_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'T_max'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2995.0</span>, <span style="color: #008000; text-decoration-color: #008000">'eta_min'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span><span style="font-weight: bold">}</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'ema_rate'</span>: <span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'chkpt_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'eval_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'log_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'use_amp'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'method'</span>: <span style="color: #008000; text-decoration-color: #008000">'mc'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'kl_beta_min'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0001</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_cycles'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'kl_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'kl_const_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'lambda_anneal'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'lambda_init'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'lambda_norm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'temp_anneal_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'temp_start'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'temp_stop'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">=</span> <span class="n">tr_pvae</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dl_vld</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">recon_batch</span><span class="p">,</span> <span class="n">kl</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">kl</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">recon_batch</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([1000, 512]), torch.Size([1000]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kl_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">kl</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">kl_batch</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1000])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recon_batch</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">kl_batch</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(195.9986, device=&#39;cuda:1&#39;, grad_fn=&lt;MeanBackward0&gt;),
+ tensor(0.0428, device=&#39;cuda:1&#39;, grad_fn=&lt;MeanBackward0&gt;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">recon_batch</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">kl_batch</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(196.0414, device=&#39;cuda:1&#39;, grad_fn=&lt;MeanBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_dec</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fc_enc</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8fd4aa95a64689761e7c22d56b6fad11da717f1be4770c95673499ec2bf4116c.png" src="../../_images/8fd4aa95a64689761e7c22d56b6fad11da717f1be4770c95673499ec2bf4116c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">temp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">n_exp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(1., device=&#39;cuda:1&#39;), tensor(263, device=&#39;cuda:1&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">ravel</span><span class="p">()),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dimgrey&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/97636267a79f11d4bc1fa95bc69965ad93b1c437eff5971302c4784a96fa6c29.png" src="../../_images/97636267a79f11d4bc1fa95bc69965ad93b1c437eff5971302c4784a96fa6c29.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dl_vld</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">dist</span><span class="p">,</span> <span class="n">log_dr</span><span class="p">,</span> <span class="n">spks</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">output</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">rate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.0089, 0.0052, 0.0022,  ..., 0.0197, 0.0089, 0.0073],
+        [0.0071, 0.0035, 0.0023,  ..., 0.0170, 0.0063, 0.0062],
+        [0.0095, 0.0049, 0.0026,  ..., 0.0201, 0.0079, 0.0071],
+        ...,
+        [0.0091, 0.0036, 0.0028,  ..., 0.0140, 0.0087, 0.0072],
+        [0.0077, 0.0045, 0.0022,  ..., 0.0123, 0.0079, 0.0066],
+        [0.0084, 0.0051, 0.0023,  ..., 0.0141, 0.0087, 0.0049]],
+       device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">0.0127</span><span class="p">,</span> <span class="mf">0.0105</span><span class="p">,</span> <span class="mf">0.0030</span><span class="p">,</span> <span class="mf">0.0140</span><span class="p">,</span> <span class="mf">0.0027</span><span class="p">,</span> <span class="mf">0.0147</span><span class="p">,</span> <span class="mf">0.0030</span><span class="p">,</span> <span class="mf">0.0149</span><span class="p">,</span> <span class="mf">0.0088</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">rate</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.0083, 0.0047, 0.0025, 0.0026, 0.0130, 0.0148, 0.0073, 0.0127, 0.0064,
+        0.0129, 0.0106, 0.0030, 0.0141, 0.0028, 0.0139, 0.0031, 0.0146, 0.0083,
+        0.0055, 0.0056, 0.0022, 0.0028, 0.0097, 0.0099, 0.0062, 0.0056, 0.0148,
+        0.0150, 0.0093, 0.0077, 0.0098, 0.0054, 0.0035, 0.0088, 0.0067, 0.0053,
+        0.0076, 0.0125, 0.0193, 0.0058, 0.0076, 0.0048, 0.0083, 0.0044, 0.0068,
+        0.0135, 0.0040, 0.0078, 0.0035, 0.0109, 0.0092, 0.0049, 0.0122, 0.0026,
+        0.0052, 0.0040, 0.0049, 0.0139, 0.0039, 0.0026, 0.0050, 0.0042, 0.0034,
+        0.0068, 0.0052, 0.0105, 0.0042, 0.0160, 0.0056, 0.0028, 0.0080, 0.0143,
+        0.0061, 0.0174, 0.0092, 0.0052, 0.0091, 0.0156, 0.0180, 0.0052, 0.0102,
+        0.0077, 0.0064, 0.0105, 0.0065, 0.0104, 0.0106, 0.0142, 0.0031, 0.0104,
+        0.0150, 0.0227, 0.0026, 0.0116, 0.0165, 0.0163, 0.0038, 0.0149, 0.0162,
+        0.0120, 0.0062, 0.0042, 0.0149, 0.0132, 0.0045, 0.0069, 0.0071, 0.0117,
+        0.0029, 0.0124, 0.0074, 0.0031, 0.0103, 0.0030, 0.0140, 0.0060, 0.0196,
+        0.0025, 0.0127, 0.0026, 0.0047, 0.0055, 0.0169, 0.0084, 0.0043, 0.0041,
+        0.0130, 0.0036, 0.0039, 0.0042, 0.0068, 0.0106, 0.0121, 0.0089, 0.0045,
+        0.0056, 0.0112, 0.0107, 0.0161, 0.0051, 0.0106, 0.0081, 0.0125, 0.0034,
+        0.0054, 0.0152, 0.0027, 0.0146, 0.0049, 0.0149, 0.0024, 0.0053, 0.0036,
+        0.0084, 0.0045, 0.0101, 0.0164, 0.0038, 0.0148, 0.0024, 0.0050, 0.0057,
+        0.0049, 0.0197, 0.0115, 0.0046, 0.0038, 0.0136, 0.0127, 0.0066, 0.0050,
+        0.0188, 0.0055, 0.0039, 0.0113, 0.0137, 0.0125, 0.0184, 0.0163, 0.0143,
+        0.0187, 0.0038, 0.0030, 0.0091, 0.0081, 0.0029, 0.0054, 0.0141, 0.0077,
+        0.0065, 0.0048, 0.0075, 0.0056, 0.0030, 0.0166, 0.0092, 0.0029, 0.0118,
+        0.0165, 0.0111, 0.0047, 0.0041, 0.0093, 0.0035, 0.0074, 0.0098, 0.0175,
+        0.0031, 0.0067, 0.0118, 0.0043, 0.0052, 0.0029, 0.0095, 0.0034, 0.0060,
+        0.0167, 0.0056, 0.0165, 0.0110, 0.0135, 0.0047, 0.0029, 0.0030, 0.0149,
+        0.0080, 0.0061, 0.0036, 0.0101, 0.0045, 0.0079, 0.0071, 0.0062, 0.0093,
+        0.0039, 0.0068, 0.0034, 0.0160, 0.0061, 0.0135, 0.0034, 0.0157, 0.0134,
+        0.0061, 0.0116, 0.0095, 0.0095, 0.0163, 0.0028, 0.0139, 0.0062, 0.0047,
+        0.0201, 0.0094, 0.0064, 0.0055, 0.0147, 0.0031, 0.0126, 0.0116, 0.0116,
+        0.0039, 0.0126, 0.0040, 0.0049, 0.0068, 0.0080, 0.0032, 0.0073, 0.0025,
+        0.0088, 0.0121, 0.0037, 0.0121, 0.0140, 0.0190, 0.0114, 0.0059, 0.0123,
+        0.0146, 0.0064, 0.0086, 0.0162, 0.0068, 0.0168, 0.0108, 0.0052, 0.0151,
+        0.0096, 0.0035, 0.0079, 0.0029, 0.0058, 0.0057, 0.0041, 0.0078, 0.0032,
+        0.0171, 0.0086, 0.0124, 0.0144, 0.0089, 0.0033, 0.0095, 0.0077, 0.0117,
+        0.0066, 0.0115, 0.0175, 0.0058, 0.0035, 0.0053, 0.0096, 0.0058, 0.0094,
+        0.0040, 0.0084, 0.0045, 0.0048, 0.0139, 0.0083, 0.0070, 0.0151, 0.0029,
+        0.0108, 0.0049, 0.0029, 0.0099, 0.0058, 0.0042, 0.0157, 0.0038, 0.0065,
+        0.0024, 0.0045, 0.0137, 0.0127, 0.0071, 0.0044, 0.0070, 0.0024, 0.0114,
+        0.0106, 0.0087, 0.0094, 0.0029, 0.0043, 0.0078, 0.0042, 0.0224, 0.0198,
+        0.0047, 0.0067, 0.0083, 0.0034, 0.0041, 0.0111, 0.0136, 0.0043, 0.0042,
+        0.0126, 0.0069, 0.0082, 0.0043, 0.0028, 0.0020, 0.0070, 0.0038, 0.0165,
+        0.0027, 0.0064, 0.0053, 0.0040, 0.0106, 0.0084, 0.0119, 0.0026, 0.0050,
+        0.0063, 0.0069, 0.0035, 0.0033, 0.0140, 0.0036, 0.0134, 0.0157, 0.0060,
+        0.0052, 0.0136, 0.0105, 0.0131, 0.0119, 0.0085, 0.0178, 0.0144, 0.0033,
+        0.0137, 0.0033, 0.0063, 0.0061, 0.0039, 0.0152, 0.0027, 0.0028, 0.0061,
+        0.0146, 0.0038, 0.0139, 0.0033, 0.0080, 0.0167, 0.0111, 0.0154, 0.0068,
+        0.0167, 0.0111, 0.0139, 0.0148, 0.0083, 0.0048, 0.0065, 0.0029, 0.0094,
+        0.0038, 0.0077, 0.0075, 0.0091, 0.0112, 0.0031, 0.0079, 0.0057, 0.0086,
+        0.0100, 0.0088, 0.0108, 0.0070, 0.0059, 0.0050, 0.0049, 0.0116, 0.0114,
+        0.0039, 0.0173, 0.0089, 0.0072, 0.0129, 0.0083, 0.0072, 0.0046, 0.0042,
+        0.0114, 0.0114, 0.0142, 0.0057, 0.0073, 0.0059, 0.0150, 0.0052, 0.0034,
+        0.0191, 0.0163, 0.0025, 0.0035, 0.0077, 0.0142, 0.0087, 0.0039, 0.0033,
+        0.0089, 0.0105, 0.0042, 0.0028, 0.0063, 0.0034, 0.0037, 0.0093, 0.0116,
+        0.0066, 0.0035, 0.0044, 0.0045, 0.0075, 0.0066, 0.0046, 0.0087, 0.0079,
+        0.0066, 0.0077, 0.0101, 0.0118, 0.0055, 0.0042, 0.0077, 0.0070, 0.0134,
+        0.0071, 0.0100, 0.0176, 0.0065, 0.0147, 0.0036, 0.0154, 0.0179, 0.0036,
+        0.0019, 0.0084, 0.0025, 0.0256, 0.0131, 0.0212, 0.0063, 0.0086],
+       device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/ced76d7ee4f0fe8bd5636df522a800ed6e76b58fb7a6407b647e52fcbae0ab85.png" src="../../_images/ced76d7ee4f0fe8bd5636df522a800ed6e76b58fb7a6407b647e52fcbae0ab85.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(442.7317, device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(442.6510, device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([14.4046, 15.4132, 14.8398, 15.1299, 13.1299, 12.0474, 12.6726, 13.6746,
+        14.6887, 14.0796, 13.9979, 15.2003, 13.6593, 13.4506, 15.0531, 12.3208,
+        13.8885, 12.7999, 12.1138, 13.0240, 13.9159, 13.8612, 13.6127, 14.2003,
+        11.6822, 13.7708, 14.2951, 15.2824, 14.3265, 13.7433, 13.8344, 15.5487,
+        16.3575, 14.2952, 13.1245, 15.1856, 14.4638, 13.4401, 13.7101, 14.3593,
+        11.5081, 14.0393, 14.6271, 15.8796, 16.8808, 16.3220, 14.2289, 14.9757,
+        12.4999, 16.2572, 12.0800, 13.7548, 14.8087, 13.1106, 15.7339, 16.0155,
+        13.8608, 14.6634, 15.3438, 13.4382, 15.3318, 15.5762, 13.3560, 14.3943,
+        14.3849, 14.3042, 14.2314, 12.1575, 10.3384, 14.3008, 14.4180, 13.1513,
+        15.1625, 13.1610, 14.3367,  8.6843, 13.0356, 14.6175, 13.2346, 14.2165,
+        14.0713, 14.4185, 11.4811, 14.2833, 14.4565, 14.0744, 13.9111, 13.3582,
+        15.1179, 10.4348, 13.7742, 11.9327, 13.2822, 13.7114, 11.1797, 14.5251,
+        17.3526, 13.8741, 14.7631, 14.2505, 13.5982, 12.8328, 14.0485, 15.7961,
+        15.4647, 14.8225, 15.2570, 14.8201, 15.3639, 11.8969, 13.4100, 13.9800,
+        15.1393, 15.1679, 13.7543, 15.5278, 12.4694,  7.1975, 13.8644, 13.5458,
+        13.3173, 13.1771, 14.6577, 14.5814, 13.0561, 13.1336, 13.7717, 13.1133,
+        14.8732, 14.9958, 13.3339,  7.4134, 14.8133, 15.8120, 14.7144, 12.5368,
+        13.1218, 14.3030, 14.8743, 12.6398, 15.3919, 14.4504, 13.3838, 13.4119,
+        15.3161, 12.0193, 16.0042, 13.8724, 15.3735, 13.6251, 14.7166, 13.2441,
+        13.8433, 12.7855, 14.5431, 13.5083, 13.9976, 14.8246, 14.3468, 13.0558,
+        12.9072, 12.9565, 13.1900, 13.3694, 15.0425, 13.6194,  9.3757, 14.3303,
+        15.0875, 10.8962, 14.0774, 14.4847, 13.8460,  6.1916, 14.9767, 14.6020,
+        14.3305, 15.8268, 15.8863, 13.0338, 15.4067, 16.0125, 12.7268, 13.4370,
+        13.4714, 11.9124, 12.6867, 15.5999, 14.8258, 11.9141, 13.4928, 14.2559,
+        13.1708, 13.4160, 13.5233, 14.2228, 15.0287, 13.0216, 14.4849, 13.3969,
+        13.7131, 15.0466, 12.4974, 12.1844,  9.2394, 13.8486, 16.9485, 13.9110,
+        16.0318, 13.9901, 14.4138, 13.7215, 15.4618, 14.7533,  8.6578, 14.4164,
+        13.6542, 13.7939, 14.6285, 13.3855, 12.0993, 13.5575, 15.0928, 14.3289,
+        13.6286, 14.1855, 14.1071, 13.9608, 15.6163, 14.2820, 11.9515, 13.7995,
+        12.1340, 16.2476, 14.8724, 14.6554, 14.6397, 15.1181, 14.8591, 14.2403,
+        14.0816, 14.5170, 13.3547, 14.4827, 13.8817, 10.6042, 11.3622, 15.3043,
+        13.6308, 12.3057, 13.3523, 11.0060, 15.1545, 14.7066, 12.9925, 13.9935,
+        14.2979, 14.5013, 13.3345, 13.1101, 12.3548, 13.9934, 13.2398, 14.0897,
+        13.5674, 15.7768, 11.6590, 15.8134, 14.8012, 16.5168, 14.6759, 12.7792,
+        12.6314, 14.0126, 14.6862, 14.7867, 11.4412, 15.3723, 14.1598, 13.8717,
+        15.7324, 15.4473, 14.2116, 15.0521, 14.6955, 15.7441, 11.9193, 14.6625,
+        13.4963, 14.2053, 14.3840, 14.8714, 13.6847, 12.2831, 13.3760,  9.7114,
+        13.7257, 15.3310, 14.2679, 13.9246, 14.7840, 13.2010, 14.1191, 12.5690,
+        10.2341, 14.4489, 14.7184, 14.9966, 14.5593,  9.8323, 13.7188, 13.8716,
+        15.3084, 12.4464, 13.6731, 11.1680, 14.1627, 14.4317, 14.5763, 15.1114,
+        15.0867, 13.9171, 15.1983, 15.2680, 12.5908, 14.8827, 14.3294, 15.8150,
+        14.7812, 14.4953, 14.5763, 13.2145, 13.8406, 13.5169, 14.4569, 14.5944,
+        13.9812, 12.9757, 13.8692, 15.0144, 13.4169, 14.1749, 13.9535, 14.6862,
+        15.6377, 13.8275, 13.8823, 15.2805, 15.5805, 13.5762, 14.6707, 16.5978,
+        15.9593, 12.3541, 14.4684, 13.9940, 13.4393, 11.9399, 15.8723, 14.0480,
+        12.8974, 13.5409, 13.2182, 14.6687, 13.3854, 14.0050, 14.4569, 15.0730,
+        13.0606, 13.0078, 13.3332, 13.5583, 12.0330, 13.9399, 14.0307, 15.7281,
+        16.8494, 12.9899, 15.0330, 12.3473, 14.6345, 15.1456, 15.2012, 14.7913,
+        14.2619, 15.9951, 14.6541, 15.0729, 12.2874, 12.6084, 14.5682, 15.3932,
+        14.1709, 11.5385, 12.8876, 15.7675, 10.2943, 15.7246, 15.8530, 14.0236,
+        12.2306, 15.1309, 13.8550, 14.1694, 14.2809, 16.3000, 15.4930, 14.0463,
+        13.7001, 15.8240, 15.8119, 10.0283, 13.6550, 12.4432, 15.2269, 14.0939,
+        11.7083, 12.3698, 14.8580, 14.3031, 15.8323, 14.6033, 14.3323, 15.2375,
+        14.8963, 13.1336, 15.2617, 12.2705, 13.8742, 14.7886, 16.0688, 14.6355,
+        14.8343,  8.0158, 15.0520, 14.1551, 13.8201, 13.5222, 15.3909, 10.6719,
+        15.8809, 14.6254, 15.0608, 13.7923, 11.6364, 12.8268, 11.8073, 13.2319,
+        10.7141, 14.2828, 13.4331,  8.6426, 13.7197, 13.8327, 15.2512, 13.8747,
+        13.7059, 11.9357, 14.6609, 15.3049, 15.3073, 14.6654, 13.5571, 14.6192,
+        13.2952, 13.4554, 15.2232, 13.1674, 14.1101, 14.0739, 13.6139, 12.9854,
+        15.5346, 11.7121, 12.4642, 14.0477, 13.5822, 14.0563, 10.3767, 12.5797,
+        15.3489, 12.1001, 14.8165,  6.2974, 14.3775,  9.3501, 14.9085, 13.2480,
+        16.2192, 14.6636, 14.6519, 12.9798, 11.8206, 13.8081, 14.0929, 13.9907,
+        15.5440, 13.3269, 15.4658, 12.5686, 16.3412, 14.9454, 13.5865, 13.0803,
+        15.1624, 14.3864, 14.2293, 13.2567, 14.4645, 17.0578,  9.0093, 15.0104,
+        14.4891, 13.0613, 15.0400, 13.2844, 11.6471, 14.3481, 11.8960, 15.7390,
+        13.9604, 13.9694, 13.3586, 15.1397, 13.9496, 14.7426, 15.0651, 13.6914,
+        14.4734, 15.0507, 15.3641, 13.4611, 12.2291, 13.7980, 13.2408, 16.1383,
+        13.6276, 13.9240,  9.9033, 14.1081, 15.5232, 13.5837, 15.4788, 13.2123,
+        14.6156, 15.1663, 13.1339, 11.6493, 15.1950, 16.9770, 14.9531, 14.1612,
+        10.8090, 15.5387, 14.9348, 13.6648, 14.9436, 13.8418, 14.9257, 13.3842,
+        13.5335, 13.0982, 15.5991, 15.7025, 15.6250, 14.6804, 13.6589, 14.3852,
+        15.0603, 13.6214, 15.6698, 15.4747, 16.3852, 13.3406, 14.7556, 14.4319,
+        13.9453, 13.1822, 14.2882, 14.3952, 10.0467, 17.5212, 13.0518, 13.9897,
+        15.2054, 12.4277, 15.1920, 14.8052, 13.5873, 13.7668, 11.8559, 14.4630,
+        14.3746, 13.0840, 14.5782, 14.6063, 14.5490, 14.6035, 13.5413, 13.4662,
+        12.8137, 14.4998, 13.2415, 12.4052, 16.1733, 15.4299, 13.2638, 14.8479,
+        14.4117, 12.5779, 13.9467, 14.6974, 11.4930, 13.5607, 15.0588, 14.0817,
+         7.7596, 12.8857, 12.2221, 14.9804, 14.3464, 15.4754, 14.1675, 14.0145,
+        13.0854, 13.4480, 13.3427, 12.0616, 12.9743, 15.5891, 14.4706, 14.6665,
+        15.4540, 14.7239, 14.9215, 12.4182, 15.5978, 14.4421, 12.2296, 14.0705,
+        13.3301, 15.0268, 15.9089, 11.4944, 13.5384, 14.4083, 14.9451, 14.7365,
+        15.4010, 12.6721, 13.4219, 12.0182, 13.7275, 15.1125, 13.5956, 13.9460,
+        13.0022, 14.0344, 12.5796, 14.0852, 15.6815, 13.6975, 14.8646, 15.6712,
+        14.0798, 15.2471, 10.4566, 14.2012, 14.0773, 13.8934, 12.7285, 12.6806,
+        15.0613, 15.6030, 14.4859, 14.4591, 16.2244, 12.4844, 15.6982, 12.3500,
+        13.8456, 16.1116, 14.2487, 12.6031, 12.5797, 13.3039, 13.6627, 14.9112,
+        14.0763, 14.3243, 14.9495, 14.4673, 14.7378, 10.9645, 15.8443,  8.2003,
+        13.4671, 11.4266, 13.3720, 15.6397, 14.1130, 13.9226, 15.6452, 14.9755,
+        16.9054, 12.9410, 12.8768, 14.1024, 13.8103, 14.8398, 14.6691, 13.9528,
+        16.1237, 14.7997, 10.9077, 13.8793, 14.7024, 13.9237, 12.9460, 14.6869,
+        13.8657, 13.9261, 14.9485, 14.2520, 14.1289, 14.8407, 12.7237, 14.0016,
+        12.8466, 12.5847, 14.5718, 14.9965, 11.7020, 11.7929, 14.2116, 14.0762,
+        15.1787, 14.4127, 13.9357, 15.2426, 15.5580, 13.0175, 15.2497, 13.5834,
+         9.4943, 13.3345, 13.5940, 14.2306, 16.0797, 15.1388, 15.1726, 15.2181,
+        14.2795, 14.2372, 13.7262, 12.1871, 13.5076, 15.0032, 13.9550, 15.3655,
+        14.9145, 13.0835, 13.9151, 12.7737, 12.6066, 15.3293, 13.7493, 14.9508,
+        12.9047, 15.7016, 13.8455, 13.0603, 12.0967, 14.0738, 13.2567, 14.5132,
+        13.8867, 13.3261, 12.6392, 12.4640, 12.2617, 13.2894, 13.3896, 13.2849,
+        15.8861, 13.6459, 13.8605, 16.0071, 15.7110, 13.9604, 15.4765, 13.6208,
+        13.3695, 14.8899, 14.0459, 14.3782, 14.9119, 15.4493, 15.7307,  9.9289,
+        14.3931, 13.2000, 12.1245, 14.7841, 14.8458, 14.3161, 12.9203, 13.5677,
+         9.7520, 14.3132, 15.3375, 13.8866, 12.3409, 14.5184, 15.5342, 15.3232,
+        14.0170, 12.0247, 12.3598, 12.9633, 13.4989, 12.9017, 12.5167, 14.5416,
+        12.7908, 15.2956, 14.8659, 14.0311, 12.3327, 14.7087,  9.2144, 13.8168,
+        13.8633, 14.6128, 15.9906, 12.0577, 14.9189, 15.1690, 14.0907, 11.3158,
+        14.9620, 14.1813, 14.9595, 14.3621, 14.1898, 13.3593, 13.6502, 12.1226,
+        15.3860, 15.0104, 13.4107, 12.9887, 11.2847, 13.7931, 13.5066, 14.5047,
+        16.2232, 13.4207, 11.8622, 15.8407, 14.6361, 14.1877, 15.1390, 13.3015,
+        10.4483, 13.7414, 15.4787, 11.6394, 14.9807, 15.8984, 14.1460, 11.9633,
+        13.1077, 15.8617, 13.2147, 15.0331, 14.6823, 14.1104, 15.3481, 13.9053,
+        15.4756, 15.0381, 12.0342, 13.9090, 13.2344, 14.5987, 14.9836, 12.9012,
+        13.9585, 15.2520, 15.3760, 11.2500, 14.4500, 14.0025, 13.7260, 14.3821,
+        15.8636, 16.0125, 14.9949, 14.6735, 13.3125, 14.7759, 13.7372, 14.5185,
+        14.8317, 12.7017, 14.9077, 15.7310, 13.6628, 14.2176, 14.4585, 14.6926,
+        15.0367, 14.2330, 14.4413, 11.6147, 14.5155, 16.1736, 15.4129, 14.5182,
+        13.0373, 13.6812, 13.4258, 14.9794, 10.9890, 14.4118, 14.1180,  7.3643,
+        15.3489, 14.9805, 14.2134, 13.7575, 13.8744, 14.2219, 12.7968, 15.1108,
+        15.2088, 16.4137, 13.1044, 15.5301, 12.6283, 15.4314, 15.4466, 13.7277,
+        11.6053, 13.1254, 14.9130, 14.2071, 13.2355, 14.1554, 15.0291, 12.5287,
+        14.0124, 11.0057, 13.7332,  9.5237, 15.3303, 13.5555, 15.6606, 13.6674,
+        16.0889, 14.3790, 10.3930, 15.1556, 11.6175, 13.4705, 13.5928, 13.5929,
+        13.8484, 14.2573, 15.2148, 14.7918, 15.3291,  9.4514, 11.4869, 15.5421,
+        13.2073, 14.1152,  9.0797, 14.2202, 14.8054, 15.3641, 15.0657, 14.9178,
+        14.4445, 15.3424, 14.2075, 14.8786, 13.4652, 13.1197, 15.1447, 15.9611,
+        13.4104, 13.1936, 13.2591, 15.2383, 12.1044, 11.8450, 14.9441, 13.3062],
+       device=&#39;cuda:1&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="fit-a-model">
+<h2>Fit a model<a class="headerlink" href="#fit-a-model" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;vH16&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;lin|lin&#39;</span><span class="p">)</span>
+
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;init_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-2</span>
+
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2e-3</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'vH16'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_ch'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span>, <span style="color: #008000; text-decoration-color: #008000">'fit_prior'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'init_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'Normal'</span>, <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.01</span><span style="font-weight: bold">}</span>
+
+Trainer:
+<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3000</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span>, 
+<span style="color: #008000; text-decoration-color: #008000">'kl_const_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
+| Module Name | Num Params |
++-------------+------------+
+|  PoissonVAE |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262.7</span> K   |
+|     ---     |    ---     |
+|    fc_enc   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
+|    fc_dec   |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131.1</span> K   |
++-------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span><span style="font-weight: bold">)</span>_vH16_z-512_fp_nrm-none_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span>
+mc_b1000-ep3000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_08_28,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">12:48</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/58f7491c1f6b1e945f4871897bd44d91a064fb0dd04bc83d9aab97229b8b81c5.png" src="../../_images/58f7491c1f6b1e945f4871897bd44d91a064fb0dd04bc83d9aab97229b8b81c5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;PVAE&quot;</span>
+<span class="n">fit_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">fit_name</span><span class="o">=</span><span class="n">fit_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 3000, avg loss: 165.515957: 100%|████████████████████████████████████████████████████| 3000/3000 [1:49:52&lt;00:00,  2.20s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/71c690945f6aa3f2712d3a2468de3ad29a3e8defa250e2be0c032efe889ecd6d.png" src="../../_images/71c690945f6aa3f2712d3a2468de3ad29a3e8defa250e2be0c032efe889ecd6d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;dec&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">log_rate</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a223a3e6e5657600f2ccd7a7480d0bd9b09f40e7386c6de4260b457109e2b5d5.png" src="../../_images/a223a3e6e5657600f2ccd7a7480d0bd9b09f40e7386c6de4260b457109e2b5d5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">kl_diag</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;kl_diag&#39;</span>
+<span class="p">}</span>
+<span class="n">loss</span><span class="p">[</span><span class="s1">&#39;nelbo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'mse'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135.88268</span>, <span style="color: #008000; text-decoration-color: #008000">'kl'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32.052258</span>, <span style="color: #008000; text-decoration-color: #008000">'nelbo'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">167.93494</span><span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-08"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="28_debug-iterative.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(28) debug — why different from pvae?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="29_jacobian.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(29) jacobian — bench</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#init-iterative-pvae">Init Iterative PVAE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-configs">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-model-trainer">Make model + trainer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-a-model">Fit a model</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
