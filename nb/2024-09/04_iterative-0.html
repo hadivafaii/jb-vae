@@ -58,6 +58,8 @@
     <script src="../../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/04_iterative-0';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -583,15 +585,29 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balls64">BALLS64</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-amortized-mlp-decoder">Poisson Omniglot + Amortized, MLP decoder</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-configs">Get configs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-model-trainer">Make model + trainer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#print-info">Print info</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-model">Fit model</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-mod">Load mod?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-amortized-linear-decoder">Poisson Omniglot + Amortized, linear decoder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Make model + trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Print info</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Fit model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-linear-decoder">Poisson Omniglot, linear decoder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Make model + trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Print info</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Fit model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">MNIST</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-model">Load model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate">generate</a></li>
 </ul>
 </li>
@@ -617,6 +633,7 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
 
 
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
@@ -664,47 +681,39 @@ document.write(`
 </pre>
 </div></div>
 </div>
-<section id="balls64">
-<h2>BALLS64<a class="headerlink" href="#balls64" title="Permalink to this heading">#</a></h2>
+<section id="poisson-omniglot-amortized-mlp-decoder">
+<h2>Poisson Omniglot + Amortized, MLP decoder<a class="headerlink" href="#poisson-omniglot-amortized-mlp-decoder" title="Permalink to this heading">#</a></h2>
 <section id="get-configs">
 <h3>Get configs<a class="headerlink" href="#get-configs" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
-<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;BALLS16&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;jacob|lin&#39;</span><span class="p">)</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;Omniglot&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;mlp|mlp&#39;</span><span class="p">)</span>
 
-<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;n_latents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]</span>
-<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;init_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-2</span>
-<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2e-3</span>
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">512</span>
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">16.0</span>
-<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_balancer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;track_stats&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_len</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VAE:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_vae</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Trainer:</span><span class="se">\n</span><span class="si">{</span><span class="n">cfg_tr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">VAE:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'dataset'</span>: <span style="color: #008000; text-decoration-color: #008000">'BALLS16'</span>, <span style="color: #008000; text-decoration-color: #008000">'n_latents'</span>: <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>, <span style="color: #008000; text-decoration-color: #008000">'prior_clamp'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'jacob'</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_type'</span>: <span style="color: #008000; text-decoration-color: #008000">'lin'</span>, <span style="color: #008000; text-decoration-color: #008000">'enc_bias'</span>: 
-<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'dec_bias'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'init_dist'</span>: <span style="color: #008000; text-decoration-color: #008000">'normal'</span>, <span style="color: #008000; text-decoration-color: #008000">'init_scale'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.01</span>, <span style="color: #008000; text-decoration-color: #008000">'seq_len'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">}</span>
-
-Trainer:
-<span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'epochs'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>, <span style="color: #008000; text-decoration-color: #008000">'batch_size'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008000; text-decoration-color: #008000">'optimizer_kws'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'weight_decay'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0001</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'grad_clip'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span>, 
-<span style="color: #008000; text-decoration-color: #008000">'kl_const_portion'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'lr'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_beta'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16.0</span>, <span style="color: #008000; text-decoration-color: #008000">'kl_balancer'</span>: <span style="color: #008000; text-decoration-color: #008000">'equal'</span><span style="font-weight: bold">}</span>
-</pre>
-</div></div>
 </div>
 </section>
 <section id="make-model-trainer">
 <h3>Make model + trainer<a class="headerlink" href="#make-model-trainer" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">HIPVAE</span><span class="p">(</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
 <span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">n_iters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>96000
 </pre></div>
 </div>
 </div>
@@ -724,34 +733,22 @@ Trainer:
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
 | Module Name | Num Params |
 +-------------+------------+
-|    HIPVAE   |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.3</span> K    |
+|    IPVAE    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">933.2</span> K   |
 |     ———     |    ———     |
-|  layers.L_0 |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.3</span> K    |
+|    layer    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">933.2</span> K   |
 +-------------+------------+ 
 
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">poisson_uniform_c</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4</span><span style="font-weight: bold">)</span>_BALLS16_t-16_z-<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>_k-32_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span>
-mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">16:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_04,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">09:34</span><span style="font-weight: bold">)</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson_Omniglot_t-1_z-<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="font-weight: bold">]</span>_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span>
+b200-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_14,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">16:33</span><span style="font-weight: bold">)</span>
 
 </pre>
-</div><img alt="../../_images/3e9cbe042c742f788fe3eb698bfc438042bb7c027018b1a077bdd842a875c05d.png" src="../../_images/3e9cbe042c742f788fe3eb698bfc438042bb7c027018b1a077bdd842a875c05d.png" />
+</div><img alt="../../_images/ae9255fb2f51751e0505ceceeaeff1f196a8151a40e9e17e1915b6382107d5c3.png" src="../../_images/ae9255fb2f51751e0505ceceeaeff1f196a8151a40e9e17e1915b6382107d5c3.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">n_iters</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>117000
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_num_params</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_num_params</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -759,9 +756,10 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+--------------+------------+
 | Module Name  | Num Params |
 +--------------+------------+
-| PoissonLayer |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.3</span> K    |
+| PoissonLayer |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">933.2</span> K   |
 |     ———      |    ———     |
-|    fc_dec    |   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.2</span> K    |
+|     enc      |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">465.9</span> K   |
+|     dec      |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">467.1</span> K   |
 +--------------+------------+ 
 
 </pre>
@@ -769,12 +767,18 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">234</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">234</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">428</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">428</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">784</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
 </pre>
 </div></div>
 </div>
@@ -788,87 +792,521 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 822, avg loss: 4.002154:  82%|██████████████████████████████████████████████          | 822/1000 [1:40:36&lt;24:08,  8.14s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1000, avg loss: 45.926605: 100%|████| 1000/1000 [15:23&lt;00:00,  1.08it/s]
 </pre></div>
 </div>
 </div>
 </div>
+<p><strong>Task:</strong> Omniglot, Amortized, <span class="math notranslate nohighlight">\((T, \beta) = (1, 1.0)\)</span>, MLP decoder</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">n_exp</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:0'</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-</pre></div>
-</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c0b95ac59ad3c40e2c894fbfcb28264fc2bc9fb493b924b4636fc4481bd4d797.png" src="../../_images/c0b95ac59ad3c40e2c894fbfcb28264fc2bc9fb493b924b4636fc4481bd4d797.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_tst</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">dl_name</span><span class="o">=</span><span class="s1">&#39;tst&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results_tst</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">kl_diag</span> <span class="o">=</span> <span class="n">loss</span><span class="p">[</span><span class="s1">&#39;kl_diag&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;kl_diag&#39;</span>
-<span class="p">}</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_i</span> <span class="o">=</span> <span class="mi">100</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
+<span class="n">norms</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
-<span class="n">ncols</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.97</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">norms</span><span class="p">))</span>
 
-<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">x2p</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="n">sample_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">x2p</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">x2p</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;input img&#39;</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">):</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][</span><span class="n">sample_i</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t = </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">remove_ticks</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-<span class="n">ax_square</span><span class="p">(</span><span class="n">axes</span><span class="p">);</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log norm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/107d8af55551d06673561c19b2939d17f46b2bcfcaeefaa5726d9a2229c08921.png" src="../../_images/107d8af55551d06673561c19b2939d17f46b2bcfcaeefaa5726d9a2229c08921.png" />
+<img alt="../../_images/264095c57189885f111ec935071b143ae5fec5b88dd72cc8f6ed47616f4bb1d5.png" src="../../_images/264095c57189885f111ec935071b143ae5fec5b88dd72cc8f6ed47616f4bb1d5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&gt;</span> <span class="mf">10.5</span>
+<span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="o">.</span><span class="n">log_rate</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-<span class="n">bias</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1"># seq_total=1000,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;slateblue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████| 66/66 [00:00&lt;00:00, 251.74it/s]
+/home/hadi/anaconda3/lib/python3.11/site-packages/matplotlib/transforms.py:2653: RuntimeWarning: divide by zero encountered in scalar divide
+  y_scale = 1.0 / inh
+</pre></div>
+</div>
+<img alt="../../_images/ba27a3215f8cc3486478575a97cf5e0d4e3b388cb37c9f95d06a2ec697e90843.png" src="../../_images/ba27a3215f8cc3486478575a97cf5e0d4e3b388cb37c9f95d06a2ec697e90843.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.22 s, sys: 66.1 ms, total: 2.29 s
+Wall time: 2.28 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="poisson-omniglot-amortized-linear-decoder">
+<h2>Poisson Omniglot + Amortized, linear decoder<a class="headerlink" href="#poisson-omniglot-amortized-linear-decoder" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>Get configs<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;Omniglot&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;lin|lin&#39;</span><span class="p">)</span>
+
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;track_stats&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_len</span>
+
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>Make model + trainer<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">n_iters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>96000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h3>Print info<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
+| Module Name | Num Params |
++-------------+------------+
+|    IPVAE    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">803.8</span> K   |
+|     ———     |    ———     |
+|    layer    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">803.8</span> K   |
++-------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson_Omniglot_t-1_z-<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span>
+b200-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">1:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_14,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">16:07</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/ae9255fb2f51751e0505ceceeaeff1f196a8151a40e9e17e1915b6382107d5c3.png" src="../../_images/ae9255fb2f51751e0505ceceeaeff1f196a8151a40e9e17e1915b6382107d5c3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_num_params</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+--------------+------------+
+| Module Name  | Num Params |
++--------------+------------+
+| PoissonLayer |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">803.8</span> K   |
+|     ———      |    ———     |
+|    fc_enc    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">401.4</span> K   |
+|    fc_dec    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">401.4</span> K   |
++--------------+------------+ 
+
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="id4">
+<h3>Fit model<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1000, avg loss: 47.650124: 100%|████| 1000/1000 [12:05&lt;00:00,  1.38it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Task:</strong> Omniglot, Amortized, <span class="math notranslate nohighlight">\((T, \beta) = (1, 1.0)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">n_exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:0'</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c48f626abf2227d2cf7d8233d2b096fdf8c85eec1ec90dcbd8b6e757c902a0f0.png" src="../../_images/c48f626abf2227d2cf7d8233d2b096fdf8c85eec1ec90dcbd8b6e757c902a0f0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
+<span class="n">norms</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">norms</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log norm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1e3b893c1d8228c6e245e036d9836c3019a2e730f0166f531d54f081d4a37141.png" src="../../_images/1e3b893c1d8228c6e245e036d9836c3019a2e730f0166f531d54f081d4a37141.png" />
+<img alt="../../_images/0ac91162e7ec6640f762e866fc1ce5f36c379bbf386dd231f93b1a598fa09ab4.png" src="../../_images/0ac91162e7ec6640f762e866fc1ce5f36c379bbf386dd231f93b1a598fa09ab4.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&gt;</span> <span class="mf">1.5</span>
+<span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1"># seq_total=1000,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;slateblue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████| 66/66 [00:00&lt;00:00, 368.60it/s]
+</pre></div>
+</div>
+<img alt="../../_images/170cec0eb17534b41a4389d3ad2749bcc404702c9ea0d7bd22b29d2e3151415f.png" src="../../_images/170cec0eb17534b41a4389d3ad2749bcc404702c9ea0d7bd22b29d2e3151415f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.54 s, sys: 62.1 ms, total: 1.6 s
+Wall time: 1.6 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="poisson-omniglot-linear-decoder">
+<h2>Poisson Omniglot, linear decoder<a class="headerlink" href="#poisson-omniglot-linear-decoder" title="Permalink to this heading">#</a></h2>
+<section id="id5">
+<h3>Get configs<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;Omniglot&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;jacob|lin&#39;</span><span class="p">)</span>
+
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;track_stats&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_len</span>
+
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="n">seq_len</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h3>Make model + trainer<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">n_iters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>96000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h3>Print info<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vae</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">_(</span><span class="si">{</span><span class="n">vae</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">show_schedules</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+-------------+------------+
+| Module Name | Num Params |
++-------------+------------+
+|    IPVAE    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">402.4</span> K   |
+|     ———     |    ———     |
+|    layer    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">402.4</span> K   |
++-------------+------------+ 
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson_Omniglot_t-16_z-<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span>
+b200-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">8:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_14,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">11:27</span><span style="font-weight: bold">)</span>
+
+</pre>
+</div><img alt="../../_images/1257a6f869f818a85cd2e32d39f0d6ac670906cb8865322334fd7c3bc10404ad.png" src="../../_images/1257a6f869f818a85cd2e32d39f0d6ac670906cb8865322334fd7c3bc10404ad.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_num_params</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+--------------+------------+
+| Module Name  | Num Params |
++--------------+------------+
+| PoissonLayer |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">402.4</span> K   |
+|     ———      |    ———     |
+|    fc_dec    |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">401.4</span> K   |
++--------------+------------+ 
+
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="id8">
+<h3>Fit model<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 1000, avg loss: 27.757432: 100%|██| 1000/1000 [1:26:46&lt;00:00,  5.21s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Task:</strong> Omniglot, <span class="math notranslate nohighlight">\((T, \beta) = (16, 8.0)\)</span></p>
+<ul class="simple">
+<li><p>Done: Omniglot, <span class="math notranslate nohighlight">\(T = 8, \,\, \beta = 4.0,\)</span></p></li>
+<li><p>Done: Larger beta? <span class="math notranslate nohighlight">\(T = 64, \,\, \beta = 80.0, \)</span> was failure.</p></li>
+<li><p>Done: longer seq for vH16:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(T = 64, \,\, \beta = 32.0,\)</span></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">n_exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">26</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">42</span><span style="font-weight: bold">]</span>,
+       <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:0'</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c10f588eb0a81182c1a6fb1e4e863adbce6b847c992d8f0ffdb22c2a481146cc.png" src="../../_images/c10f588eb0a81182c1a6fb1e4e863adbce6b847c992d8f0ffdb22c2a481146cc.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
+<span class="n">norms</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">norms</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log norm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/52387e445665f49016143fb72684b0371d3298692c3e82d4e131876432643df9.png" src="../../_images/52387e445665f49016143fb72684b0371d3298692c3e82d4e131876432643df9.png" />
+<img alt="../../_images/1be2240917dacd8dd10782dadda1383d127ad36142757ce6c02e518cb1a1b9d8.png" src="../../_images/1be2240917dacd8dd10782dadda1383d127ad36142757ce6c02e518cb1a1b9d8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&gt;</span> <span class="mf">1.5</span>
+<span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">seq_total</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;slateblue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 66/66 [04:02&lt;00:00,  3.67s/it]
+</pre></div>
+</div>
+<img alt="../../_images/4aef0292ccc85e6d5b8ccbc6c51dc5856a0bc609ed6389478459ff8aefe1665b.png" src="../../_images/4aef0292ccc85e6d5b8ccbc6c51dc5856a0bc609ed6389478459ff8aefe1665b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3min 57s, sys: 13.1 s, total: 4min 10s
+Wall time: 4min 10s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Was: &lt;jac|lin&gt;, 8/4.0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0f6d7fe5a39d96a4f2d1f589ee217aff256c9ebd56a1f7184600112c2e0df1ad.png" src="../../_images/0f6d7fe5a39d96a4f2d1f589ee217aff256c9ebd56a1f7184600112c2e0df1ad.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="mnist">
+<h2>MNIST<a class="headerlink" href="#mnist" title="Permalink to this heading">#</a></h2>
+<section id="load-model">
+<h3>Load model<a class="headerlink" href="#load-model" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;poisson_uniform_c(-2)_MNIST_t-8_z-[32]_k-32_&lt;jacob|conv+b&gt;&#39;</span>
+<span class="n">fit_name</span> <span class="o">=</span> <span class="s1">&#39;b200-ep500-lr(0.002)_beta(2:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_09_06,22:41)&#39;</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">fit_name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">meta</span><span class="p">[</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">bias</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -885,61 +1323,144 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </pre></div>
 </div>
 </div>
-</div>
-</section>
-</section>
-<section id="load-mod">
-<h2>Load mod?<a class="headerlink" href="#load-mod" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;poisson_uniform_c(-2)_MNIST_t-20_z-[128]_k-32_&lt;jac|mlp+b&gt;&#39;</span>
-<span class="n">fit_name</span> <span class="o">=</span> <span class="s1">&#39;mc_b200-ep500-lr(0.002)_beta(10:0x0.5)_temp(0.05:lin-0.5)_gr(1000)_(2024_09_02,00:26)&#39;</span>
-<span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span> <span class="n">fit_name</span><span class="o">=</span><span class="n">fit_name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-</pre></div>
-</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3c278b4548fe41c146a85a0e6919263e498204108505b1f9c93ebfcb9edd5be2.png" src="../../_images/3c278b4548fe41c146a85a0e6919263e498204108505b1f9c93ebfcb9edd5be2.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_balancer</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&lt;</span> <span class="mf">0.5</span>
+<span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="o">~</span><span class="n">dead</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dead</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, 31, 0.03125)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">seq_total</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+    <span class="c1"># full_data=True,</span>
+    <span class="c1"># return_recon=True,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="n">dl_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">]</span> <span class="c1"># &#39;trn&#39;, &#39;tst&#39;]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [16:04&lt;00:00, 19.29s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15min 56s, sys: 3.02 s, total: 15min 59s
+Wall time: 16min 5s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trn&#39;</span><span class="p">:</span> <span class="s1">&#39;C9&#39;</span><span class="p">,</span> <span class="s1">&#39;vld&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;tst&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;trn&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">plot_convergence</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+
 </pre>
-</div></div>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">vld
+</pre>
+</div><img alt="../../_images/9f509c273ebe4522a96cc7831a46d14da4b0cbadf98ba8ae416feda099700e99.png" src="../../_images/9f509c273ebe4522a96cc7831a46d14da4b0cbadf98ba8ae416feda099700e99.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">etc</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<section id="analysis">
-<h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">seq_total</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+    <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_recon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results_to_plot</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="n">dl_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;trn&#39;</span><span class="p">,</span> <span class="s1">&#39;vld&#39;</span><span class="p">]</span> <span class="c1"># , &#39;tst&#39;]</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [13:51&lt;00:00, 16.63s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 1/1 [00:39&lt;00:00, 39.40s/it]
+100%|███████████████████████████████████| 1/1 [00:39&lt;00:00, 39.83s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 32s, sys: 3.26 s, total: 1min 35s
+Wall time: 1min 21s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.analysis</span> <span class="kn">import</span> <span class="n">plot_convergence</span>
-<span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">results_to_plot</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">shape</span><span class="p">),</span>
+    <span class="p">])</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e674e3e0f87768f0b5704ca361ed00dd0e2131b85d78137481399aa9211cc5f6.png" src="../../_images/e674e3e0f87768f0b5704ca361ed00dd0e2131b85d78137481399aa9211cc5f6.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">trn
+</pre>
+</div><img alt="../../_images/b18d396aaece39342ef4ad322a0e3d20915765b20c8b107faaacf8cc7a73b7c6.png" src="../../_images/b18d396aaece39342ef4ad322a0e3d20915765b20c8b107faaacf8cc7a73b7c6.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">vld
+</pre>
+</div><img alt="../../_images/2e41c7d3670141b60110cd730c603a4fb1d99d8a22a45bc0e9f8af8f821cbab4.png" src="../../_images/2e41c7d3670141b60110cd730c603a4fb1d99d8a22a45bc0e9f8af8f821cbab4.png" />
 </div>
 </div>
 </section>
@@ -947,17 +1468,17 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 <h3>generate<a class="headerlink" href="#generate" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">reset_state</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
-
-<span class="n">dist</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">reset_state</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">update_pred</span><span class="p">(</span><span class="n">temp</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">pred</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">))</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
 
 <span class="n">loss_kl</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;loss_kl&#39;</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">desc_len</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_layer</span><span class="o">.</span><span class="n">loss_kl</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="n">u</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">desc_len</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">loss_kl</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="n">u</span><span class="p">)</span>
 <span class="n">desc_len</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">desc_len</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
@@ -965,7 +1486,7 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;recon&#39;, &#39;ff&#39;, &#39;fb&#39;, &#39;spks&#39;, &#39;dist&#39;, &#39;loss_kl&#39;, &#39;loss_recon&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ff&#39;, &#39;dist&#39;, &#39;samples&#39;, &#39;recon&#39;, &#39;loss_kl&#39;, &#39;loss_recon&#39;]
 </pre></div>
 </div>
 </div>
@@ -980,7 +1501,7 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">ncols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">))</span>
+<span class="n">ncols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">))</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.1</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">sample_i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">):</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">sample_i</span> <span class="o">//</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">sample_i</span> <span class="o">%</span> <span class="n">ncols</span>
@@ -994,12 +1515,12 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/515ca8bec39ce28dd3db7487086bbde5fd76320c5ef6031f8693284f668f413f.png" src="../../_images/515ca8bec39ce28dd3db7487086bbde5fd76320c5ef6031f8693284f668f413f.png" />
+<img alt="../../_images/1619d625333c7addda9ce5983bce2d70bd530ffb8bbee135a659e5d9251098e7.png" src="../../_images/1619d625333c7addda9ce5983bce2d70bd530ffb8bbee135a659e5d9251098e7.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_i</span> <span class="o">=</span> <span class="mi">30</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_i</span> <span class="o">=</span> <span class="mi">27</span>
 </pre></div>
 </div>
 </div>
@@ -1017,12 +1538,12 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d9b7befa6d0a3ef5d5558b0b7f2eb25f8851f76d47072d1e386bc20e0de853ad.png" src="../../_images/d9b7befa6d0a3ef5d5558b0b7f2eb25f8851f76d47072d1e386bc20e0de853ad.png" />
+<img alt="../../_images/baf12a32977f3edba9d167fe38b8ee6d1ef6e1f2c620a551897f981e3f4f72c1.png" src="../../_images/baf12a32977f3edba9d167fe38b8ee6d1ef6e1f2c620a551897f981e3f4f72c1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1030,10 +1551,15 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">continue</span>
     <span class="n">sample_i</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">30</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
-    <span class="n">tit</span> <span class="o">=</span> <span class="s1">&#39; ——— &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;sample # </span><span class="si">{</span><span class="n">sample_i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;desc len = </span><span class="si">{</span><span class="n">desc_len</span><span class="p">[</span><span class="n">sample_i</span><span class="p">]</span><span class="si">:</span><span class="s2">0.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+    <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">tit</span> <span class="o">=</span> <span class="s1">&#39; ——— &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">f</span><span class="s2">&quot;i = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, sample # </span><span class="si">{</span><span class="n">sample_i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;desc len = </span><span class="si">{</span><span class="n">desc_len</span><span class="p">[</span><span class="n">sample_i</span><span class="p">]</span><span class="si">:</span><span class="s2">0.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">tit</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.14</span><span class="p">)</span>
     
     <span class="n">x2p</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="n">sample_i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
@@ -1049,144 +1575,17 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7b0595b6f952996613ba69e56da7a0486636c12d50117fed923e9029536200b3.png" src="../../_images/7b0595b6f952996613ba69e56da7a0486636c12d50117fed923e9029536200b3.png" />
-<img alt="../../_images/45dfb1129fa5d0d4d7549ff828119b7d00377a27eb03f07a2107fff1cc5e09b0.png" src="../../_images/45dfb1129fa5d0d4d7549ff828119b7d00377a27eb03f07a2107fff1cc5e09b0.png" />
-<img alt="../../_images/34c85f950a7d980fdfaf0430d872cf6877e47a9e2bcd7544c58c57bf936d1d04.png" src="../../_images/34c85f950a7d980fdfaf0430d872cf6877e47a9e2bcd7544c58c57bf936d1d04.png" />
-<img alt="../../_images/0b7a02b77acb44ae7d7ca7ad9ac0384610fd64c027db92f3a9552ea5f8673d20.png" src="../../_images/0b7a02b77acb44ae7d7ca7ad9ac0384610fd64c027db92f3a9552ea5f8673d20.png" />
-<img alt="../../_images/cd9bd2a39b226054a71fb070b066dfa35fc99dfefc88e1fa5c7a7468aff2d7ee.png" src="../../_images/cd9bd2a39b226054a71fb070b066dfa35fc99dfefc88e1fa5c7a7468aff2d7ee.png" />
-<img alt="../../_images/cc5ef1bb00587247a1f8e6ad1491d93c9a1ded8aa61f03ca6af040350b03671f.png" src="../../_images/cc5ef1bb00587247a1f8e6ad1491d93c9a1ded8aa61f03ca6af040350b03671f.png" />
-<img alt="../../_images/12097f459c55c16f11c8d51158d383d4f43eaaa488729f254f921b3b079a80b1.png" src="../../_images/12097f459c55c16f11c8d51158d383d4f43eaaa488729f254f921b3b079a80b1.png" />
-<img alt="../../_images/d661e99bbd8a43b8bad202f757bb513788666fabc567051acb6b7d091a57e43f.png" src="../../_images/d661e99bbd8a43b8bad202f757bb513788666fabc567051acb6b7d091a57e43f.png" />
-<img alt="../../_images/425ae9ccee514dc72831f57f4bc69b7b7152e830b819950fbe9dccb5047d005d.png" src="../../_images/425ae9ccee514dc72831f57f4bc69b7b7152e830b819950fbe9dccb5047d005d.png" />
-<img alt="../../_images/f9afcd47d3d502704e17c9ab1b478ac4b57c3a5d0beb160d9d58c8be72512135.png" src="../../_images/f9afcd47d3d502704e17c9ab1b478ac4b57c3a5d0beb160d9d58c8be72512135.png" />
-<img alt="../../_images/f8c1851f2932d7615532439120381131fed4aece9f4841b14b98841c8607a1d7.png" src="../../_images/f8c1851f2932d7615532439120381131fed4aece9f4841b14b98841c8607a1d7.png" />
-<img alt="../../_images/ca98372c72230192fab1f84ced462d5f9c83d78320864915430b091c07667831.png" src="../../_images/ca98372c72230192fab1f84ced462d5f9c83d78320864915430b091c07667831.png" />
-<img alt="../../_images/d95e2ab7b13a65c3e201339dd75995a935fa2dbfe3fe5491858b75428d43d2c2.png" src="../../_images/d95e2ab7b13a65c3e201339dd75995a935fa2dbfe3fe5491858b75428d43d2c2.png" />
-<img alt="../../_images/9a59907ebf62183d1c91fde9c2a22632362ea292e4aa611c43fcbaadeeaba0e9.png" src="../../_images/9a59907ebf62183d1c91fde9c2a22632362ea292e4aa611c43fcbaadeeaba0e9.png" />
-<img alt="../../_images/aa34423cd8a49aeab6adfddc44402b8e5b0aa75ab1db1368db377883cb2fb316.png" src="../../_images/aa34423cd8a49aeab6adfddc44402b8e5b0aa75ab1db1368db377883cb2fb316.png" />
-<img alt="../../_images/6b29747209b9f64add52f9aa9b1921c5d1226730292298aac2e99c1b142f60d2.png" src="../../_images/6b29747209b9f64add52f9aa9b1921c5d1226730292298aac2e99c1b142f60d2.png" />
-<img alt="../../_images/613302a29b31add929469fc47a7d963448ecfc2cccba884916df3a46f178358f.png" src="../../_images/613302a29b31add929469fc47a7d963448ecfc2cccba884916df3a46f178358f.png" />
-<img alt="../../_images/107be42a1762f3bdf8d53656453c3f3971acef0ffb03025cd06df491f5aa94d4.png" src="../../_images/107be42a1762f3bdf8d53656453c3f3971acef0ffb03025cd06df491f5aa94d4.png" />
-<img alt="../../_images/917b997ed148f633299f531f109563855ca49ad74eb76b96c11368e551580c5c.png" src="../../_images/917b997ed148f633299f531f109563855ca49ad74eb76b96c11368e551580c5c.png" />
-<img alt="../../_images/a04ea404544c03dfedffc9562f5efc4a1594e1cbcdab1ba5511428c9f8053f64.png" src="../../_images/a04ea404544c03dfedffc9562f5efc4a1594e1cbcdab1ba5511428c9f8053f64.png" />
-<img alt="../../_images/2c4f0aea5cd3b8b8640799b19ec9402ee186a4fd9d66100849ebca141bfe919c.png" src="../../_images/2c4f0aea5cd3b8b8640799b19ec9402ee186a4fd9d66100849ebca141bfe919c.png" />
-<img alt="../../_images/1eb723bb187e30dcbcc7b98e3faf6192dc000be1187b7534c59394cfa226250e.png" src="../../_images/1eb723bb187e30dcbcc7b98e3faf6192dc000be1187b7534c59394cfa226250e.png" />
-<img alt="../../_images/cfac5060bb2566f72826c17ede69d886c9312ac22e367b10d2cdfaa8529b7b17.png" src="../../_images/cfac5060bb2566f72826c17ede69d886c9312ac22e367b10d2cdfaa8529b7b17.png" />
-<img alt="../../_images/1a7289b6385ccf8f23dca96262fdad57222341ef245d920b60544f3bae67a68a.png" src="../../_images/1a7289b6385ccf8f23dca96262fdad57222341ef245d920b60544f3bae67a68a.png" />
-<img alt="../../_images/24d01a3589ca5bd6f771c060209fba7fbd81f305e9883368f5c8d5ec998d7a0d.png" src="../../_images/24d01a3589ca5bd6f771c060209fba7fbd81f305e9883368f5c8d5ec998d7a0d.png" />
-<img alt="../../_images/ffb3189579d09352e89cfb5d2838f27620805f02f5737ef6aba202c5f94b1e89.png" src="../../_images/ffb3189579d09352e89cfb5d2838f27620805f02f5737ef6aba202c5f94b1e89.png" />
-<img alt="../../_images/22de5182cc1c557a514afb727607a62aa477ec0fff1bedf6e277c188052624a7.png" src="../../_images/22de5182cc1c557a514afb727607a62aa477ec0fff1bedf6e277c188052624a7.png" />
-<img alt="../../_images/6b1c4ca0b19b327f39023bf60a511450f0a3210534dd94f18ad13458cba7d8d5.png" src="../../_images/6b1c4ca0b19b327f39023bf60a511450f0a3210534dd94f18ad13458cba7d8d5.png" />
-<img alt="../../_images/254c9d8d4699c1bbe6761e0a30a431e4aa2e6672ed0552a2a984d027eb4939c9.png" src="../../_images/254c9d8d4699c1bbe6761e0a30a431e4aa2e6672ed0552a2a984d027eb4939c9.png" />
-<img alt="../../_images/db259fd70e3e24f34a6cb8dbedd5a1bd9ca4cb9bb69eac016a444db515309f94.png" src="../../_images/db259fd70e3e24f34a6cb8dbedd5a1bd9ca4cb9bb69eac016a444db515309f94.png" />
-<img alt="../../_images/9d316911750f0066947316684ee7adf212de5e273e62ef339eb301c26a7148e3.png" src="../../_images/9d316911750f0066947316684ee7adf212de5e273e62ef339eb301c26a7148e3.png" />
-<img alt="../../_images/b8b30fd7adc4623e7a9af39e6baab10d078a30326bb68128b399acd0b7f05d8b.png" src="../../_images/b8b30fd7adc4623e7a9af39e6baab10d078a30326bb68128b399acd0b7f05d8b.png" />
-<img alt="../../_images/fd637095c3eae4de7bb3e0f9ced1ec808bcf38246838c77e2693b8d292fd47b6.png" src="../../_images/fd637095c3eae4de7bb3e0f9ced1ec808bcf38246838c77e2693b8d292fd47b6.png" />
-<img alt="../../_images/7d04221601ff916e0c1f39e357e83873eb0f8af4b8018b0b9fe44344b78f89dc.png" src="../../_images/7d04221601ff916e0c1f39e357e83873eb0f8af4b8018b0b9fe44344b78f89dc.png" />
-<img alt="../../_images/7223706aaa68ecd67ac2037ed1ef28e31db97284fe7391a9d38e52e9b33f06b2.png" src="../../_images/7223706aaa68ecd67ac2037ed1ef28e31db97284fe7391a9d38e52e9b33f06b2.png" />
-<img alt="../../_images/edd47e8a959da0b9501f169c956640ad1d5f1da1d3c98e31dbf1eff3b9dd6546.png" src="../../_images/edd47e8a959da0b9501f169c956640ad1d5f1da1d3c98e31dbf1eff3b9dd6546.png" />
-<img alt="../../_images/51500e007fddc51fbc28cf3ac28bc62bdcd8242c1e72016911bd9ae7da4522ab.png" src="../../_images/51500e007fddc51fbc28cf3ac28bc62bdcd8242c1e72016911bd9ae7da4522ab.png" />
-<img alt="../../_images/9e7ddf747697f23ae2170e82670156e56bb9870c6460b7584ce66a1f89847c6e.png" src="../../_images/9e7ddf747697f23ae2170e82670156e56bb9870c6460b7584ce66a1f89847c6e.png" />
-<img alt="../../_images/90e43809a31663930b65d4dccd4b3ce7f39bb47e060504e4f9d44e1bfd78a9e9.png" src="../../_images/90e43809a31663930b65d4dccd4b3ce7f39bb47e060504e4f9d44e1bfd78a9e9.png" />
-<img alt="../../_images/edcb3f85d6ff2ba49be63f01e2e19a5f1156a269909fed1c3b72eb2cb4f02ebf.png" src="../../_images/edcb3f85d6ff2ba49be63f01e2e19a5f1156a269909fed1c3b72eb2cb4f02ebf.png" />
-<img alt="../../_images/ce3865e2a3512d96dcbaf38ad962e1bec3b86d0dd45c68f55d1e463b27ecd3fa.png" src="../../_images/ce3865e2a3512d96dcbaf38ad962e1bec3b86d0dd45c68f55d1e463b27ecd3fa.png" />
-<img alt="../../_images/f420abfb1a7f3cbbd5828d72e65a1aa614d9a0164f846acc55fd475d36cfaf86.png" src="../../_images/f420abfb1a7f3cbbd5828d72e65a1aa614d9a0164f846acc55fd475d36cfaf86.png" />
-<img alt="../../_images/5b84ee8009bdf8ac0e3454819f6edd78fc7107ba208e36d640dc921de236de34.png" src="../../_images/5b84ee8009bdf8ac0e3454819f6edd78fc7107ba208e36d640dc921de236de34.png" />
-<img alt="../../_images/2cfca04219aab4dd4fde65d7430d049f1441cebbddb322fae0d9c5e1062c7fd1.png" src="../../_images/2cfca04219aab4dd4fde65d7430d049f1441cebbddb322fae0d9c5e1062c7fd1.png" />
-<img alt="../../_images/e20fe72ce027859b86d7319f4b90528b092cac4d115e391566466a88a21cd19e.png" src="../../_images/e20fe72ce027859b86d7319f4b90528b092cac4d115e391566466a88a21cd19e.png" />
-<img alt="../../_images/6dd67787d0306daafc4420dd6e425d1af8ced935a76e5b8389f0a44c6d1487fe.png" src="../../_images/6dd67787d0306daafc4420dd6e425d1af8ced935a76e5b8389f0a44c6d1487fe.png" />
-<img alt="../../_images/e5fb07e9f86a155cfe1f6c692c128e76c6e080af7e5b0ec1358ff72bb10a5633.png" src="../../_images/e5fb07e9f86a155cfe1f6c692c128e76c6e080af7e5b0ec1358ff72bb10a5633.png" />
-<img alt="../../_images/7fb52b4b86731396b896f3fdd7c804948c3cf2b71f1085d1b0ff5f09c42843b4.png" src="../../_images/7fb52b4b86731396b896f3fdd7c804948c3cf2b71f1085d1b0ff5f09c42843b4.png" />
-<img alt="../../_images/17111b795431489efd9898a2634b42726f4118096f32d672972abe7c80319534.png" src="../../_images/17111b795431489efd9898a2634b42726f4118096f32d672972abe7c80319534.png" />
-<img alt="../../_images/9fb70caf59d18f7dc5f9ce679795e07f9b75c88b34271523724fc4a1fa4c2348.png" src="../../_images/9fb70caf59d18f7dc5f9ce679795e07f9b75c88b34271523724fc4a1fa4c2348.png" />
-<img alt="../../_images/1ecf37a939d542ba21aa7daf16637878069e76b456cb946d58557603906033f5.png" src="../../_images/1ecf37a939d542ba21aa7daf16637878069e76b456cb946d58557603906033f5.png" />
-<img alt="../../_images/3aed5595a1ca4e00df4e683d3dcb270110e40040220525fb8671eba446446d3a.png" src="../../_images/3aed5595a1ca4e00df4e683d3dcb270110e40040220525fb8671eba446446d3a.png" />
-<img alt="../../_images/e2bd233f26a17e1ce1704179a25aa06f6ba995a6eaa0e3fc1b599d50f868eb86.png" src="../../_images/e2bd233f26a17e1ce1704179a25aa06f6ba995a6eaa0e3fc1b599d50f868eb86.png" />
-<img alt="../../_images/ec5cd4d551843cfea5b19388f17e4243f651d1d46b0b99089e84289018d73a3d.png" src="../../_images/ec5cd4d551843cfea5b19388f17e4243f651d1d46b0b99089e84289018d73a3d.png" />
-<img alt="../../_images/972484d2ff48b61335786cf4098b0fcf95ad0aedcaaf3eac50006c61fd281017.png" src="../../_images/972484d2ff48b61335786cf4098b0fcf95ad0aedcaaf3eac50006c61fd281017.png" />
-<img alt="../../_images/f1bdefaf8ce5d5546413956adf7651fd2a68fc0a20cd9841db2e333169d058dd.png" src="../../_images/f1bdefaf8ce5d5546413956adf7651fd2a68fc0a20cd9841db2e333169d058dd.png" />
-<img alt="../../_images/f1489ce34d18317f9ad3d323a474a5abf92a2e7c0377941902137871111210d9.png" src="../../_images/f1489ce34d18317f9ad3d323a474a5abf92a2e7c0377941902137871111210d9.png" />
-<img alt="../../_images/be6065d0b6b1398054996efa83c2ce8e141dbfa637597a915df7ebdb436eb5e7.png" src="../../_images/be6065d0b6b1398054996efa83c2ce8e141dbfa637597a915df7ebdb436eb5e7.png" />
-<img alt="../../_images/aaec3bc502ad3086cbe7956643807b5d988ea64a1baa7f75eeb0764db3fba860.png" src="../../_images/aaec3bc502ad3086cbe7956643807b5d988ea64a1baa7f75eeb0764db3fba860.png" />
-<img alt="../../_images/8defe74d70e2c6f6564b9fe540be9b48af07677130b782b943d385776a59f9c1.png" src="../../_images/8defe74d70e2c6f6564b9fe540be9b48af07677130b782b943d385776a59f9c1.png" />
-<img alt="../../_images/665c5f1fb35b2ac9b3e8b9eac9cb3c4ec03293442a747b429ba7ac4f62c3600e.png" src="../../_images/665c5f1fb35b2ac9b3e8b9eac9cb3c4ec03293442a747b429ba7ac4f62c3600e.png" />
-<img alt="../../_images/f5295571bf3410512a2855abead458feb3fad85e19bebea1d483c0440bce9a33.png" src="../../_images/f5295571bf3410512a2855abead458feb3fad85e19bebea1d483c0440bce9a33.png" />
-<img alt="../../_images/ef04bb07dfc6d9403aec1c4038123699585d67b13e3085bb48e79136867da003.png" src="../../_images/ef04bb07dfc6d9403aec1c4038123699585d67b13e3085bb48e79136867da003.png" />
-<img alt="../../_images/22a39c19d755c603802af38c6874bcc20a4156c1d6f733faf6d614c511aaa6fd.png" src="../../_images/22a39c19d755c603802af38c6874bcc20a4156c1d6f733faf6d614c511aaa6fd.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;recon&#39;, &#39;ff&#39;, &#39;fb&#39;, &#39;spks&#39;, &#39;dist&#39;, &#39;loss_kl&#39;, &#39;loss_recon&#39;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">du_norm</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span>
-    <span class="n">output</span><span class="p">[</span><span class="s1">&#39;ff&#39;</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
-
-<span class="n">ff</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;ff&#39;</span><span class="p">])</span>
-<span class="n">ff</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64, 300, 128)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_i</span> <span class="o">=</span> <span class="mi">34</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ff</span><span class="p">[</span><span class="n">sample_i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">27</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x7eeb043eb390&gt;
-</pre></div>
-</div>
-<img alt="../../_images/066ee21b2a29fa6729cfb3d3c8689b5f117c870b69394d94e0bb0c82c0426926.png" src="../../_images/066ee21b2a29fa6729cfb3d3c8689b5f117c870b69394d94e0bb0c82c0426926.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">du_norm</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7eeaf82e39d0&gt;]
-</pre></div>
-</div>
-<img alt="../../_images/5a1d732a5dbd4fb920a36d83719df8c833b2d7d990da6a8907b6a434e52ab90f.png" src="../../_images/5a1d732a5dbd4fb920a36d83719df8c833b2d7d990da6a8907b6a434e52ab90f.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/88a0bee77115cd22d51258c9e44083083968a4bf75c50537c8332dfc45b27826.png" src="../../_images/88a0bee77115cd22d51258c9e44083083968a4bf75c50537c8332dfc45b27826.png" />
+<img alt="../../_images/08bfec7a391f490620396cdcc1d88aab6f1d5827c9def8e07c0b015830d31d82.png" src="../../_images/08bfec7a391f490620396cdcc1d88aab6f1d5827c9def8e07c0b015830d31d82.png" />
+<img alt="../../_images/cd04e10380f4ce79c52fbd533409b50a37b5f7e57b0a43fdd8dd293c0d0d8434.png" src="../../_images/cd04e10380f4ce79c52fbd533409b50a37b5f7e57b0a43fdd8dd293c0d0d8434.png" />
+<img alt="../../_images/748dac6181ac476307d4c7a1341d666555199fc9c313ab8d3ec71a7f71dc57ae.png" src="../../_images/748dac6181ac476307d4c7a1341d666555199fc9c313ab8d3ec71a7f71dc57ae.png" />
+<img alt="../../_images/69ffbeaf09792d2625ae1b81295075d051e77b6ca952525fefc8ba8350c493d7.png" src="../../_images/69ffbeaf09792d2625ae1b81295075d051e77b6ca952525fefc8ba8350c493d7.png" />
+<img alt="../../_images/09f9d8e2fd5ace7c27d304903a86478172fcc22d67634a27ef2d9b46259e62ac.png" src="../../_images/09f9d8e2fd5ace7c27d304903a86478172fcc22d67634a27ef2d9b46259e62ac.png" />
+<img alt="../../_images/b2e4b6b41b420e46830f176e1a22e0bcc0ac5ca04899f22d245c02d2ed9394f5.png" src="../../_images/b2e4b6b41b420e46830f176e1a22e0bcc0ac5ca04899f22d245c02d2ed9394f5.png" />
+<img alt="../../_images/2ba82ac6a6ab3e47a9dbab33fc4ffeeac1d292549f7e392f4cacaf84c6358ef6.png" src="../../_images/2ba82ac6a6ab3e47a9dbab33fc4ffeeac1d292549f7e392f4cacaf84c6358ef6.png" />
+<img alt="../../_images/b2d575189c93d4953cac8ac9ae1c9f719c23035e69257b8c6d5cd0b6616ab155.png" src="../../_images/b2d575189c93d4953cac8ac9ae1c9f719c23035e69257b8c6d5cd0b6616ab155.png" />
+<img alt="../../_images/7bd932baf0f03b8d50f716048156328910b26bac25d70249dc0e5177738814a9.png" src="../../_images/7bd932baf0f03b8d50f716048156328910b26bac25d70249dc0e5177738814a9.png" />
+<img alt="../../_images/8de9883ce00f5615c857c345fa778f8ff24547218b7df09920b301356e8eb09b.png" src="../../_images/8de9883ce00f5615c857c345fa778f8ff24547218b7df09920b301356e8eb09b.png" />
+<img alt="../../_images/f79807b6e56669b88e78d8a3e9617e15dbec997be7ba2143172f733797d364bc.png" src="../../_images/f79807b6e56669b88e78d8a3e9617e15dbec997be7ba2143172f733797d364bc.png" />
 </div>
 </div>
 </section>
@@ -1239,15 +1638,29 @@ mc_b512-ep1000-<span style="color: #800080; text-decoration-color: #800080; font
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#balls64">BALLS64</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-amortized-mlp-decoder">Poisson Omniglot + Amortized, MLP decoder</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-configs">Get configs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-model-trainer">Make model + trainer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#print-info">Print info</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fit-model">Fit model</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-mod">Load mod?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-amortized-linear-decoder">Poisson Omniglot + Amortized, linear decoder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Make model + trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Print info</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Fit model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-omniglot-linear-decoder">Poisson Omniglot, linear decoder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Get configs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Make model + trainer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Print info</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Fit model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist">MNIST</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-model">Load model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate">generate</a></li>
 </ul>
 </li>
