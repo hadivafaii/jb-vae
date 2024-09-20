@@ -586,7 +586,12 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson">Poisson</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-gaussian-noise">MNIST + Gaussian Noise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterative-vs-amortized">Iterative vs. Amortized</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-gaussian-noise">MNIST + Gaussian Noise</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-recon-only">results (recon only)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-recon-hallucinate">results (recon + hallucinate)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-noise">Dynamic noise?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clf">Clf</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-noise">Fixed noise</a></li>
@@ -679,18 +684,30 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models2load</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;iterative&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="s1">&#39;iter-pois&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;poisson_MNIST_t-32_z-[128]_&lt;jacob|mlp&gt;&#39;</span><span class="p">,</span>
         <span class="n">fit_name</span><span class="o">=</span><span class="s1">&#39;u:(8.0)-du:(7.0)_b200-ep500-lr(0.002)_beta(16:0x0.1)_temp(0.05:lin-0.5)_gr(50)_(2024_09_13,10:55)&#39;</span><span class="p">,</span>
         <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s1">&#39;amortized&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="s1">&#39;iter-gaus&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;gaussian_MNIST_t-10_z-[128]_k-32_&lt;jacob|mlp+b&gt;&#39;</span><span class="p">,</span>
+        <span class="n">fit_name</span><span class="o">=</span><span class="s1">&#39;b200-ep500-lr(0.002)_beta(5:0x0.5)_gr(1000)_(2024_09_08,16:11)&#39;</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;amort-pois&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;poisson_MNIST_t-1_z-[128]_&lt;mlp|mlp&gt;&#39;</span><span class="p">,</span>
         <span class="n">fit_name</span><span class="o">=</span><span class="s1">&#39;b200-ep500-lr(0.002)_beta(1:0x0.1)_temp(0.05:lin-0.5)_gr(50)_(2024_09_13,17:45)&#39;</span><span class="p">,</span>
         <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;amort-gaus&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;gaussian_MNIST_t-1_z-[128]_&lt;mlp|mlp&gt;&#39;</span><span class="p">,</span>
+        <span class="n">fit_name</span><span class="o">=</span><span class="s1">&#39;b200-ep400-lr(0.002)_beta(1:0x0.1)_gr(50)_(2024_09_17,20:20)&#39;</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -702,10 +719,36 @@ document.write(`
     <span class="n">name</span><span class="p">:</span> <span class="n">load_model</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span>
     <span class="n">name</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">models2load</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">}</span>
-<span class="n">tr</span> <span class="o">=</span> <span class="n">trainers</span><span class="p">[</span><span class="s1">&#39;iterative&#39;</span><span class="p">]</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">trainers</span><span class="p">[</span><span class="s1">&#39;iter-pois&#39;</span><span class="p">]</span>
 <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trainers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    
+    <span class="n">w</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
+    <span class="n">norms</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">vector_norm</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-pois
+</pre>
+</div><img alt="../../_images/fd0e34ce3d81ca2487b1cf310a15cd659a05c3c389063592d7f84c5562508079.png" src="../../_images/fd0e34ce3d81ca2487b1cf310a15cd659a05c3c389063592d7f84c5562508079.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-gaus
+</pre>
+</div><img alt="../../_images/98a85d8d0e343d2817edc5b751c00e6dc01ca2bd57e13eb6353fe433340eb536.png" src="../../_images/98a85d8d0e343d2817edc5b751c00e6dc01ca2bd57e13eb6353fe433340eb536.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-pois
+</pre>
+</div><img alt="../../_images/f9810e059dcc46b413069aa05f169815aa967e87b036535961370a6108f781da.png" src="../../_images/f9810e059dcc46b413069aa05f169815aa967e87b036535961370a6108f781da.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-gaus
+</pre>
+</div><img alt="../../_images/bb3afd6f18f71258a188b748c491f3a54d523ed3fe407b2de4a3b2314dc609b1.png" src="../../_images/bb3afd6f18f71258a188b748c491f3a54d523ed3fe407b2de4a3b2314dc609b1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -716,11 +759,168 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [02:05&lt;00:00,  2.51s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [02:11&lt;00:00,  2.64s/it]
 </pre></div>
 </div>
-<img alt="../../_images/d3631a73f4023ed7757239d8c0913310afead19464f620e5743efa9db8182b82.png" src="../../_images/d3631a73f4023ed7757239d8c0913310afead19464f620e5743efa9db8182b82.png" />
+<img alt="../../_images/25c95f08514b796f3f9e85196329fdd54a83b9a9bd1dd9258fb4cfeb0b1956a7.png" src="../../_images/25c95f08514b796f3f9e85196329fdd54a83b9a9bd1dd9258fb4cfeb0b1956a7.png" />
 </div>
+</div>
+</section>
+<section id="iterative-vs-amortized">
+<h2>Iterative vs. Amortized<a class="headerlink" href="#iterative-vs-amortized" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">tr</span><span class="o">=</span><span class="n">trainers</span><span class="p">[</span><span class="s1">&#39;iterative&#39;</span><span class="p">],</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+    <span class="n">t_recon</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">perform_denoise_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:03&lt;00:00, 14.80it/s]
+100%|█████████████████████████████████████████| 300/300 [00:18&lt;00:00, 16.65it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.7432, 23.55618)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Was: sigma = 0.6</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.9015, 10.4138155)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kws</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trainers</span><span class="p">[</span><span class="s1">&#39;amortized&#39;</span><span class="p">]</span>
+<span class="n">results</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">perform_denoise_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████| 50/50 [00:00&lt;00:00, 341.25it/s]
+100%|████████████████████████████████████████| 300/300 [00:00&lt;00:00, 331.21it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.6188, 54.435425)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">tr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+    <span class="n">t_recon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trainers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span>
+    <span class="n">results</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">perform_denoise_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;,  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">f</span><span class="s2">&quot;mse (mean) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;mse (median) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;accuracy = </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">0.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">   ———   </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-pois   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">23.5</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">23.1</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.742</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-gaus   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21.8</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21.4</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.738</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-pois   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54.6</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">52.7</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.620</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-gaus   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43.7</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41.3</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.665</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">tr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+    <span class="n">t_recon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trainers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span>
+    <span class="n">results</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">perform_denoise_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;,  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">f</span><span class="s2">&quot;mse (mean) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;mse (median) = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;accuracy = </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">0.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">   ———   </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-pois   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.7</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.6</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.938</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">iter-gaus   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.6</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.3</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.864</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-pois   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25.8</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.3</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.931</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">amort-gaus   ———   mse <span style="font-weight: bold">(</span>mean<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16.3</span>,  mse <span style="font-weight: bold">(</span>median<span style="font-weight: bold">)</span> = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15.5</span>,  accuracy = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.934</span>
+</pre>
+</div></div>
 </div>
 </section>
 <section id="mnist-gaussian-noise">
@@ -756,18 +956,37 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">t_recon</span> <span class="o">=</span> <span class="mi">32</span>
-<span class="n">t_halluc</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_recon</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">t_halluc</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">final_only</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">denoise_analysis</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">t_recon</span><span class="o">=</span><span class="n">t_recon</span><span class="p">)</span>
-<span class="n">results_halluc</span> <span class="o">=</span> <span class="n">denoise_analysis</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">hallucinate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">t_recon</span><span class="o">=</span><span class="n">t_recon</span><span class="p">,</span> <span class="n">t_halluc</span><span class="o">=</span><span class="n">t_halluc</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">denoise_analysis</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">t_recon</span><span class="o">=</span><span class="n">t_recon</span><span class="p">,</span> <span class="n">final_only</span><span class="o">=</span><span class="n">final_only</span><span class="p">)</span>
+<span class="n">results_halluc</span> <span class="o">=</span> <span class="n">denoise_analysis</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">t_recon</span><span class="o">=</span><span class="n">t_recon</span><span class="p">,</span> <span class="n">t_halluc</span><span class="o">=</span><span class="n">t_halluc</span><span class="p">,</span> <span class="n">hallucinate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">final_only</span><span class="o">=</span><span class="n">final_only</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:04&lt;00:00, 11.45it/s]
-100%|███████████████████████████████████████████| 50/50 [00:11&lt;00:00,  4.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:08&lt;00:00,  6.12it/s]
+100%|███████████████████████████████████████████| 50/50 [00:17&lt;00:00,  2.83it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((10000, 64), (10000, 128))
 </pre></div>
 </div>
 </div>
@@ -782,76 +1001,185 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/14947cbb22d838b35301948122079e4a5180c798e9927e1c1c01aa09b0089186.png" src="../../_images/14947cbb22d838b35301948122079e4a5180c798e9927e1c1c01aa09b0089186.png" />
+<img alt="../../_images/e979d971e0cedd863f6b5ef9b6ac66ae655379e3ab2c136415b4145df4996534.png" src="../../_images/e979d971e0cedd863f6b5ef9b6ac66ae655379e3ab2c136415b4145df4996534.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">x_eps</span> <span class="o">=</span> <span class="n">F_vis</span><span class="o">.</span><span class="n">gaussian_noise</span><span class="p">(</span>
+<span class="n">x_noisy</span> <span class="o">=</span> <span class="n">F_vis</span><span class="o">.</span><span class="n">gaussian_noise</span><span class="p">(</span>
     <span class="n">inpt</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<section id="results-recon-only">
+<h3>results (recon only)<a class="headerlink" href="#results-recon-only" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">best_times</span><span class="p">)),</span> <span class="n">best_times</span><span class="p">]</span>
+<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 1, 28, 28)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_recon</span><span class="p">,</span> <span class="n">t_recon</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span>
+    <span class="n">best_times</span><span class="p">,</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mode</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">best_times</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;mode = </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">add_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3c49f00bb01bb1cf3bace0c247d7963b2a5a67e0a08b3d6b20a50cbc84bd323e.png" src="../../_images/3c49f00bb01bb1cf3bace0c247d7963b2a5a67e0a08b3d6b20a50cbc84bd323e.png" />
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">x2p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">[:</span><span class="n">num</span><span class="p">],</span> <span class="n">x_eps</span><span class="p">[:</span><span class="n">num</span><span class="p">]])</span>
+<span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">num</span><span class="p">]),</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">x_noisy</span><span class="p">[:</span><span class="n">num</span><span class="p">]),</span>
+    <span class="n">y</span><span class="p">[:</span><span class="n">num</span><span class="p">],</span>
+<span class="p">])</span>
 
-<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ca45fd1c60a70a8214088501cc074559a9460db1b829b5129fcb66e837bb932e.png" src="../../_images/ca45fd1c60a70a8214088501cc074559a9460db1b829b5129fcb66e837bb932e.png" />
+<img alt="../../_images/dda32ca3cc2323728a2f395db9886bc43aafaf7566b0d66c81d8de622939ee70.png" src="../../_images/dda32ca3cc2323728a2f395db9886bc43aafaf7566b0d66c81d8de622939ee70.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">xtract_ftr</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x_eps</span><span class="p">,</span>
-    <span class="n">seq</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
-    <span class="n">return_extras</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_i</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_mse</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">best_times</span><span class="p">)),</span> <span class="n">best_times</span><span class="p">]</span>
+<span class="n">mode_mse</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">][:,</span> <span class="n">mode</span><span class="p">]</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">sample_i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mse:</span><span class="se">\n</span><span class="s2">best times = </span><span class="si">{</span><span class="n">best_mse</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">mode timepoint = </span><span class="si">{</span><span class="n">mode_mse</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">sample_i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">()</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">best_mse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">mode_mse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4c1916554117645abaab3b48426d9087cddd5de90fa9d5e0e0f4d2e7087cbcff.png" src="../../_images/4c1916554117645abaab3b48426d9087cddd5de90fa9d5e0e0f4d2e7087cbcff.png" />
-<img alt="../../_images/77e0dbf235bbf902126c76bda787c90ac4597a317f40e56be3826621ae4b56d2.png" src="../../_images/77e0dbf235bbf902126c76bda787c90ac4597a317f40e56be3826621ae4b56d2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">mse:
+best times = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.9</span>,
+mode timepoint = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7.7</span>,
+</pre>
+</div><img alt="../../_images/b1c66a2f483cbcbfbc9393fe1c6cce0e4fc29e9d80d241ea6010d37a31453fa4.png" src="../../_images/b1c66a2f483cbcbfbc9393fe1c6cce0e4fc29e9d80d241ea6010d37a31453fa4.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_times</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">best_times</span><span class="p">)),</span> <span class="n">best_times</span><span class="p">,</span> <span class="p">:]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-
-<span class="n">num</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">x2p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">[:</span><span class="n">num</span><span class="p">],</span> <span class="n">x_eps</span><span class="p">[:</span><span class="n">num</span><span class="p">],</span> <span class="n">y</span><span class="p">[:</span><span class="n">num</span><span class="p">]])</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1a844034ad9033666122b542692fa9fd46cb430618f66335b9ab5f4731120474.png" src="../../_images/1a844034ad9033666122b542692fa9fd46cb430618f66335b9ab5f4731120474.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fbd63502c10&gt;]
+</pre></div>
+</div>
+<img alt="../../_images/e67fc15cda3daefe152a91438874ee6f36b0312f7eda2950a09d2ed7242b2dc2.png" src="../../_images/e67fc15cda3daefe152a91438874ee6f36b0312f7eda2950a09d2ed7242b2dc2.png" />
 </div>
 </div>
+</section>
+<section id="results-recon-hallucinate">
+<h3>results (recon + hallucinate)<a class="headerlink" href="#results-recon-hallucinate" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">best_times</span><span class="p">)),</span> <span class="n">best_times</span><span class="p">]</span>
+<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 1, 28, 28)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_recon</span> <span class="o">+</span> <span class="n">t_halluc</span><span class="p">,</span> <span class="n">t_recon</span> <span class="o">+</span> <span class="n">t_halluc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span>
+    <span class="n">best_times</span><span class="p">,</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mode</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">best_times</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;mode = </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">add_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a756ad608694de58f3a0041e3690e8791aaf645c09581145a43a11e3d03a6259.png" src="../../_images/a756ad608694de58f3a0041e3690e8791aaf645c09581145a43a11e3d03a6259.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">num</span><span class="p">]),</span>
+    <span class="n">tonp</span><span class="p">(</span><span class="n">x_noisy</span><span class="p">[:</span><span class="n">num</span><span class="p">]),</span>
+    <span class="n">y</span><span class="p">[:</span><span class="n">num</span><span class="p">],</span>
+<span class="p">])</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/19ad0c35e144b6b81a984a62d6cb7dd7f088242b7a88d0a1708aca3c0e9a1d2e.png" src="../../_images/19ad0c35e144b6b81a984a62d6cb7dd7f088242b7a88d0a1708aca3c0e9a1d2e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_mse</span> <span class="o">=</span> <span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">best_times</span><span class="p">)),</span> <span class="n">best_times</span><span class="p">]</span>
+<span class="n">mode_mse</span> <span class="o">=</span> <span class="n">results_halluc</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">][:,</span> <span class="n">mode</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mse:</span><span class="se">\n</span><span class="s2">best times = </span><span class="si">{</span><span class="n">best_mse</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">mode timepoint = </span><span class="si">{</span><span class="n">mode_mse</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">()</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">best_mse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">mode_mse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">mse:
+best times = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.8</span>,
+mode timepoint = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7.7</span>,
+</pre>
+</div><img alt="../../_images/982fb7c97c0ab539f4cd0289ceb72854253cfca0abcce934d7b2990d5df2145f.png" src="../../_images/982fb7c97c0ab539f4cd0289ceb72854253cfca0abcce934d7b2990d5df2145f.png" />
+</div>
+</div>
+</section>
 </section>
 <section id="dynamic-noise">
 <h2>Dynamic noise?<a class="headerlink" href="#dynamic-noise" title="Permalink to this heading">#</a></h2>
@@ -1618,7 +1946,12 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson">Poisson</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-gaussian-noise">MNIST + Gaussian Noise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterative-vs-amortized">Iterative vs. Amortized</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-gaussian-noise">MNIST + Gaussian Noise</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-recon-only">results (recon only)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-recon-hallucinate">results (recon + hallucinate)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-noise">Dynamic noise?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clf">Clf</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-noise">Fixed noise</a></li>
