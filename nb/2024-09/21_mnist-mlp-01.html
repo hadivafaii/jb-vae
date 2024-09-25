@@ -63,7 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/21_mnist-mlp-01';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="(21) mnist - mlp" href="21_mnist-mlp-02.html" />
+    <link rel="next" title="(21) omniglot - lin" href="21_omni-lin-1.html" />
     <link rel="prev" title="(21) mnist - mlp" href="21_mnist-mlp-00.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -432,11 +432,25 @@
 <li class="toctree-l2"><a class="reference internal" href="21_corrupt.html">(21) corrupt analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-1.html">(21) ImageNet — mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-2.html">(21) ImageNet — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-conv-0.html">(21) mnist - conv</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-00.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">(21) mnist - mlp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-02.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_omni-lin-1.html">(21) omniglot - lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-imgnet-mlp-0.html">(21) solo — fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-0.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-1.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="22_nvae-play.html">(21) NVAE — play</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-amort.html">(23) vH16 — fit amortized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-lin.html">(23) vH16 — tst, lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-mlp.html">(23) vH16 — tst, mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-amort.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-iter.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-iter-fit.html">(24) mnist fit — mlp, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-verify.html">(25) corrupt analysis — load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
 </li>
@@ -869,7 +883,7 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 151, avg loss: 8.833648:  38%|█▌  | 151/400 [3:13:40&lt;5:28:44, 79.22s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 9.460922: 100%|██████| 400/400 [8:45:16&lt;00:00, 78.79s/it]
 </pre></div>
 </div>
 </div>
@@ -882,11 +896,10 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">771</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">648</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">559</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">496</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">449</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">410</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">378</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">351</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">329</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">309</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">291</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">276</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">238</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">228</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">219</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">210</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">203</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">195</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">189</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">182</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">177</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">171</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">166</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">161</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">157</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">153</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">149</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">145</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">141</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">138</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">132</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">129</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">126</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">124</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">121</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">119</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">116</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">114</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">112</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">110</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">108</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">106</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">104</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">102</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">101</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">99</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">97</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">94</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">92</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89</span>,
-         <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">82</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:0'</span>,
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">44</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">52</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">53</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">56</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:0'</span>,
        <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
 </pre>
 </div></div>
@@ -899,7 +912,7 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c2954d02a000d4b30328c19ba371c908f58a024af5dcd0993b7b9ba4fd1197c5.png" src="../../_images/c2954d02a000d4b30328c19ba371c908f58a024af5dcd0993b7b9ba4fd1197c5.png" />
+<img alt="../../_images/ffca5798e79613a71160dc0915c213bf2d2874dc3e6ff6ac9a3c5286a862e14a.png" src="../../_images/ffca5798e79613a71160dc0915c213bf2d2874dc3e6ff6ac9a3c5286a862e14a.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -908,19 +921,16 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../../_images/dfbff3a415a48b692f720552c20fcd6d8ad81cecc0315e355aeca8bdf66d57fa.png" src="../../_images/dfbff3a415a48b692f720552c20fcd6d8ad81cecc0315e355aeca8bdf66d57fa.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&gt;</span> <span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dead</span> <span class="o">=</span> <span class="n">log_rate</span> <span class="o">&lt;</span> <span class="mi">0</span>
 <span class="n">dead</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
 </pre></div>
 </div>
 </div>
@@ -939,19 +949,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/73c0f513c97e2af92aed05459cf842f149780a79d209bcc5f210e408587ae2d9.png" src="../../_images/73c0f513c97e2af92aed05459cf842f149780a79d209bcc5f210e408587ae2d9.png" />
-<img alt="../../_images/c23232653874832db67810b1c84d7fb202e573eec397e932a1707880497872d1.png" src="../../_images/c23232653874832db67810b1c84d7fb202e573eec397e932a1707880497872d1.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Was: linear decoder</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/28da73d230833ed8f0cf7dc178f8790ee3db79ad797aacb209256efb12b19266.png" src="../../_images/28da73d230833ed8f0cf7dc178f8790ee3db79ad797aacb209256efb12b19266.png" />
-<img alt="../../_images/70f45c9172fe11a9b4237bf78e70a2599d822682da7c558b0da50eeae37850a5.png" src="../../_images/70f45c9172fe11a9b4237bf78e70a2599d822682da7c558b0da50eeae37850a5.png" />
+<img alt="../../_images/f07a9726139063547c4693ca082c39be462c0e86f32b7f79d0d17ac5fc45a0fc.png" src="../../_images/f07a9726139063547c4693ca082c39be462c0e86f32b7f79d0d17ac5fc45a0fc.png" />
+<img alt="../../_images/235343dfe664f76a091126230d5a03ce322536db79f3ec17d0fbf6ca57d8c122.png" src="../../_images/235343dfe664f76a091126230d5a03ce322536db79f3ec17d0fbf6ca57d8c122.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -970,24 +969,24 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [23:39&lt;00:00, 28.38s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [23:36&lt;00:00, 28.33s/it]
 </pre></div>
 </div>
-<img alt="../../_images/1ef6895a7d2a97ec404814ac06f84bd470d67b5a32eb2a05ff2e299f12c3dbe5.png" src="../../_images/1ef6895a7d2a97ec404814ac06f84bd470d67b5a32eb2a05ff2e299f12c3dbe5.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 23min 35s, sys: 24.7 s, total: 23min 59s
-Wall time: 23min 57s
+<img alt="../../_images/32361b684a35c2b1f6691a29dbc7dc662f8d64db522c1783a6aed13394062001.png" src="../../_images/32361b684a35c2b1f6691a29dbc7dc662f8d64db522c1783a6aed13394062001.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 23min 15s, sys: 39.4 s, total: 23min 54s
+Wall time: 23min 52s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">dec_type</span><span class="p">,</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(64, 8.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;mlp&#39;, (64, 32.0))
 </pre></div>
 </div>
 </div>
@@ -1009,8 +1008,10 @@ Wall time: 23min 57s
 <span class="n">pal</span> <span class="o">=</span> <span class="n">get_cubehelix_palette</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">posterior_log_rates</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">x2p</span><span class="p">[</span><span class="n">x2p</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">10</span><span class="p">]</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
-        <span class="n">v</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
+        <span class="n">x2p</span><span class="p">,</span>
         <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span>
         <span class="n">element</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span>
         <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1281,11 +1282,11 @@ Wall time: 2h 13min 55s
       </div>
     </a>
     <a class="right-next"
-       href="21_mnist-mlp-02.html"
+       href="21_omni-lin-1.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(21) mnist - mlp</p>
+        <p class="prev-next-title">(21) omniglot - lin</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

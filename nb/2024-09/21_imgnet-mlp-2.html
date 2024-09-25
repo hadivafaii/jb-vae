@@ -63,7 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/21_imgnet-mlp-2';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="(21) mnist - mlp" href="21_mnist-mlp-00.html" />
+    <link rel="next" title="(21) mnist - conv" href="21_mnist-conv-0.html" />
     <link rel="prev" title="(21) ImageNet — mlp" href="21_imgnet-mlp-1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -432,11 +432,25 @@
 <li class="toctree-l2"><a class="reference internal" href="21_corrupt.html">(21) corrupt analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-1.html">(21) ImageNet — mlp</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">(21) ImageNet — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-conv-0.html">(21) mnist - conv</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-00.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-01.html">(21) mnist - mlp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-02.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_omni-lin-1.html">(21) omniglot - lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-imgnet-mlp-0.html">(21) solo — fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-0.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-1.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="22_nvae-play.html">(21) NVAE — play</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-amort.html">(23) vH16 — fit amortized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-lin.html">(23) vH16 — tst, lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-mlp.html">(23) vH16 — tst, mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-amort.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-iter.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-iter-fit.html">(24) mnist fit — mlp, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-verify.html">(25) corrupt analysis — load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
 </li>
@@ -847,7 +861,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                    | 0/16 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 16, avg loss: 88.396759: 100%|█████| 16/16 [35:04:11&lt;00:00, 7890.74s/it]
 </pre></div>
 </div>
 </div>
@@ -860,10 +874,10 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">54</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">56</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">51</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">52</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">58</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">68</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>,
-        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">69</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">70</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:2'</span>,
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">43</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">46</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">51</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">63</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">67</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:2'</span>,
        <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
 </pre>
 </div></div>
@@ -878,7 +892,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.497518062591553, 6.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.387570858001709, 6.0)
 </pre></div>
 </div>
 </div>
@@ -896,7 +910,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ac8738b803bcef7646aab02b6c449c302dc5ba0f70a6358df5f91c4cf1eac9d7.png" src="../../_images/ac8738b803bcef7646aab02b6c449c302dc5ba0f70a6358df5f91c4cf1eac9d7.png" />
+<img alt="../../_images/f80e58e2a95b714c51aadfa8f07a8fde5172277028d289d99af1afeb1d7dae90.png" src="../../_images/f80e58e2a95b714c51aadfa8f07a8fde5172277028d289d99af1afeb1d7dae90.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -907,7 +921,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1278, 0.013)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(30099, 0.117)
 </pre></div>
 </div>
 </div>
@@ -927,7 +941,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/77c47f19a61f2b87f26c09e0912bcf375d3731892b673e923d080f8cd5e64b8c.png" src="../../_images/77c47f19a61f2b87f26c09e0912bcf375d3731892b673e923d080f8cd5e64b8c.png" />
+<img alt="../../_images/8381df30fc6cb56b3ca838477c7419719f5dde646d96b57a0132f02611d41609.png" src="../../_images/8381df30fc6cb56b3ca838477c7419719f5dde646d96b57a0132f02611d41609.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -951,7 +965,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2a13a57fc2b633eaf078752b887a055785933b1911198c8ca68413b2eaf3f4fb.png" src="../../_images/2a13a57fc2b633eaf078752b887a055785933b1911198c8ca68413b2eaf3f4fb.png" />
+<img alt="../../_images/4c4141004f7f71cdcdcd9f0afb8152ef869ae2db221a774a524a13e7cc2f08d5.png" src="../../_images/4c4141004f7f71cdcdcd9f0afb8152ef869ae2db221a774a524a13e7cc2f08d5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -969,13 +983,24 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
+    <span class="s1">&#39;poisson_ImageNet32_t-64_z-[2048]_&lt;jacob|mlp&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;b80-ep16-lr(0.0002)_beta(20:0x0.1)_temp(0.05:lin-0.5)_gr(400)_(2024_09_22,12:16)&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">seq_total</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">seq_total</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
     <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="c1"># active=~dead,</span>
 <span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="s1">&#39;vld&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">)</span>
@@ -983,12 +1008,24 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 20/20 [13:02&lt;00:00, 39.13s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████| 300/300 [20:01&lt;00:00,  4.01s/it]
 </pre></div>
 </div>
-<img alt="../../_images/cae816c43a1c34b67577784db2a41cd988675038f537c36e50c78e1b3877e833.png" src="../../_images/cae816c43a1c34b67577784db2a41cd988675038f537c36e50c78e1b3877e833.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12min 7s, sys: 1min 15s, total: 13min 23s
-Wall time: 13min 29s
+<img alt="../../_images/fdf9fa41c15e44de7f0dbbe65e76ddc3c0381e59a7e29de1377f10843acd204f.png" src="../../_images/fdf9fa41c15e44de7f0dbbe65e76ddc3c0381e59a7e29de1377f10843acd204f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 25min 38s, sys: 5min 58s, total: 31min 36s
+Wall time: 31min 42s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">kl_beta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;ImageNet32&#39;, (64, 20.0))
 </pre></div>
 </div>
 </div>
@@ -999,9 +1036,7 @@ Wall time: 13min 29s
     <span class="n">seq_total</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="c1"># tr.model.cfg.seq_len,</span>
     <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="c1"># active=~dead,</span>
     <span class="n">return_recon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">results_to_plot</span> <span class="o">=</span> <span class="p">{</span>
@@ -1015,9 +1050,9 @@ Wall time: 13min 29s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">results_to_plot</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;recon&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ImageNet32&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">results_to_plot</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;mse&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ImageNet32&#39;</span><span class="p">)</span>
 
-<span class="n">mse_final</span> <span class="o">=</span> <span class="n">results_to_plot</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">mse_final</span> <span class="o">=</span> <span class="n">results_to_plot</span><span class="p">[</span><span class="s1">&#39;vld&#39;</span><span class="p">][</span><span class="s1">&#39;mse&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">mse_final</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;final val: </span><span class="si">{</span><span class="n">mse_final</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">add_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -1026,7 +1061,7 @@ Wall time: 13min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c2f7f81b3fb62dcdde8cfd750c678dfe6fcb389db7dbd8df6528b9f4a370bace.png" src="../../_images/c2f7f81b3fb62dcdde8cfd750c678dfe6fcb389db7dbd8df6528b9f4a370bace.png" />
+<img alt="../../_images/f6bdc42f931385ba30b964c8dbdec7333b3c7dd30a04b801b66745c80851626d.png" src="../../_images/f6bdc42f931385ba30b964c8dbdec7333b3c7dd30a04b801b66745c80851626d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1036,8 +1071,8 @@ Wall time: 13min 29s
 <span class="n">x2p_dict</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">results_to_plot</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
-        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">],</span>
-        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">),</span>
+        <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:</span><span class="n">num</span><span class="p">],</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">),</span>
     <span class="p">])</span>
     <span class="n">x2p</span> <span class="o">=</span> <span class="p">(</span><span class="n">x2p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1060,7 +1095,25 @@ Wall time: 13min 29s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/9acc3d2ab3c4e0a11069b3639087f3d81e34e6ba593d34b9acf359a78869842e.png" src="../../_images/9acc3d2ab3c4e0a11069b3639087f3d81e34e6ba593d34b9acf359a78869842e.png" />
+<img alt="../../_images/8b35ae2c3dedba16e9c0505db1c48270d07e27b06ed583400916bf490b430ae6.png" src="../../_images/8b35ae2c3dedba16e9c0505db1c48270d07e27b06ed583400916bf490b430ae6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">())</span>
+<span class="n">kurtosis</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kurtosis</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ac7709758e2ccf99610f79603267a4ebd8c87b6d62f6f6de1fa47f54ea08a8d1.png" src="../../_images/ac7709758e2ccf99610f79603267a4ebd8c87b6d62f6f6de1fa47f54ea08a8d1.png" />
 </div>
 </div>
 </section>
@@ -1107,11 +1160,11 @@ Wall time: 13min 29s
       </div>
     </a>
     <a class="right-next"
-       href="21_mnist-mlp-00.html"
+       href="21_mnist-conv-0.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(21) mnist - mlp</p>
+        <p class="prev-next-title">(21) mnist - conv</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

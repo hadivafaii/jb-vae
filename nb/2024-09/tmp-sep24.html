@@ -61,7 +61,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/tmp-sep24';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="(21) NVAE — play" href="22_nvae-play.html" />
+    <link rel="prev" title="(25) model list - vh16" href="25_model-list-vh16.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -429,11 +429,25 @@
 <li class="toctree-l2"><a class="reference internal" href="21_corrupt.html">(21) corrupt analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-1.html">(21) ImageNet — mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-2.html">(21) ImageNet — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-conv-0.html">(21) mnist - conv</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-00.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-01.html">(21) mnist - mlp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-02.html">(21) mnist - mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="21_omni-lin-1.html">(21) omniglot - lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-imgnet-mlp-0.html">(21) solo — fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-0.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-1.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="22_nvae-play.html">(21) NVAE — play</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-amort.html">(23) vH16 — fit amortized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-lin.html">(23) vH16 — tst, lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-mlp.html">(23) vH16 — tst, mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-amort.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-iter.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-iter-fit.html">(24) mnist fit — mlp, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-verify.html">(25) corrupt analysis — load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">tmp — sep24</a></li>
 </ul>
 </li>
@@ -696,6 +710,83 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">device: cu<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">da:0</span>  ———  host: mach
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s1">&#39;poisson&#39;</span>
+<span class="n">cfg_vae</span><span class="p">,</span> <span class="n">cfg_tr</span> <span class="o">=</span> <span class="n">default_configs</span><span class="p">(</span><span class="s1">&#39;CIFAR10&#39;</span><span class="p">,</span> <span class="n">model_type</span><span class="p">,</span> <span class="s1">&#39;mlp|mlp&#39;</span><span class="p">)</span>
+
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;track_stats&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_len</span>
+
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">vae</span> <span class="o">=</span> <span class="n">MODEL_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="n">CFG_CLASSES</span><span class="p">[</span><span class="n">model_type</span><span class="p">](</span><span class="o">**</span><span class="n">cfg_vae</span><span class="p">))</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">TrainerVAE</span><span class="p">(</span><span class="n">vae</span><span class="p">,</span> <span class="n">ConfigTrainVAE</span><span class="p">(</span><span class="o">**</span><span class="n">cfg_tr</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">n_iters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>250000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">enc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2048</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_num_params</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">+--------------+------------+
+| Module Name  | Num Params |
++--------------+------------+
+| PoissonLayer |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">29.4</span> Mil  |
+|     ———      |    ———     |
+|     enc      |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14.7</span> Mil  |
+|     dec      |  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14.7</span> Mil  |
++--------------+------------+ 
+
 </pre>
 </div></div>
 </div>
@@ -2604,12 +2695,12 @@ mean = <span style="color: #008080; text-decoration-color: #008080; font-weight:
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="22_nvae-play.html"
+       href="25_model-list-vh16.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">(21) NVAE — play</p>
+        <p class="prev-next-title">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></p>
       </div>
     </a>
 </div>

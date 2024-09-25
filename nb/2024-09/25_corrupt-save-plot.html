@@ -1,0 +1,2073 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>(25) save corrupted data &#8212; VAE stuff</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/25_corrupt-save-plot';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(25) corrupt analysis — load" href="25_corrupt-verify.html" />
+    <link rel="prev" title="(24) mnist fit — mlp, iter" href="24_mnist-mlp-iter-fit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../md/intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.webp" class="logo__image only-light" alt="VAE stuff - Home"/>
+    <script>document.write(`<img src="../../_static/logo.webp" class="logo__image only-dark" alt="VAE stuff - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-1.html">(08) MNIST — Poisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-0.html">(14) MNIST — Poisson (Loop) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/14_MNIST-poisson-loop-1.html">(14) MNIST — Poisson (Loop) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-0.html">(19) MNIST — Poisson + rsample — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/19_MNIST-rsample-1.html">(19) MNIST — Poisson + rsample — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-0.html">(20) MNIST — rsample + MEI — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_MNIST-mei-1.html">(20) MNIST — rsample + MEI — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/20_whitening.html">(20) Whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/21_doves.html">(21) DOVES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_doves-16x16.html">(22) DOVES — 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-0.html">(22) MNIST — Linear — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/22_MNIST-lin-1.html">(22) MNIST — Linear — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-0.html">(23) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_DOVES-lin-pois-1.html">(23) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/23_MNIST-zeroinit-1.html">(23) MNIST — ZeroInit — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/24_DOVES-lin-gaus-1.html">(24) DOVES — LinearGaussian — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-0.html">(28) Fit — Pois + Lin — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/28_fit-pois-lin-1.html">(28) Fit — Pois + Lin — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-0.html">(29) DOVES — LinearPoisson — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/29_DOVES-lin-pois-1.html">(29) DOVES — LinearPoisson — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-0.html">(30) Fit — Best(Pois+Lin) — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_fit-best-1.html">(30) Fit — Best(Pois+Lin) — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-0.html">(30) TempSchedule — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/30_temp-schedule-1.html">(30) TempSchedule — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_anneal-beta-longer-1.html">(31) AnnealBetaLonger — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_bestfit-mar.html">(31) Best Fit March</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_larger-beta.html">(31) Large <span class="math notranslate nohighlight">\(\beta = 2.0\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-0.html">(31) Weight Decay — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-1.html">(02) Amort-Enc—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/04_expects.html">(04) Expectations—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/08_gabor-stats.html">(08) Gabor Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-0.html">(09) Pois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/09_pois-fit-1.html">(09) Pois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-0.html">(10) Gaus—Fit—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/10_gauss-fit-1.html">(10) Gaus—Fit—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/11_gabor-mc-exact.html">(11) Gabor: MC vs. Exact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/17_figs-ccn-redwood.html">(17) Figs: CCN + Redwood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/22_dekel.html">(22) Dekel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-conv-1.html">(23) Amort-Conv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_amort-ff-0.html">(23) Amort-FF—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_dekel-mnist.html">(23) MNIST—Conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-0.html">(23) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-1.html">(23) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-0.html">(23) MNIST—Gaus—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_mnist-gaus-1.html">(23) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/23_MNIST-zeroinit-0.html">(23) MNIST — ZeroInit — 0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_knn.html">(26) KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/26_mei.html">(26) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/27_cifar.html">(27) CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-0.html">(28) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-1.html">(28) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-0.html">(28) CIFAR—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-conv-1.html">(28) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_cifar-patches-mlp-1.html">(28) CIFAR—PoisFF—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-0.html">(28) DOVES—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-conv-0.html">(28) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_doves-mlp-1.html">(28) DOVES—PoisMLP—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/28_gabor-cifar.html">(28) Gabor: CIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/29_balls-dataset.html">(29) Balls dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-0.html">(30) BALLS—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-conv-1.html">(30) BALLS—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-conv-1.html">(02) CIFAR—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-0.html">(02) DOVES—LinPois—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-1.html">(02) DOVES—LinPois—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-conv-0.html">(02) DOVES—PoisConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_doves-mlp-0.html">(02) DOVES—PoisMLP—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-0.html">(02) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-1.html">(02) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/02_mnist-gaus-1.html">(02) MNIST—Gaus—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_mei.html">(03) MEI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/03_shatter-dim.html">(03) Shattering dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_categ-test.html">(04) CategoricalVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_exact-test.html">(04) Exact recon loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/04_laplace-test.html">(04) LaplaceVAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-0.html">(05) Categorical—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_categ-1.html">(05) Categorical—MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/05_laplace-0.html">(05) Laplace—MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-0.html">(06) DOVES—CategLin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-0.html">(06) DOVES—CategConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_categ-doves-conv-1.html">(06) DOVES—PoisConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-1.html">(06) DOVES—LapLin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-0.html">(06) DOVES—LapConv—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/06_laplace-doves-conv-1.html">(06) DOVES—LapConv—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-cat-lin-3.html">(08) DOVES—Categ—Lin—3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-gaus-lin-1.html">(08) DOVES—Gaus—Lin—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-lap-lin-2.html">(08) DOVES—Laplace—Lin—2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_doves-pois-lin-0.html">(08) DOVES—Pois—Lin—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_mnist-0.html">(08) MNIST—0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/08_mnist-1.html">(08) MNIST—1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/09_default-cfgs.html">(09) Configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/09_figs-nips.html">(09) Figs: NeurIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/10_jobs-bookkeeping.html">(10) Jobs: bookkeeping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/10_jobs-table1.html">(10) Jobs: main table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/11_jobs-beta.html">(11) Jobs: beta fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/12_jobs-knn.html">(12) Jobs: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/13_figs-washu.html">(13) Figs: NeuroAI Symp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/15_load-fits.html">(15) Load fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/16_df-main.html">(16) df: main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/18_df-knn.html">(18) df: KNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/18_df-shatter.html">(18) df: shatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-beta.html">(19) df: beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-lca-inference.html">(19) df: lca inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/19_df-lca-ista.html">(19) df: lca + ista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/21_dead-neuron-verify.html">(21) dead algo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/21_dekel-share.html">(21) Dekel Sharing Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/28_jobs-only-exc.html">(28) jobs: only exc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/29_jobs-temp.html">(29) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-lifetime-mse.html">Fig: lifetime vs. mse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-phi.html">Fig: Phi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/fig-supp.html">Fig: supp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-active.html">Table: active</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-geom.html">Table: geom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/table-loss.html">Table: loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-chewie-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/15_temp-bench.html">(15) results: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/24_jobs-beta-conv.html">(24) jobs: beta+conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/25_jobs-norm.html">(25) jobs: normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/28_fit.html">(28) Fit: Iterative P-VAE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_fit-iterative-1.html">(30) fit iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_fit-pvae-2.html">(30) fit pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-0.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-1.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-2.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-logreg.html">(04) rebuttal df: LogReg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-temp.html">(04) rebuttal df: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-fig-anneal.html">(04) rebuttal fig: temp anneal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-results-dim.html">(04) rebuttal results: dim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-results-logreg.html">(04) rebuttal results: LogReg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-results-poishist.html">(04) rebuttal results: poisson sample hist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-results-temp.html">(04) rebuttal results: temp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/18_iterative-0.html">(18) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/18_iterative-1.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/19_iterative-0.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/19_iterative-1.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/19_iterative-2.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/19_iterative-3.html">(19) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/20_fig-rate-distort.html">(20) fig: rate-distort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/28_debug-iterative.html">(28) debug — why different from pvae?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/28_debug-pvae.html">(28) debug — why different from pvae?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/29_jacobian.html">(29) jacobian — bench</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-0.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-1.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_iterative-3.html">(04) fit — iterative pvae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_balls-test.html">(05) balls — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_mnist-test.html">(05) mnist — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_fast-0.html">(06) fast jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_fast-1.html">(06) fast jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_timer-1.html">(06) timer run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_clf.html">(07) clf — mnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_mnist-test.html">(10) mnist — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_vh16-test.html">(10) vH16 — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_cifar-test.html">(10) cifar — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_rotation.html">(12) rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_ood-src-mnist.html">(13) OOD — src: MNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_ood-src-omni.html">(13) OOD — src: Omniglot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_denoise.html">(14) Denoise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_overlay.html">(14) Overlay (rivalry among digits)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_svhn-ood.html">(14) OOD on SVHN?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-amort-mlp-1.html">(15) CIFAR — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-conv-0.html">(15) CIFAR — conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-mlp-0.html">(15) CIFAR — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-mlp-2.html">(15) CIFAR — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-mlp-3-copy.html">(15) CIFAR — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_cifar-mlp-3.html">(15) CIFAR — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_svhn-lin-0.html">(15) SVHN — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_svhn-mlp-1.html">(15) SVHN — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="16_svhn-test.html">(16) svhn — tst</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17_emnist-conv-0.html">(17) emnist — conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="17_mnist-conv-1.html">(17) mnist — conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_emnist-conv-2.html">(18) emnist — conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="18_omni-conv-3.html">(18) omni — conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_logp.html">(19) <span class="math notranslate nohighlight">\(\log p(x)\)</span> — importance weighted</a></li>
+<li class="toctree-l2"><a class="reference internal" href="19_rotation-conv.html">(19) rotation — conv model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="20_ood-imagenet.html">(20) ood — ImageNet32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_corrupt.html">(21) corrupt analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-1.html">(21) ImageNet — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_imgnet-mlp-2.html">(21) ImageNet — mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-conv-0.html">(21) mnist - conv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-00.html">(21) mnist - mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_mnist-mlp-01.html">(21) mnist - mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_omni-lin-1.html">(21) omniglot - lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-imgnet-mlp-0.html">(21) solo — fits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-0.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="21_solo-mnist-conv-1.html">(21) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="22_nvae-play.html">(21) NVAE — play</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-amort.html">(23) vH16 — fit amortized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-lin.html">(23) vH16 — tst, lin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="23_vh16-test-mlp.html">(23) vH16 — tst, mlp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-amort.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-iter.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-iter-fit.html">(24) mnist fit — mlp, iter</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-verify.html">(25) corrupt analysis — load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hadivafaii/jb-vae/issues/new?title=Issue%20on%20page%20%2Fnb/2024-09/25_corrupt-save-plot.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/nb/2024-09/25_corrupt-save-plot.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>(25) save corrupted data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Save corrupted data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="save-corrupted-data">
+<h1>(25) save corrupted data<a class="headerlink" href="#save-corrupted-data" title="Permalink to this heading">#</a></h1>
+<p><strong>Motivation</strong>: host = <code class="docutils literal notranslate"><span class="pre">mach</span></code>, device = <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> <br></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># HIDE CODE</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># tmp &amp; extras dir</span>
+<span class="n">git_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;Dropbox/git&#39;</span><span class="p">)</span>
+<span class="n">extras_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/_extras&#39;</span><span class="p">)</span>
+<span class="n">fig_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/figs&#39;</span><span class="p">)</span>
+<span class="n">tmp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;jb-vae/tmp&#39;</span><span class="p">)</span>
+
+<span class="c1"># GitHub</span>
+<span class="c1"># sys.path.insert(0, os.path.join(git_dir, &#39;_PoissonVAE&#39;))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_IterativeVAE&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># warnings, tqdm, &amp; style</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rich.jupyter</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">set_style</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">base.utils_model</span> <span class="kn">import</span> <span class="n">load_quick</span>
+<span class="kn">from</span> <span class="nn">figures.analysis</span> <span class="kn">import</span> <span class="n">plot_convergence</span>
+<span class="kn">from</span> <span class="nn">figures.imgs</span> <span class="kn">import</span> <span class="n">plot_weights</span>
+
+<span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;device: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">  ———  host: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">uname</span><span class="p">()</span><span class="o">.</span><span class="n">nodename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">device: cu<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">da:0</span>  ———  host: mach
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.corrupt</span> <span class="kn">import</span> <span class="n">save_corrupted_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h2>Save corrupted data<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;corrupted_data&#39;</span><span class="p">)</span>
+<span class="n">corruption_params</span> <span class="o">=</span> <span class="n">save_corrupted_data</span><span class="p">(</span>
+    <span class="n">save_dir</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">corruption_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|████████████████████████████████████████████| 3/3 [06:58&lt;00:00, 139.38s/it]
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'noise'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'sigma'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.6</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.1</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'blur'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'sigma'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.0</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'speckle'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'std'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.0</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'salt_pepper'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'amount'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.6</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.7</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'contrast'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'contrast_factor'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'rotate'</span>: <span style="font-weight: bold">(</span><span style="color: #008000; text-decoration-color: #008000">'angle'</span>, <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">180</span><span style="font-weight: bold">])</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;corrupted_data&#39;</span><span class="p">)</span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;corrupted_data&#39;</span><span class="p">))</span>
+<span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">alphanum_sort_key</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>126
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">get_rng</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inds</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">trn</span><span class="p">,</span> <span class="n">vld</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">make_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">load_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">ds</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">:</span>
+        <span class="n">inds</span><span class="p">[</span><span class="n">ds</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">vld</span><span class="p">),</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">,</span>
+            <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+        <span class="n">tonp</span><span class="p">(</span><span class="n">vld</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">inds</span><span class="p">[</span><span class="n">ds</span><span class="p">]],</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;x_corrupted_vld&#39;</span><span class="p">][</span><span class="n">inds</span><span class="p">[</span><span class="n">ds</span><span class="p">]],</span>
+    <span class="p">])</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.63</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/2354fa23699993ecb1d272fae1bd6788e980b4555c989648e2bc5336c062577c.png" src="../../_images/2354fa23699993ecb1d272fae1bd6788e980b4555c989648e2bc5336c062577c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/af31af0cd452b25c9a3b38f7be3b79b2620e01a232d0e3a4561b064c3f5fe4a4.png" src="../../_images/af31af0cd452b25c9a3b38f7be3b79b2620e01a232d0e3a4561b064c3f5fe4a4.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/796633e9b6ca01e35f2072497dba1a3e4b633ca560bb1a21840d55e357c05068.png" src="../../_images/796633e9b6ca01e35f2072497dba1a3e4b633ca560bb1a21840d55e357c05068.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/eb109e4995a3ae794afdc6f2f65ffaa6293bc12a90a247432d177bae78deddda.png" src="../../_images/eb109e4995a3ae794afdc6f2f65ffaa6293bc12a90a247432d177bae78deddda.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d7df473f22f7f2120803efc8cd59d75dc30615bb2538711b03a82f742ba55d19.png" src="../../_images/d7df473f22f7f2120803efc8cd59d75dc30615bb2538711b03a82f742ba55d19.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/581ca93f875a1ce341e6c56c9ce157714fa5a89736011171aecb478adc8663b8.png" src="../../_images/581ca93f875a1ce341e6c56c9ce157714fa5a89736011171aecb478adc8663b8.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/9727f56dc3c5f77d8ae6157474c788ab472b64f1224afede532516602b0f62f2.png" src="../../_images/9727f56dc3c5f77d8ae6157474c788ab472b64f1224afede532516602b0f62f2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e30cd584383370bbf8b0a3ede83ee4c7e43955115086523445e680f93b8c1348.png" src="../../_images/e30cd584383370bbf8b0a3ede83ee4c7e43955115086523445e680f93b8c1348.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f91998be07272a04ce53725ffee6aa73c3de3619d845f7e36a2c1b28bc96be81.png" src="../../_images/f91998be07272a04ce53725ffee6aa73c3de3619d845f7e36a2c1b28bc96be81.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/0a94fb77d083debe20951652e2d98ae761ee42e1b05e36094363a896f24d2693.png" src="../../_images/0a94fb77d083debe20951652e2d98ae761ee42e1b05e36094363a896f24d2693.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/ccb4dfa2ed15ec89e433245ce8c858e394a5c4c9d75374eb6d09be3f0415482d.png" src="../../_images/ccb4dfa2ed15ec89e433245ce8c858e394a5c4c9d75374eb6d09be3f0415482d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/a1d17b621100605b51cde9fb924322b89494b28327cfe30b55f5977cea9a7ffc.png" src="../../_images/a1d17b621100605b51cde9fb924322b89494b28327cfe30b55f5977cea9a7ffc.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/00f6c330b95031fd649a2e76068e9369247acc22d244aca4ade95dec1d2eb562.png" src="../../_images/00f6c330b95031fd649a2e76068e9369247acc22d244aca4ade95dec1d2eb562.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/8266deb5be1b8d4c164d861e6a6ff9d18bb54e4de5bdf08952306cd5a82c8d7a.png" src="../../_images/8266deb5be1b8d4c164d861e6a6ff9d18bb54e4de5bdf08952306cd5a82c8d7a.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1d34dddc5593ec1fd8b391c43fdce75dff2b8567183c159a36c77fcd1d5404bd.png" src="../../_images/1d34dddc5593ec1fd8b391c43fdce75dff2b8567183c159a36c77fcd1d5404bd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7509cc1851bda95228ec0ac1b44b61b45ac08d287b7870ab4a7c319fe96cadc4.png" src="../../_images/7509cc1851bda95228ec0ac1b44b61b45ac08d287b7870ab4a7c319fe96cadc4.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/483540efb4221b9b3ed26463f1ebf03e8415567f60ea7f2da10e7bd8c2427640.png" src="../../_images/483540efb4221b9b3ed26463f1ebf03e8415567f60ea7f2da10e7bd8c2427640.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/cf492a0c628d52ce4c22da2d77c97d514d62bfee3372cb2ff130003ca1ad0c20.png" src="../../_images/cf492a0c628d52ce4c22da2d77c97d514d62bfee3372cb2ff130003ca1ad0c20.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/6a60561f2a7b289a61758b4624bdc746c8afd513315455093f1a5fae2825875f.png" src="../../_images/6a60561f2a7b289a61758b4624bdc746c8afd513315455093f1a5fae2825875f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1cf7ffe77f1a12f0cfa34c302c9fe257e0b684d304478b5348311e9ccfddee11.png" src="../../_images/1cf7ffe77f1a12f0cfa34c302c9fe257e0b684d304478b5348311e9ccfddee11.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/31a3b16b17e89eb569ff25c5500ac91d214723108e6ec81cee4af0b393e78a6d.png" src="../../_images/31a3b16b17e89eb569ff25c5500ac91d214723108e6ec81cee4af0b393e78a6d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/2bc4919cf42433cdf0458189a313e3b68c7819eac9a8420bab520d1e1f87e422.png" src="../../_images/2bc4919cf42433cdf0458189a313e3b68c7819eac9a8420bab520d1e1f87e422.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/b6596e791c79e2367bb4dd024f52847327b607976905e33a381191e8e7fdb526.png" src="../../_images/b6596e791c79e2367bb4dd024f52847327b607976905e33a381191e8e7fdb526.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f33c74bb9b673a38e864eef519b4d8fa6a67e4fabb0138cbeff9e1a3b073d728.png" src="../../_images/f33c74bb9b673a38e864eef519b4d8fa6a67e4fabb0138cbeff9e1a3b073d728.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/54ee0093969af183f4af396416bb3ab35c4332814594bacd729185e212b2c09c.png" src="../../_images/54ee0093969af183f4af396416bb3ab35c4332814594bacd729185e212b2c09c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/b08bf7c88e698a15179a3ee3a6752bc3cfeaad929f005eb879488aa1eed12e6f.png" src="../../_images/b08bf7c88e698a15179a3ee3a6752bc3cfeaad929f005eb879488aa1eed12e6f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7cd2cacd3b4bc430c4a1b55837eb7198a5357c6903cdfc220b1570de141ad414.png" src="../../_images/7cd2cacd3b4bc430c4a1b55837eb7198a5357c6903cdfc220b1570de141ad414.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/12b55b8e763a36362bdbe366f810836176d2f46a9b03eef8b58917a2f5e1dffb.png" src="../../_images/12b55b8e763a36362bdbe366f810836176d2f46a9b03eef8b58917a2f5e1dffb.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/fe1e5f2d8102794158f9086c6691622d25b4f698e70493f2bc7ced9bacb15608.png" src="../../_images/fe1e5f2d8102794158f9086c6691622d25b4f698e70493f2bc7ced9bacb15608.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/02bddcd6fbad2946fa3a123814b86c7faa7a2d1aea53a28208abac05ba58cec2.png" src="../../_images/02bddcd6fbad2946fa3a123814b86c7faa7a2d1aea53a28208abac05ba58cec2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/ed161a86be832d1bf0a6ea11f833bf1a38694c855c855c529b3eebe28e36d7a0.png" src="../../_images/ed161a86be832d1bf0a6ea11f833bf1a38694c855c855c529b3eebe28e36d7a0.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/4c42e45e0289fdef6c397d84f0e52ab0dc23d7cbd9b7969ae0228e6eccc7daab.png" src="../../_images/4c42e45e0289fdef6c397d84f0e52ab0dc23d7cbd9b7969ae0228e6eccc7daab.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1b4bad9e4312b11d3baf519bca91f58ab126057948a8e0a619c240ad9adf4bfe.png" src="../../_images/1b4bad9e4312b11d3baf519bca91f58ab126057948a8e0a619c240ad9adf4bfe.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/00bedc9487b9df99b444811e9b010676ab1d02dc18a1962bc9fcee3ae03ca448.png" src="../../_images/00bedc9487b9df99b444811e9b010676ab1d02dc18a1962bc9fcee3ae03ca448.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/b446d330814e95af10f5c19f33a470d70bd7618b64011531bd03f99d2eebeef5.png" src="../../_images/b446d330814e95af10f5c19f33a470d70bd7618b64011531bd03f99d2eebeef5.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/be2e61be96097673ffe5d2b79da3805a1e2f30fe1d6b6bf3fb45f5b806c956d6.png" src="../../_images/be2e61be96097673ffe5d2b79da3805a1e2f30fe1d6b6bf3fb45f5b806c956d6.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7b388bc19b0de4aff5f68e9b2beb0bfbf897b60c2e96721255aeb7922b6a4547.png" src="../../_images/7b388bc19b0de4aff5f68e9b2beb0bfbf897b60c2e96721255aeb7922b6a4547.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/513f0464669720a7cd00bc091ab88b5e5c181d143229fe44e1cda0a6377f89a3.png" src="../../_images/513f0464669720a7cd00bc091ab88b5e5c181d143229fe44e1cda0a6377f89a3.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f454f71e152229c68863bf994e10e79fda25d6b1d2dfd02cdcbb87d00b59ccc1.png" src="../../_images/f454f71e152229c68863bf994e10e79fda25d6b1d2dfd02cdcbb87d00b59ccc1.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/61d1397a0df1a29c4bb4cb6f56af4d1bbf31718da5081d1f8366d645c9bce004.png" src="../../_images/61d1397a0df1a29c4bb4cb6f56af4d1bbf31718da5081d1f8366d645c9bce004.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/efefa5968701b3a42bc12bf92ef3cf24f8d3ff82529c2074a6a2f2f3ed8649c2.png" src="../../_images/efefa5968701b3a42bc12bf92ef3cf24f8d3ff82529c2074a6a2f2f3ed8649c2.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/a8b683d4480749de2e1566aaa8bc9fde26409977fa40fcba2ad39373ba70ddc3.png" src="../../_images/a8b683d4480749de2e1566aaa8bc9fde26409977fa40fcba2ad39373ba70ddc3.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d7f2493acab766a62d2b8f0e14d6aa82bbb70c91983cc144d5d5fc20f3fd1090.png" src="../../_images/d7f2493acab766a62d2b8f0e14d6aa82bbb70c91983cc144d5d5fc20f3fd1090.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/9c19c168f2034843b93a0cb684140b17b810570e17fee1950df587310667bff7.png" src="../../_images/9c19c168f2034843b93a0cb684140b17b810570e17fee1950df587310667bff7.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/05a5bfbc019e9c9107fe76dba8bc941942124cd22564d4987910540d40d18a87.png" src="../../_images/05a5bfbc019e9c9107fe76dba8bc941942124cd22564d4987910540d40d18a87.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/60ed63c6612433ef09c1c6bc4a3a87f3a5dc0d0ff43ceb8556587b156949bd96.png" src="../../_images/60ed63c6612433ef09c1c6bc4a3a87f3a5dc0d0ff43ceb8556587b156949bd96.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e10894b521c400cb5ea68c4ea984ca4b37fe9d12b2c1e3d5f6d876c8f35f030b.png" src="../../_images/e10894b521c400cb5ea68c4ea984ca4b37fe9d12b2c1e3d5f6d876c8f35f030b.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d27403b5a28967bb2b4f13d30d8fd9c2843b35c1d54520f7e5bef479d4812a93.png" src="../../_images/d27403b5a28967bb2b4f13d30d8fd9c2843b35c1d54520f7e5bef479d4812a93.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/fa15f50ff4042815406a963c687c3c0f28ae2cd88279f61a6ec7afe5e3f1044b.png" src="../../_images/fa15f50ff4042815406a963c687c3c0f28ae2cd88279f61a6ec7afe5e3f1044b.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/89f4a0105ae0417a025b94568ed8ec133354e87246f71ec5039935a3bbeb6022.png" src="../../_images/89f4a0105ae0417a025b94568ed8ec133354e87246f71ec5039935a3bbeb6022.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/13070af2bf4d3e6ae6e8d1dc098945f30b38a4ff1652906bc62aa9510dafac62.png" src="../../_images/13070af2bf4d3e6ae6e8d1dc098945f30b38a4ff1652906bc62aa9510dafac62.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/df2049fbfeb49f3273fafd0b06ad41f5715db31bc86ffa5d4f04e3d65993e94d.png" src="../../_images/df2049fbfeb49f3273fafd0b06ad41f5715db31bc86ffa5d4f04e3d65993e94d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5c09a8b4723475515c260c704f4690a85c2c51131af8426172a20c74e60aa9ad.png" src="../../_images/5c09a8b4723475515c260c704f4690a85c2c51131af8426172a20c74e60aa9ad.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f61f98b0da16bb30f629cd68cd575fd5c6bddf749e2135e0e6b7d1e4e74658fa.png" src="../../_images/f61f98b0da16bb30f629cd68cd575fd5c6bddf749e2135e0e6b7d1e4e74658fa.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/847643e4f23c1427944d69741b1813c4521be2a10ce601655a18c9e787657b35.png" src="../../_images/847643e4f23c1427944d69741b1813c4521be2a10ce601655a18c9e787657b35.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/680655a4dc80e5c7a2260c80f52097136170fe06a6d8ed6a1f1ba44156ec1c4d.png" src="../../_images/680655a4dc80e5c7a2260c80f52097136170fe06a6d8ed6a1f1ba44156ec1c4d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7725f9cc52887d76605c190ff637016fefb787bc546a6eb34cdbd92f2807a863.png" src="../../_images/7725f9cc52887d76605c190ff637016fefb787bc546a6eb34cdbd92f2807a863.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d19fdaedba874722c26f66239f8ea96fe3c6fd297b05d331b58a3696a3bd6f18.png" src="../../_images/d19fdaedba874722c26f66239f8ea96fe3c6fd297b05d331b58a3696a3bd6f18.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/25bc056c7424adb4433481db365883e2f083f488a36cc43d589c8ab27c7b1fcf.png" src="../../_images/25bc056c7424adb4433481db365883e2f083f488a36cc43d589c8ab27c7b1fcf.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/4a55c0f7dfbd7dbf7e31bcbdbb3202d5cffc76a77f2e2f8138cc54c4e4797fc0.png" src="../../_images/4a55c0f7dfbd7dbf7e31bcbdbb3202d5cffc76a77f2e2f8138cc54c4e4797fc0.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5aecf1e8b609ffe9f2706c8a738c876d926065e9b8e81debcf5306a3e2a43fda.png" src="../../_images/5aecf1e8b609ffe9f2706c8a738c876d926065e9b8e81debcf5306a3e2a43fda.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/b5b3fd556546a61ce80647fba3c8bc011aff99d0aa46b02a3cfd5945f3a3f001.png" src="../../_images/b5b3fd556546a61ce80647fba3c8bc011aff99d0aa46b02a3cfd5945f3a3f001.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/9f705739e8379f53e4104bc8645e97cbebb27194439680138194bbacbc769a79.png" src="../../_images/9f705739e8379f53e4104bc8645e97cbebb27194439680138194bbacbc769a79.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/895157877654ffb97a207a3957fa602b14e4fc3014273f7a1abc8fa25f2547d0.png" src="../../_images/895157877654ffb97a207a3957fa602b14e4fc3014273f7a1abc8fa25f2547d0.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/6669a9000ff2a3f3d5416958d5faa75bf34427d19f80d1aeb682d191e55503b0.png" src="../../_images/6669a9000ff2a3f3d5416958d5faa75bf34427d19f80d1aeb682d191e55503b0.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1513cdd2a2b34a19a0a3d4035cf4b8ca98165ca484838244fe8a5c9810a931f4.png" src="../../_images/1513cdd2a2b34a19a0a3d4035cf4b8ca98165ca484838244fe8a5c9810a931f4.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5bb271f8575f3ce949628146d3b1eb82774016e60c84e231934c226ac8b91564.png" src="../../_images/5bb271f8575f3ce949628146d3b1eb82774016e60c84e231934c226ac8b91564.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/fff283de8ea40152d77404f321508db4247b6253ca85aff270f29405090f29c8.png" src="../../_images/fff283de8ea40152d77404f321508db4247b6253ca85aff270f29405090f29c8.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/10943b5d9524e99019fbf4a5bafd0c1efe2175c9331bcb6c27c441d938a8e43c.png" src="../../_images/10943b5d9524e99019fbf4a5bafd0c1efe2175c9331bcb6c27c441d938a8e43c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/fed10f941ad4a8635a7099994859792814dd39085ec1ff8242c7f152ea71ca7e.png" src="../../_images/fed10f941ad4a8635a7099994859792814dd39085ec1ff8242c7f152ea71ca7e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5128286c260b837654545dd483367efc2580cf42949d4912546e48546ccda0c9.png" src="../../_images/5128286c260b837654545dd483367efc2580cf42949d4912546e48546ccda0c9.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/532ea7a58251d6a881663beb21d18a927169639ba1a5bbc41008d6fd3694efae.png" src="../../_images/532ea7a58251d6a881663beb21d18a927169639ba1a5bbc41008d6fd3694efae.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5ef5887371e15aa485f1c33f5266fb3d0535565e990cc1ea087e979d810808dd.png" src="../../_images/5ef5887371e15aa485f1c33f5266fb3d0535565e990cc1ea087e979d810808dd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5b8bd18b72801bfcafe4db181ef1607881d05f25c1b0de1eeced6e3f610bf87d.png" src="../../_images/5b8bd18b72801bfcafe4db181ef1607881d05f25c1b0de1eeced6e3f610bf87d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/c6962c5b4c3c96eb395668ee381dd69a5cae6c23301accbfd0b885fdb6b5b455.png" src="../../_images/c6962c5b4c3c96eb395668ee381dd69a5cae6c23301accbfd0b885fdb6b5b455.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/784f7bcb1ca43a34dd9ec868cde720948bfac4e68d28255aadc5c4c0b2b4ae06.png" src="../../_images/784f7bcb1ca43a34dd9ec868cde720948bfac4e68d28255aadc5c4c0b2b4ae06.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7c04d20e8669b312c35337dcb50e07bfc9fb62b08c3d0e59ef17bb611b76c932.png" src="../../_images/7c04d20e8669b312c35337dcb50e07bfc9fb62b08c3d0e59ef17bb611b76c932.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/7794e0c4475e744842cec9b70023c1ca1077dd99420ec4d7d3fc7dc46bca214d.png" src="../../_images/7794e0c4475e744842cec9b70023c1ca1077dd99420ec4d7d3fc7dc46bca214d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/34d426f55cee289824766fbd49f1dc5efbe5ec5c455ff72c2ec80ef9055d930c.png" src="../../_images/34d426f55cee289824766fbd49f1dc5efbe5ec5c455ff72c2ec80ef9055d930c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/6b664d19a0a49a9f70711c89c8ccb8986bad7a5dffe37d3d37dc9bbbb2594029.png" src="../../_images/6b664d19a0a49a9f70711c89c8ccb8986bad7a5dffe37d3d37dc9bbbb2594029.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/3ab0840a5fec3456d6ad5ce7c67b3bc9ae2fab4f7e486be56632d0626f40f161.png" src="../../_images/3ab0840a5fec3456d6ad5ce7c67b3bc9ae2fab4f7e486be56632d0626f40f161.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/3c5c9565acb30bf1671ef0f5a971cce4951261822a5b826f3fff1d52a8af0202.png" src="../../_images/3c5c9565acb30bf1671ef0f5a971cce4951261822a5b826f3fff1d52a8af0202.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/0c8ba62601182d6d0f8140a03136a2dda2455927df55bdf5f5703c419fb6957b.png" src="../../_images/0c8ba62601182d6d0f8140a03136a2dda2455927df55bdf5f5703c419fb6957b.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/99f5a1b0493b47f25a0b1314894e7c2fd40d759a6fb891e255cd53ec93b7dfe9.png" src="../../_images/99f5a1b0493b47f25a0b1314894e7c2fd40d759a6fb891e255cd53ec93b7dfe9.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/74a3e2a665d8bf6865e49a44a7e6fb784b35d6030ac839cd964bb8eadf6601a7.png" src="../../_images/74a3e2a665d8bf6865e49a44a7e6fb784b35d6030ac839cd964bb8eadf6601a7.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/9c220d894a70a0fe53069b61b33950b4dfcb30aa5201150802cc79ef4d571edb.png" src="../../_images/9c220d894a70a0fe53069b61b33950b4dfcb30aa5201150802cc79ef4d571edb.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/465b54b52c077dcb8ab67bd84c40751ff4726e9e39b0085a4f60ee84bedacf89.png" src="../../_images/465b54b52c077dcb8ab67bd84c40751ff4726e9e39b0085a4f60ee84bedacf89.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/4841d8d31f7c30e9361bafb670c3136e3d2c0701cb64076dc47e639a8ae8a999.png" src="../../_images/4841d8d31f7c30e9361bafb670c3136e3d2c0701cb64076dc47e639a8ae8a999.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/06a2e278822654149ddc6188d7fce67684b5ce990b675103acffadd31a8a00ae.png" src="../../_images/06a2e278822654149ddc6188d7fce67684b5ce990b675103acffadd31a8a00ae.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/52d4fa053bf55a265ab576b8a7a3831ef74d61d93e1e0597ba245b31a793ffa8.png" src="../../_images/52d4fa053bf55a265ab576b8a7a3831ef74d61d93e1e0597ba245b31a793ffa8.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1e3c31c3609c8dae6c1e1dd28ddfd41da95510bdb9fa75bf46316ccca71e802e.png" src="../../_images/1e3c31c3609c8dae6c1e1dd28ddfd41da95510bdb9fa75bf46316ccca71e802e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/339409f9576fe8e99276a57c4af8da06047bff33cfa7cc20d01cc4ed2638f86a.png" src="../../_images/339409f9576fe8e99276a57c4af8da06047bff33cfa7cc20d01cc4ed2638f86a.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/eb00dbb52179e5a2f457fcfe08f8e306c30019c518c8de20ae4fcc39b9a6c170.png" src="../../_images/eb00dbb52179e5a2f457fcfe08f8e306c30019c518c8de20ae4fcc39b9a6c170.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/8284e786c37bd6a36ded619baabdd375cc2e8768456400136d901dce3d188c69.png" src="../../_images/8284e786c37bd6a36ded619baabdd375cc2e8768456400136d901dce3d188c69.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/8102451476246dfaaf96cdf0a20774d370f6d94e587e5ee87511f33c622f08a9.png" src="../../_images/8102451476246dfaaf96cdf0a20774d370f6d94e587e5ee87511f33c622f08a9.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d193055960451735541412287d8021676ced0b4dac33e1b143ff2376f634641f.png" src="../../_images/d193055960451735541412287d8021676ced0b4dac33e1b143ff2376f634641f.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/786c58f18ddb9e09762e9d332bdbcd073a74c53718076f6e8bd1bb646087d80d.png" src="../../_images/786c58f18ddb9e09762e9d332bdbcd073a74c53718076f6e8bd1bb646087d80d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e3a58797b192fbe4d711f3f4d325eea55e939cb11d49c655225f84030645a74d.png" src="../../_images/e3a58797b192fbe4d711f3f4d325eea55e939cb11d49c655225f84030645a74d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f43916a502b01b460955bb18de126a8c029672cf3f076ec1b2e2667fa29904cd.png" src="../../_images/f43916a502b01b460955bb18de126a8c029672cf3f076ec1b2e2667fa29904cd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/12e530788ba05878a99ce6840c462d3be6a74d4cc1b87a9ef7ce0156360cdc5e.png" src="../../_images/12e530788ba05878a99ce6840c462d3be6a74d4cc1b87a9ef7ce0156360cdc5e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/6932cbaa4aae9bb872f97cda40073fe6088f427b7012ea692833da3d91aef334.png" src="../../_images/6932cbaa4aae9bb872f97cda40073fe6088f427b7012ea692833da3d91aef334.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5d4c643e60b45a227a668f9ea0038ada24d37a6ef57407704ecd24f055847061.png" src="../../_images/5d4c643e60b45a227a668f9ea0038ada24d37a6ef57407704ecd24f055847061.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/3c4dca085fc3cfb712fa2f4e5b2b9046b2840a21af16278916b73c003730f7be.png" src="../../_images/3c4dca085fc3cfb712fa2f4e5b2b9046b2840a21af16278916b73c003730f7be.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e548937ec1de43837d424da500a7c4358412da9973c8f0c14ff05f18432b812c.png" src="../../_images/e548937ec1de43837d424da500a7c4358412da9973c8f0c14ff05f18432b812c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/3b511f514f8dd045434b4f958af0ad4fcb8690e115d864bfd515077444b356f4.png" src="../../_images/3b511f514f8dd045434b4f958af0ad4fcb8690e115d864bfd515077444b356f4.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/a7d2ec25a59c8e25c6f05aaf913a196eb3873c1a79ca6444cec6202dfe9eaf48.png" src="../../_images/a7d2ec25a59c8e25c6f05aaf913a196eb3873c1a79ca6444cec6202dfe9eaf48.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/397ff0a2a3dff476d230f311a96e5e6afa3e27bc4d725f0a063ba56bbd477bcd.png" src="../../_images/397ff0a2a3dff476d230f311a96e5e6afa3e27bc4d725f0a063ba56bbd477bcd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1a04805ee7c8fc03e121aae251247afb6e2e2a08ffaa8c70de589ef34a3c5f5d.png" src="../../_images/1a04805ee7c8fc03e121aae251247afb6e2e2a08ffaa8c70de589ef34a3c5f5d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e30bc3b946f3c3337a542065877c8b27b0b634143f505b4e8fc2be8711e84f05.png" src="../../_images/e30bc3b946f3c3337a542065877c8b27b0b634143f505b4e8fc2be8711e84f05.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d758695debc56deb0dca385c6c02dc7eef869769141fd626c620f1b2c8a55bcd.png" src="../../_images/d758695debc56deb0dca385c6c02dc7eef869769141fd626c620f1b2c8a55bcd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/fd24425a645b084e5756ccf2fa94c76491ec750be0c8297d75c06c793437c66a.png" src="../../_images/fd24425a645b084e5756ccf2fa94c76491ec750be0c8297d75c06c793437c66a.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/d4a435c2356d3dc49027e702e1a02842f7d8cff1a5ef7de844d075adc041d923.png" src="../../_images/d4a435c2356d3dc49027e702e1a02842f7d8cff1a5ef7de844d075adc041d923.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/300c7e533f18c042b4c5e0a09bcb4b94704a22d713e94d95a37bebf096b4094e.png" src="../../_images/300c7e533f18c042b4c5e0a09bcb4b94704a22d713e94d95a37bebf096b4094e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/5ab698d0cbd0d163c7cc16217bf094755e19c27e62f1815e30e2a4542c5b9f3a.png" src="../../_images/5ab698d0cbd0d163c7cc16217bf094755e19c27e62f1815e30e2a4542c5b9f3a.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/3c0c847620301c5b411162f01f6cb45d878d0c86d350ad07a4d8c3e1daa138bd.png" src="../../_images/3c0c847620301c5b411162f01f6cb45d878d0c86d350ad07a4d8c3e1daa138bd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/f88a9e8f16f6baee8193513c844c49a75f3330aa29a1b27e9f6ac0c08bd924cd.png" src="../../_images/f88a9e8f16f6baee8193513c844c49a75f3330aa29a1b27e9f6ac0c08bd924cd.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/e374b76bc3fcb4b60868155b5893d540dd74e8890765830f6ab6ebe4f11d2742.png" src="../../_images/e374b76bc3fcb4b60868155b5893d540dd74e8890765830f6ab6ebe4f11d2742.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/bd9fac889680a8180a0a5d6efbcf48d0583fd0082c4bee4c17410e6f81622e19.png" src="../../_images/bd9fac889680a8180a0a5d6efbcf48d0583fd0082c4bee4c17410e6f81622e19.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/bf38b6f2895d343770214cac45e67af4ab39538216824c3361e0dfbf00b76783.png" src="../../_images/bf38b6f2895d343770214cac45e67af4ab39538216824c3361e0dfbf00b76783.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/a78a00532990f996670ecdf71c2cec64e6ec9050a0645a6fc8ed39f0e923f203.png" src="../../_images/a78a00532990f996670ecdf71c2cec64e6ec9050a0645a6fc8ed39f0e923f203.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/19cb1b41962bf1d422c353f20bb66a7fd2ce6efa766a974d5d30d1873aadf0ef.png" src="../../_images/19cb1b41962bf1d422c353f20bb66a7fd2ce6efa766a974d5d30d1873aadf0ef.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/71b6c4acc2bf03aea543fe82eafcda20b8db1cf3a34cfa2d4b1d2500c03b887c.png" src="../../_images/71b6c4acc2bf03aea543fe82eafcda20b8db1cf3a34cfa2d4b1d2500c03b887c.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/ece08bab672391a82c8539276290c2b7806cae6a0f06418c6a8bf1edcf8316e1.png" src="../../_images/ece08bab672391a82c8539276290c2b7806cae6a0f06418c6a8bf1edcf8316e1.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/1b0898a432b163b2d762ad6512cf17725e96af6f7efc9b50152991b43a913e3e.png" src="../../_images/1b0898a432b163b2d762ad6512cf17725e96af6f7efc9b50152991b43a913e3e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/4123f143a1af860ed48c39764362c4ed834d849ee31d4d24de8823fbe619844e.png" src="../../_images/4123f143a1af860ed48c39764362c4ed834d849ee31d4d24de8823fbe619844e.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</pre>
+</div><img alt="../../_images/8dcee6a8e5804e2d42ff059662368c842ca55db68392334a10541f6c597a9d9d.png" src="../../_images/8dcee6a8e5804e2d42ff059662368c842ca55db68392334a10541f6c597a9d9d.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">--------------------------------------------------------------------------------------------------------------
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+
+
+</pre>
+</div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./nb/2024-09"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="24_mnist-mlp-iter-fit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">(24) mnist fit — mlp, iter</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="25_corrupt-verify.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(25) corrupt analysis — load</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Save corrupted data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Hadi Vafaii
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
