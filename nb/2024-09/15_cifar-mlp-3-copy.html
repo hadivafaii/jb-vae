@@ -448,7 +448,7 @@
 <li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-iter-fit.html">(24) mnist fit — mlp, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="25_corrupt-verify.html">(25) corrupt analysis — load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-analysis.html">(25) corrupt analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
@@ -890,7 +890,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 192, avg loss: 83.663711:  96%|▉| 192/200 [27:22:28&lt;1:04:00, 480.02s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 200, avg loss: 83.839399: 100%|███| 200/200 [28:30:01&lt;00:00, 513.01s/it]
 </pre></div>
 </div>
 </div>
@@ -902,6 +902,14 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">39</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">52</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">55</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">57</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">62</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>,
+        <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">device</span>=<span style="color: #008000; text-decoration-color: #008000">'cuda:3'</span>,
+       <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #800080; text-decoration-color: #800080">torch</span>.int32<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -913,7 +921,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.065733909606934, 6.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6.279736042022705, 6.0)
 </pre></div>
 </div>
 </div>
@@ -931,7 +939,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/71d4e1cb53e4c4919f69b85e0933bc6427d3196508746d8f2600cdf2cfe08384.png" src="../../_images/71d4e1cb53e4c4919f69b85e0933bc6427d3196508746d8f2600cdf2cfe08384.png" />
+<img alt="../../_images/6e47e22e52eac7450473398e6d91a3276e6dbf4db2cdc00d12e83f9fdcae1a93.png" src="../../_images/6e47e22e52eac7450473398e6d91a3276e6dbf4db2cdc00d12e83f9fdcae1a93.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -942,7 +950,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(16997, 0.068)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(30784, 0.123)
 </pre></div>
 </div>
 </div>
@@ -962,7 +970,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ed61e35ef79d71376048c8c93e583d90e00cc1c6836520dbd71fc474e80426e1.png" src="../../_images/ed61e35ef79d71376048c8c93e583d90e00cc1c6836520dbd71fc474e80426e1.png" />
+<img alt="../../_images/c2738b79e34ca3a74cb247695dc5552bfa082fdbbe3e63b26e84d16050b97640.png" src="../../_images/c2738b79e34ca3a74cb247695dc5552bfa082fdbbe3e63b26e84d16050b97640.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -986,7 +994,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5eb1cb60ed4911d6a576b88528c20e94fb1264cc04cfe20928f79d63ebf97b06.png" src="../../_images/5eb1cb60ed4911d6a576b88528c20e94fb1264cc04cfe20928f79d63ebf97b06.png" />
+<img alt="../../_images/117db32175c2cee8fe165c879f4a80d5228fa1be7787106439116467c0adac08.png" src="../../_images/117db32175c2cee8fe165c879f4a80d5228fa1be7787106439116467c0adac08.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1009,7 +1017,7 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">seq_total</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
     <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">active</span><span class="o">=~</span><span class="n">dead</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="n">dl</span><span class="o">=</span><span class="s1">&#39;vld&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
@@ -1018,12 +1026,12 @@ b80-ep200-<span style="color: #800080; text-decoration-color: #800080; font-weig
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 20/20 [12:02&lt;00:00, 36.11s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [01:17&lt;00:00, 38.79s/it]
 </pre></div>
 </div>
-<img alt="../../_images/77333aea1026f0cf0e0a05db56306367f9e627d78b0693b90fcad1b11c86a3f6.png" src="../../_images/77333aea1026f0cf0e0a05db56306367f9e627d78b0693b90fcad1b11c86a3f6.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 11min 11s, sys: 1min 14s, total: 12min 26s
-Wall time: 12min 30s
+<img alt="../../_images/5d1e1544fb3f6c447e7a4197f430580379a64435d6eadab2c417f15f4e8907c7.png" src="../../_images/5d1e1544fb3f6c447e7a4197f430580379a64435d6eadab2c417f15f4e8907c7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 26s, sys: 10.3 s, total: 1min 36s
+Wall time: 1min 36s
 </pre></div>
 </div>
 </div>
@@ -1035,7 +1043,7 @@ Wall time: 12min 30s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;CIFAR10&#39;, (64, 20.0))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;CIFAR10&#39;, (64, 32.0))
 </pre></div>
 </div>
 </div>
@@ -1046,9 +1054,7 @@ Wall time: 12min 30s
     <span class="n">seq_total</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="c1"># tr.model.cfg.seq_len,</span>
     <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="c1"># active=~dead,</span>
     <span class="n">return_recon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">full_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">results_to_plot</span> <span class="o">=</span> <span class="p">{</span>
@@ -1075,6 +1081,23 @@ Wall time: 12min 30s
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">x2p_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">results_to_plot</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+<span class="ne">----&gt; </span><span class="mi">6</span>         <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">],</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>         <span class="n">d</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">][:</span><span class="n">num</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_sz</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">x2p</span> <span class="o">=</span> <span class="p">(</span><span class="n">x2p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">x2p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x2p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="ne">KeyError</span>: &#39;x&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1088,9 +1111,6 @@ Wall time: 12min 30s
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/5b95a334bb83f3793cf612c29d4b6ba41f99a46914364d68b6f43610bfd7f103.png" src="../../_images/5b95a334bb83f3793cf612c29d4b6ba41f99a46914364d68b6f43610bfd7f103.png" />
 </div>
 </div>
 <div class="cell docutils container">
