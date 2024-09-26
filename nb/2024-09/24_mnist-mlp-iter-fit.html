@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -61,7 +61,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/24_mnist-mlp-iter-fit';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="(25) save corrupted data" href="25_corrupt-save-plot.html" />
+    <link rel="next" title="(25) corrupt analysis" href="25_corrupt-analysis.html" />
     <link rel="prev" title="(24) mnist fit — mlp, amort" href="24_mnist-mlp-amort-fit.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -72,27 +72,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -114,8 +110,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -139,6 +140,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../../md/intro.html">
   
@@ -160,7 +163,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -180,7 +183,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
@@ -216,12 +219,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
@@ -261,12 +264,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
@@ -326,20 +329,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
@@ -355,12 +358,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
@@ -386,12 +389,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
@@ -443,15 +446,20 @@
 <li class="toctree-l2"><a class="reference internal" href="23_vh16-test-mlp.html">(23) vH16 — tst, mlp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-amort.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, amort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="24_mnist-fit-conv-iter.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — mlp, amort</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">(24) mnist fit — mlp, iter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="24_mnist-mlp-amort-fit.html">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, amort</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_corrupt-analysis.html">(25) corrupt analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_corrupt-save-plot.html">(25) save corrupted data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="25_model-list-cifar-imgnet.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 
     </div>
@@ -467,7 +475,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -476,14 +484,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -608,10 +616,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -619,7 +627,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -650,7 +658,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="mnist-fit-mlp-iter">
-<h1>(24) mnist fit — mlp, iter<a class="headerlink" href="#mnist-fit-mlp-iter" title="Permalink to this heading">#</a></h1>
+<h1>(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, iter<a class="headerlink" href="#mnist-fit-mlp-iter" title="Permalink to this heading">#</a></h1>
 <p><strong>Motivation</strong>: host = <code class="docutils literal notranslate"><span class="pre">mach</span></code>, device = <code class="docutils literal notranslate"><span class="pre">cuda:2</span></code> <br></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -781,8 +789,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 8.868106: 100%|████| 400/400 [11:18:17&lt;00:00, 101.74s/it]
 </pre></div>
 </div>
-<img alt="../../_images/a4bc3bf3e0cf386749d0ff11947f2c0afcf10675b00bc0b1d1334d588dff0fe6.png" src="../../_images/a4bc3bf3e0cf386749d0ff11947f2c0afcf10675b00bc0b1d1334d588dff0fe6.png" />
-<img alt="../../_images/fb4042e85006251de8299df191d39e1f113d7069b3aac3a9f02996449035e9bf.png" src="../../_images/fb4042e85006251de8299df191d39e1f113d7069b3aac3a9f02996449035e9bf.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a4bc3bf3e0cf386749d0ff11947f2c0afcf10675b00bc0b1d1334d588dff0fe6.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a4bc3bf3e0cf386749d0ff11947f2c0afcf10675b00bc0b1d1334d588dff0fe6.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fb4042e85006251de8299df191d39e1f113d7069b3aac3a9f02996449035e9bf.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fb4042e85006251de8299df191d39e1f113d7069b3aac3a9f02996449035e9bf.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-64_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;jacob|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -790,7 +798,61 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 340, avg loss: 9.644523:  85%|███▍| 340/400 [9:27:11&lt;1:34:52, 94.88s/it]
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 9.459572: 100%|█████| 400/400 [10:57:51&lt;00:00, 98.68s/it]
+</pre></div>
+</div>
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f36171d529a507d5c9183fdb8b0e9e7cd440c69a7a75c6581dbaf18b123a0ff8.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f36171d529a507d5c9183fdb8b0e9e7cd440c69a7a75c6581dbaf18b123a0ff8.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dffdfd284474d8435519b5f3119d075cfb480695da03dd0c8bbc6d098d94ead8.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dffdfd284474d8435519b5f3119d075cfb480695da03dd0c8bbc6d098d94ead8.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
+
+<span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-16_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;jacob|mlp</span><span style="font-weight: bold">&gt;</span>
+b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">6:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_25,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">11:58</span><span style="font-weight: bold">)</span>
+
+
+</pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 14.453049: 100%|█████| 400/400 [3:39:10&lt;00:00, 32.88s/it]
+</pre></div>
+</div>
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e1e84367090d0a58c7566ef8c2d319ff0f703e92d056035124f9c74b2008dcc4.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e1e84367090d0a58c7566ef8c2d319ff0f703e92d056035124f9c74b2008dcc4.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/efe97d94da661b78cf400537d68199c3571884dd2ecf97df9fc7d65b19e1d167.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/efe97d94da661b78cf400537d68199c3571884dd2ecf97df9fc7d65b19e1d167.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
+
+<span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-16_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;jacob|mlp</span><span style="font-weight: bold">&gt;</span>
+b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">8:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_25,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">15:37</span><span style="font-weight: bold">)</span>
+
+
+</pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 15.216400: 100%|█████| 400/400 [3:41:12&lt;00:00, 33.18s/it]
+</pre></div>
+</div>
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e990c061bb966e5c77ba43a43b40a5cdc4cc70bc29a17b76c6778ca004f94f6a.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e990c061bb966e5c77ba43a43b40a5cdc4cc70bc29a17b76c6778ca004f94f6a.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b65a089c0714b646bf84b452272f9113ef32625dc9bb90005acb8a2f06baaf23.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b65a089c0714b646bf84b452272f9113ef32625dc9bb90005acb8a2f06baaf23.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
+
+<span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-4_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;jacob|mlp</span><span style="font-weight: bold">&gt;</span>
+b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span>:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0x0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_25,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">19:19</span><span style="font-weight: bold">)</span>
+
+
+</pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 23.929774: 100%|█████| 400/400 [1:31:28&lt;00:00, 13.72s/it]
+</pre></div>
+</div>
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/05a0baf4917329b77f6c7082fc860feb96d724ee94d7ed9f2a9916b815cc5c93.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/05a0baf4917329b77f6c7082fc860feb96d724ee94d7ed9f2a9916b815cc5c93.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d63a0d0720fdd9c6ded52f1e3ccdcbc9df39716e95c6c3b3c4b230e4c1946ac3.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d63a0d0720fdd9c6ded52f1e3ccdcbc9df39716e95c6c3b3c4b230e4c1946ac3.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
+
+<span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-4_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;jacob|mlp</span><span style="font-weight: bold">&gt;</span>
+b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">2:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_25,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">20:50</span><span style="font-weight: bold">)</span>
+
+
+</pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 24.742506: 100%|█████| 400/400 [1:33:05&lt;00:00, 13.96s/it]
+</pre></div>
+</div>
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ca2e423cfaa953f50471d6559f6386b1864d2b88ebf6b5125f81b644c79a79c6.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ca2e423cfaa953f50471d6559f6386b1864d2b88ebf6b5125f81b644c79a79c6.png" />
+<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ef34553f9c035a6ba89f87bd0b55c8295d8bb49367d4aa47fc054d5d0012919d.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ef34553f9c035a6ba89f87bd0b55c8295d8bb49367d4aa47fc054d5d0012919d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1d 18h 21min 59s, sys: 32min 17s, total: 1d 18h 54min 17s
+Wall time: 1d 8h 42min 56s
 </pre></div>
 </div>
 </div>
@@ -801,6 +863,16 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Sequential</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">SiLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">784</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
+</div></div>
 </div>
 </section>
 
@@ -831,7 +903,7 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -840,15 +912,15 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">(24) mnist fit — mlp, amort</p>
+        <p class="prev-next-title">(24) mnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, amort</p>
       </div>
     </a>
     <a class="right-next"
-       href="25_corrupt-save-plot.html"
+       href="25_corrupt-analysis.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">(25) save corrupted data</p>
+        <p class="prev-next-title">(25) corrupt analysis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -858,8 +930,6 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -904,8 +974,8 @@ By Hadi Vafaii
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
