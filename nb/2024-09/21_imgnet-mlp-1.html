@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -74,23 +74,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -112,13 +116,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -142,8 +141,6 @@
         <div class="sidebar-primary-item">
 
   
-    
-  
 
 <a class="navbar-brand logo" href="../../md/intro.html">
   
@@ -165,7 +162,7 @@
 
  <script>
  document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -185,7 +182,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
@@ -221,12 +218,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
@@ -266,12 +263,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
@@ -331,20 +328,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
@@ -360,12 +357,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
@@ -391,12 +388,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
@@ -458,10 +455,14 @@
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-final.html">fig — rotate (final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -477,7 +478,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -486,14 +487,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -618,10 +619,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -629,14 +630,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -794,7 +795,7 @@ document.write(`
 b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">32:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_09_23,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">23:04</span><span style="font-weight: bold">)</span>
 
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c6ed6327a11e287cec2205dfb8193d50cb761f491feaf37e0339440798eedc34.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c6ed6327a11e287cec2205dfb8193d50cb761f491feaf37e0339440798eedc34.png" />
+</div><img alt="../../_images/c6ed6327a11e287cec2205dfb8193d50cb761f491feaf37e0339440798eedc34.png" src="../../_images/c6ed6327a11e287cec2205dfb8193d50cb761f491feaf37e0339440798eedc34.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -918,7 +919,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ca58d9b582f24400919ce519967c0dc1df79203760e85024bd2de9f7ef3f6c87.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ca58d9b582f24400919ce519967c0dc1df79203760e85024bd2de9f7ef3f6c87.png" />
+<img alt="../../_images/ca58d9b582f24400919ce519967c0dc1df79203760e85024bd2de9f7ef3f6c87.png" src="../../_images/ca58d9b582f24400919ce519967c0dc1df79203760e85024bd2de9f7ef3f6c87.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -949,7 +950,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9a60edfc315ef7179124ed486dd70972cccb1688631d6af5b0afa418299cf27f.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9a60edfc315ef7179124ed486dd70972cccb1688631d6af5b0afa418299cf27f.png" />
+<img alt="../../_images/9a60edfc315ef7179124ed486dd70972cccb1688631d6af5b0afa418299cf27f.png" src="../../_images/9a60edfc315ef7179124ed486dd70972cccb1688631d6af5b0afa418299cf27f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -973,7 +974,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cb05a2cc59913fd760026a3d3586f4a72e20d9db4818a217b56aee5eb792700e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cb05a2cc59913fd760026a3d3586f4a72e20d9db4818a217b56aee5eb792700e.png" />
+<img alt="../../_images/cb05a2cc59913fd760026a3d3586f4a72e20d9db4818a217b56aee5eb792700e.png" src="../../_images/cb05a2cc59913fd760026a3d3586f4a72e20d9db4818a217b56aee5eb792700e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1008,7 +1009,7 @@ b80-ep16-<span style="color: #800080; text-decoration-color: #800080; font-weigh
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 20/20 [12:22&lt;00:00, 37.14s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f3aae0d09af569db5355216ef494e10d9c94973aac19819bfcb977ab0e1d8864.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f3aae0d09af569db5355216ef494e10d9c94973aac19819bfcb977ab0e1d8864.png" />
+<img alt="../../_images/f3aae0d09af569db5355216ef494e10d9c94973aac19819bfcb977ab0e1d8864.png" src="../../_images/f3aae0d09af569db5355216ef494e10d9c94973aac19819bfcb977ab0e1d8864.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15min 55s, sys: 1min 29s, total: 17min 25s
 Wall time: 17min 25s
 </pre></div>
@@ -1076,7 +1077,7 @@ Wall time: 17min 25s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f721311fa0c231d673f6007a49905db9b09843a88a7997fe997886defcf029db.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f721311fa0c231d673f6007a49905db9b09843a88a7997fe997886defcf029db.png" />
+<img alt="../../_images/f721311fa0c231d673f6007a49905db9b09843a88a7997fe997886defcf029db.png" src="../../_images/f721311fa0c231d673f6007a49905db9b09843a88a7997fe997886defcf029db.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1133,8 +1134,8 @@ Wall time: 17min 25s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/bbc5d4014e68793a7d98854112011c04d0345ef069b18e7f5ba0b06a831c0ad8.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/bbc5d4014e68793a7d98854112011c04d0345ef069b18e7f5ba0b06a831c0ad8.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/88976e91594ff8cf1dc05f83180e3f91533bb35b212fff5980095eda4f56becb.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/88976e91594ff8cf1dc05f83180e3f91533bb35b212fff5980095eda4f56becb.png" />
+<img alt="../../_images/bbc5d4014e68793a7d98854112011c04d0345ef069b18e7f5ba0b06a831c0ad8.png" src="../../_images/bbc5d4014e68793a7d98854112011c04d0345ef069b18e7f5ba0b06a831c0ad8.png" />
+<img alt="../../_images/88976e91594ff8cf1dc05f83180e3f91533bb35b212fff5980095eda4f56becb.png" src="../../_images/88976e91594ff8cf1dc05f83180e3f91533bb35b212fff5980095eda4f56becb.png" />
 </div>
 </div>
 </section>
@@ -1168,7 +1169,7 @@ Wall time: 17min 25s
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1260,8 +1261,8 @@ By Hadi Vafaii
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

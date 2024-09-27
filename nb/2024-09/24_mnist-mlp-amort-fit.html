@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -72,23 +72,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -110,13 +114,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -140,8 +139,6 @@
         <div class="sidebar-primary-item">
 
   
-    
-  
 
 <a class="navbar-brand logo" href="../../md/intro.html">
   
@@ -163,7 +160,7 @@
 
  <script>
  document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -183,7 +180,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
@@ -219,12 +216,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
@@ -264,12 +261,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
@@ -329,20 +326,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
@@ -358,12 +355,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
@@ -389,12 +386,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
@@ -456,10 +453,14 @@
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-final.html">fig — rotate (final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -475,7 +476,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -484,14 +485,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -616,10 +617,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -627,7 +628,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -789,8 +790,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 19.069173: 100%|█████| 400/400 [1:07:34&lt;00:00, 10.14s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a7ece34833c47d6208c0d5e21a16ced0eea167be9de8e9cfc1b87f64de856605.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a7ece34833c47d6208c0d5e21a16ced0eea167be9de8e9cfc1b87f64de856605.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a3bdbfd78f09511aba96d943662570ce1eaf1aeaf7259c5292b8d0175c408de1.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a3bdbfd78f09511aba96d943662570ce1eaf1aeaf7259c5292b8d0175c408de1.png" />
+<img alt="../../_images/a7ece34833c47d6208c0d5e21a16ced0eea167be9de8e9cfc1b87f64de856605.png" src="../../_images/a7ece34833c47d6208c0d5e21a16ced0eea167be9de8e9cfc1b87f64de856605.png" />
+<img alt="../../_images/a3bdbfd78f09511aba96d943662570ce1eaf1aeaf7259c5292b8d0175c408de1.png" src="../../_images/a3bdbfd78f09511aba96d943662570ce1eaf1aeaf7259c5292b8d0175c408de1.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-4_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;mlp|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -801,8 +802,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 19.829785: 100%|█████| 400/400 [1:08:23&lt;00:00, 10.26s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/aa396694fa0630e452e9c3a8cd82e8788dcc9cb2042f9ef921f63debc2ae5cd1.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/aa396694fa0630e452e9c3a8cd82e8788dcc9cb2042f9ef921f63debc2ae5cd1.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/91e617d9ba1810eb79419945a2c22fca1572634221eddd3251a8f849d4bd9b5b.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/91e617d9ba1810eb79419945a2c22fca1572634221eddd3251a8f849d4bd9b5b.png" />
+<img alt="../../_images/aa396694fa0630e452e9c3a8cd82e8788dcc9cb2042f9ef921f63debc2ae5cd1.png" src="../../_images/aa396694fa0630e452e9c3a8cd82e8788dcc9cb2042f9ef921f63debc2ae5cd1.png" />
+<img alt="../../_images/91e617d9ba1810eb79419945a2c22fca1572634221eddd3251a8f849d4bd9b5b.png" src="../../_images/91e617d9ba1810eb79419945a2c22fca1572634221eddd3251a8f849d4bd9b5b.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-16_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;mlp|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -813,8 +814,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 12.461519: 100%|█████| 400/400 [2:01:58&lt;00:00, 18.30s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/89f2834f20261c73a9b4f7c04f228a4f1c45c24ae24a3e1949768852e2c82063.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/89f2834f20261c73a9b4f7c04f228a4f1c45c24ae24a3e1949768852e2c82063.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8a9b7eb89efbd04bb84b252506bbe59b84240015677931e160b0c600921062e4.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8a9b7eb89efbd04bb84b252506bbe59b84240015677931e160b0c600921062e4.png" />
+<img alt="../../_images/89f2834f20261c73a9b4f7c04f228a4f1c45c24ae24a3e1949768852e2c82063.png" src="../../_images/89f2834f20261c73a9b4f7c04f228a4f1c45c24ae24a3e1949768852e2c82063.png" />
+<img alt="../../_images/8a9b7eb89efbd04bb84b252506bbe59b84240015677931e160b0c600921062e4.png" src="../../_images/8a9b7eb89efbd04bb84b252506bbe59b84240015677931e160b0c600921062e4.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-16_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;mlp|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -825,8 +826,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 13.395307: 100%|█████| 400/400 [2:01:58&lt;00:00, 18.30s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/17a1e5cd77639dc1f30b7eb65bf306f79244d4f9799eb295f4515a206f1519fb.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/17a1e5cd77639dc1f30b7eb65bf306f79244d4f9799eb295f4515a206f1519fb.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b4c013fd39bf8da56194e67ae97e3c90a9af605aa7453bff315bb99fb11a2ca1.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b4c013fd39bf8da56194e67ae97e3c90a9af605aa7453bff315bb99fb11a2ca1.png" />
+<img alt="../../_images/17a1e5cd77639dc1f30b7eb65bf306f79244d4f9799eb295f4515a206f1519fb.png" src="../../_images/17a1e5cd77639dc1f30b7eb65bf306f79244d4f9799eb295f4515a206f1519fb.png" />
+<img alt="../../_images/b4c013fd39bf8da56194e67ae97e3c90a9af605aa7453bff315bb99fb11a2ca1.png" src="../../_images/b4c013fd39bf8da56194e67ae97e3c90a9af605aa7453bff315bb99fb11a2ca1.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-64_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;mlp|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -837,8 +838,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 8.400951: 100%|██████| 400/400 [6:42:14&lt;00:00, 60.34s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/1e1a4cfb65febe4da019d3e684030fb9e6e6c412c8510dfa3a31fa02e63f531e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/1e1a4cfb65febe4da019d3e684030fb9e6e6c412c8510dfa3a31fa02e63f531e.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ed6335282c4d93a6d70dd74dc29898ff272556e1417679fd432874b7285aef75.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ed6335282c4d93a6d70dd74dc29898ff272556e1417679fd432874b7285aef75.png" />
+<img alt="../../_images/1e1a4cfb65febe4da019d3e684030fb9e6e6c412c8510dfa3a31fa02e63f531e.png" src="../../_images/1e1a4cfb65febe4da019d3e684030fb9e6e6c412c8510dfa3a31fa02e63f531e.png" />
+<img alt="../../_images/ed6335282c4d93a6d70dd74dc29898ff272556e1417679fd432874b7285aef75.png" src="../../_images/ed6335282c4d93a6d70dd74dc29898ff272556e1417679fd432874b7285aef75.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="color: #000000; text-decoration-color: #000000">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="color: #000000; text-decoration-color: #000000">,</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32.0</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">)</span>
 
 <span style="color: #000000; text-decoration-color: #000000">poisson_MNIST_t-64_z-</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span><span style="color: #000000; text-decoration-color: #000000; font-weight: bold">]</span><span style="color: #000000; text-decoration-color: #000000">_&lt;mlp|mlp</span><span style="font-weight: bold">&gt;</span>
@@ -849,8 +850,8 @@ b200-ep400-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 400, avg loss: 9.101826: 100%|██████| 400/400 [6:29:08&lt;00:00, 58.37s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4c168f4d284c16f4eb7e450da71704b3673be32368a7e2d766d1bf4da0eaf7b4.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4c168f4d284c16f4eb7e450da71704b3673be32368a7e2d766d1bf4da0eaf7b4.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e3db048fbaba10416fc2e2d1df7e30de14f0fe543e8cda54d9dbb519ed3c0177.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e3db048fbaba10416fc2e2d1df7e30de14f0fe543e8cda54d9dbb519ed3c0177.png" />
+<img alt="../../_images/4c168f4d284c16f4eb7e450da71704b3673be32368a7e2d766d1bf4da0eaf7b4.png" src="../../_images/4c168f4d284c16f4eb7e450da71704b3673be32368a7e2d766d1bf4da0eaf7b4.png" />
+<img alt="../../_images/e3db048fbaba10416fc2e2d1df7e30de14f0fe543e8cda54d9dbb519ed3c0177.png" src="../../_images/e3db048fbaba10416fc2e2d1df7e30de14f0fe543e8cda54d9dbb519ed3c0177.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1d 5h 22min 52s, sys: 26min 12s, total: 1d 5h 49min 4s
 Wall time: 19h 35min 47s
 </pre></div>
@@ -903,7 +904,7 @@ Wall time: 19h 35min 47s
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -930,6 +931,8 @@ Wall time: 19h 35min 47s
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -974,8 +977,8 @@ By Hadi Vafaii
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

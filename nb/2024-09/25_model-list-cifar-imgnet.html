@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -72,23 +72,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -110,13 +114,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -140,8 +139,6 @@
         <div class="sidebar-primary-item">
 
   
-    
-  
 
 <a class="navbar-brand logo" href="../../md/intro.html">
   
@@ -163,7 +160,7 @@
 
  <script>
  document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -183,7 +180,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
@@ -219,12 +216,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
@@ -264,12 +261,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
@@ -329,20 +326,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
@@ -358,12 +355,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
@@ -389,12 +386,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
@@ -456,10 +453,14 @@
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-final.html">fig — rotate (final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -475,7 +476,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -484,14 +485,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -616,10 +617,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -627,14 +628,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -860,8 +861,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32.0</span><span style="font-weight: bold">)</span>   # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/602081c8e363fa49132441a08ab125e225367eeec7ba93750bd82f2b80e31128.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/602081c8e363fa49132441a08ab125e225367eeec7ba93750bd82f2b80e31128.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/2193f248227ccbef1b25ad94e2ba2423040f41ba3113c951c553c42b7dd02ca1.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/2193f248227ccbef1b25ad94e2ba2423040f41ba3113c951c553c42b7dd02ca1.png" />
+</div><img alt="../../_images/602081c8e363fa49132441a08ab125e225367eeec7ba93750bd82f2b80e31128.png" src="../../_images/602081c8e363fa49132441a08ab125e225367eeec7ba93750bd82f2b80e31128.png" />
+<img alt="../../_images/2193f248227ccbef1b25ad94e2ba2423040f41ba3113c951c553c42b7dd02ca1.png" src="../../_images/2193f248227ccbef1b25ad94e2ba2423040f41ba3113c951c553c42b7dd02ca1.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -870,8 +871,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">80.0</span><span style="font-weight: bold">)</span>   # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/3db32e7bc33bab9b489d5eb9667b21db399bb5be3964af63416752f6a1dfe50f.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/3db32e7bc33bab9b489d5eb9667b21db399bb5be3964af63416752f6a1dfe50f.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ee965e7b4f17a033e85f13127641220eaffc247f2af3f660fea70a783c75d150.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ee965e7b4f17a033e85f13127641220eaffc247f2af3f660fea70a783c75d150.png" />
+</div><img alt="../../_images/3db32e7bc33bab9b489d5eb9667b21db399bb5be3964af63416752f6a1dfe50f.png" src="../../_images/3db32e7bc33bab9b489d5eb9667b21db399bb5be3964af63416752f6a1dfe50f.png" />
+<img alt="../../_images/ee965e7b4f17a033e85f13127641220eaffc247f2af3f660fea70a783c75d150.png" src="../../_images/ee965e7b4f17a033e85f13127641220eaffc247f2af3f660fea70a783c75d150.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -880,8 +881,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">96.0</span><span style="font-weight: bold">)</span>   # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/79c65226fb604b2d080b2973f90d8f1b6c872b6235644ecd44330481963c3020.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/79c65226fb604b2d080b2973f90d8f1b6c872b6235644ecd44330481963c3020.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/36a8699301beeae9a6fd6db07660e6dba0309782d40d68aa25231a1dfde7305c.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/36a8699301beeae9a6fd6db07660e6dba0309782d40d68aa25231a1dfde7305c.png" />
+</div><img alt="../../_images/79c65226fb604b2d080b2973f90d8f1b6c872b6235644ecd44330481963c3020.png" src="../../_images/79c65226fb604b2d080b2973f90d8f1b6c872b6235644ecd44330481963c3020.png" />
+<img alt="../../_images/36a8699301beeae9a6fd6db07660e6dba0309782d40d68aa25231a1dfde7305c.png" src="../../_images/36a8699301beeae9a6fd6db07660e6dba0309782d40d68aa25231a1dfde7305c.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -890,8 +891,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16.0</span><span style="font-weight: bold">)</span>   # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fad4ad9c4129354d8330a9c7ac39c107c6473e8315d0be365185ce554ca721e6.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fad4ad9c4129354d8330a9c7ac39c107c6473e8315d0be365185ce554ca721e6.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cf9a05c9a7b257d12b13744877477eda10a9fc73835954cc3f97c7749f58ccdf.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cf9a05c9a7b257d12b13744877477eda10a9fc73835954cc3f97c7749f58ccdf.png" />
+</div><img alt="../../_images/fad4ad9c4129354d8330a9c7ac39c107c6473e8315d0be365185ce554ca721e6.png" src="../../_images/fad4ad9c4129354d8330a9c7ac39c107c6473e8315d0be365185ce554ca721e6.png" />
+<img alt="../../_images/cf9a05c9a7b257d12b13744877477eda10a9fc73835954cc3f97c7749f58ccdf.png" src="../../_images/cf9a05c9a7b257d12b13744877477eda10a9fc73835954cc3f97c7749f58ccdf.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -900,8 +901,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32.0</span><span style="font-weight: bold">)</span>   # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d2ae55b171d2cc135a2a08b7e68991d5f49744aa67c73bdf08bfa43bc183f347.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d2ae55b171d2cc135a2a08b7e68991d5f49744aa67c73bdf08bfa43bc183f347.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9953b695ecf94f1639e2e2b82e2cf0696ab8a993afa2190b684af3a7903389f7.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9953b695ecf94f1639e2e2b82e2cf0696ab8a993afa2190b684af3a7903389f7.png" />
+</div><img alt="../../_images/d2ae55b171d2cc135a2a08b7e68991d5f49744aa67c73bdf08bfa43bc183f347.png" src="../../_images/d2ae55b171d2cc135a2a08b7e68991d5f49744aa67c73bdf08bfa43bc183f347.png" />
+<img alt="../../_images/9953b695ecf94f1639e2e2b82e2cf0696ab8a993afa2190b684af3a7903389f7.png" src="../../_images/9953b695ecf94f1639e2e2b82e2cf0696ab8a993afa2190b684af3a7903389f7.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -910,8 +911,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span><span style="font-weight: bold">)</span>     # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/08d332cf951d9fc9b41b7b55e2dc5175818921b190daca1b1b8b30b67d7a60b6.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/08d332cf951d9fc9b41b7b55e2dc5175818921b190daca1b1b8b30b67d7a60b6.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/331c098cc71fab1c1dbc8bb5f9afa9a65351b0876bf2378f3aa4fa00a7ef22fb.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/331c098cc71fab1c1dbc8bb5f9afa9a65351b0876bf2378f3aa4fa00a7ef22fb.png" />
+</div><img alt="../../_images/08d332cf951d9fc9b41b7b55e2dc5175818921b190daca1b1b8b30b67d7a60b6.png" src="../../_images/08d332cf951d9fc9b41b7b55e2dc5175818921b190daca1b1b8b30b67d7a60b6.png" />
+<img alt="../../_images/331c098cc71fab1c1dbc8bb5f9afa9a65351b0876bf2378f3aa4fa00a7ef22fb.png" src="../../_images/331c098cc71fab1c1dbc8bb5f9afa9a65351b0876bf2378f3aa4fa00a7ef22fb.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -920,8 +921,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span><span style="font-weight: bold">)</span>     # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8d34f4679457d8429d59a4ed35dec8c95981844891fa24c9d1cccd1951ce80a9.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8d34f4679457d8429d59a4ed35dec8c95981844891fa24c9d1cccd1951ce80a9.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4b60cc4186e867f3f35436af21d390f8a98f144aaeade9cc502818bc49519c06.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4b60cc4186e867f3f35436af21d390f8a98f144aaeade9cc502818bc49519c06.png" />
+</div><img alt="../../_images/8d34f4679457d8429d59a4ed35dec8c95981844891fa24c9d1cccd1951ce80a9.png" src="../../_images/8d34f4679457d8429d59a4ed35dec8c95981844891fa24c9d1cccd1951ce80a9.png" />
+<img alt="../../_images/4b60cc4186e867f3f35436af21d390f8a98f144aaeade9cc502818bc49519c06.png" src="../../_images/4b60cc4186e867f3f35436af21d390f8a98f144aaeade9cc502818bc49519c06.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -930,8 +931,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span><span style="font-weight: bold">)</span>     # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.13</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0ae10d29979ffa933305c36655e30964023e44f5ac2ed4ec1ebda888c420d271.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0ae10d29979ffa933305c36655e30964023e44f5ac2ed4ec1ebda888c420d271.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9826c133c39e71629e49cfb9a6f0194624bbd86670619e2ed973f8b10dfc8c1e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/9826c133c39e71629e49cfb9a6f0194624bbd86670619e2ed973f8b10dfc8c1e.png" />
+</div><img alt="../../_images/0ae10d29979ffa933305c36655e30964023e44f5ac2ed4ec1ebda888c420d271.png" src="../../_images/0ae10d29979ffa933305c36655e30964023e44f5ac2ed4ec1ebda888c420d271.png" />
+<img alt="../../_images/9826c133c39e71629e49cfb9a6f0194624bbd86670619e2ed973f8b10dfc8c1e.png" src="../../_images/9826c133c39e71629e49cfb9a6f0194624bbd86670619e2ed973f8b10dfc8c1e.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -940,8 +941,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.25</span><span style="font-weight: bold">)</span>     # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.44</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/7c4062292374bea5b8bcffccbd22a9c545d449a632e5e86a919a80901c15f231.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/7c4062292374bea5b8bcffccbd22a9c545d449a632e5e86a919a80901c15f231.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4a16b89cff5cc944ce5db2fb148f8cf421c0675e8b1bbb020be13b976c3d8c68.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4a16b89cff5cc944ce5db2fb148f8cf421c0675e8b1bbb020be13b976c3d8c68.png" />
+</div><img alt="../../_images/7c4062292374bea5b8bcffccbd22a9c545d449a632e5e86a919a80901c15f231.png" src="../../_images/7c4062292374bea5b8bcffccbd22a9c545d449a632e5e86a919a80901c15f231.png" />
+<img alt="../../_images/4a16b89cff5cc944ce5db2fb148f8cf421c0675e8b1bbb020be13b976c3d8c68.png" src="../../_images/4a16b89cff5cc944ce5db2fb148f8cf421c0675e8b1bbb020be13b976c3d8c68.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -950,8 +951,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span>      # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.44</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d72a7b7c5450d1631ed47fedbd2515b25f1023b49a377028a260cfd0e1f97799.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d72a7b7c5450d1631ed47fedbd2515b25f1023b49a377028a260cfd0e1f97799.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/89e861022e53a4e8d1d74e5ea4d45d071e58bd8a579c366a2163e9395dbaa17e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/89e861022e53a4e8d1d74e5ea4d45d071e58bd8a579c366a2163e9395dbaa17e.png" />
+</div><img alt="../../_images/d72a7b7c5450d1631ed47fedbd2515b25f1023b49a377028a260cfd0e1f97799.png" src="../../_images/d72a7b7c5450d1631ed47fedbd2515b25f1023b49a377028a260cfd0e1f97799.png" />
+<img alt="../../_images/89e861022e53a4e8d1d74e5ea4d45d071e58bd8a579c366a2163e9395dbaa17e.png" src="../../_images/89e861022e53a4e8d1d74e5ea4d45d071e58bd8a579c366a2163e9395dbaa17e.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -960,8 +961,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.75</span><span style="font-weight: bold">)</span>     # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.44</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/6e97672614a5c872c86e3e01f4de0166b3ec5d93ac964a4dd5fc39767065ef8d.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/6e97672614a5c872c86e3e01f4de0166b3ec5d93ac964a4dd5fc39767065ef8d.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f650aaf0d45b86be0e864b958ae220b444788a3778767a7f32602f3b8fb3c6f9.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f650aaf0d45b86be0e864b958ae220b444788a3778767a7f32602f3b8fb3c6f9.png" />
+</div><img alt="../../_images/6e97672614a5c872c86e3e01f4de0166b3ec5d93ac964a4dd5fc39767065ef8d.png" src="../../_images/6e97672614a5c872c86e3e01f4de0166b3ec5d93ac964a4dd5fc39767065ef8d.png" />
+<img alt="../../_images/f650aaf0d45b86be0e864b958ae220b444788a3778767a7f32602f3b8fb3c6f9.png" src="../../_images/f650aaf0d45b86be0e864b958ae220b444788a3778767a7f32602f3b8fb3c6f9.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -970,8 +971,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span><span style="font-weight: bold">)</span>      # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.44</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/29a192e8e52b7db2a4aa2567d1add918e30a57eba75983771e67bdf2cfc9be39.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/29a192e8e52b7db2a4aa2567d1add918e30a57eba75983771e67bdf2cfc9be39.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fcd68492ce6afdef0b42f37b1d8b52a0ed1f2f24301a01807636413d8a603166.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/fcd68492ce6afdef0b42f37b1d8b52a0ed1f2f24301a01807636413d8a603166.png" />
+</div><img alt="../../_images/29a192e8e52b7db2a4aa2567d1add918e30a57eba75983771e67bdf2cfc9be39.png" src="../../_images/29a192e8e52b7db2a4aa2567d1add918e30a57eba75983771e67bdf2cfc9be39.png" />
+<img alt="../../_images/fcd68492ce6afdef0b42f37b1d8b52a0ed1f2f24301a01807636413d8a603166.png" src="../../_images/fcd68492ce6afdef0b42f37b1d8b52a0ed1f2f24301a01807636413d8a603166.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -980,8 +981,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">conv|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.5</span><span style="font-weight: bold">)</span>      # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.44</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0befbb0ff700f5b55175db72d5bcc71884739505a65e245e42fbe2de915ada1a.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0befbb0ff700f5b55175db72d5bcc71884739505a65e245e42fbe2de915ada1a.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/23fd7b0bb64f2b1477bffde7229438755b81aa0921102e35e902a0f2344f7c47.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/23fd7b0bb64f2b1477bffde7229438755b81aa0921102e35e902a0f2344f7c47.png" />
+</div><img alt="../../_images/0befbb0ff700f5b55175db72d5bcc71884739505a65e245e42fbe2de915ada1a.png" src="../../_images/0befbb0ff700f5b55175db72d5bcc71884739505a65e245e42fbe2de915ada1a.png" />
+<img alt="../../_images/23fd7b0bb64f2b1477bffde7229438755b81aa0921102e35e902a0f2344f7c47.png" src="../../_images/23fd7b0bb64f2b1477bffde7229438755b81aa0921102e35e902a0f2344f7c47.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -990,8 +991,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span><span style="font-weight: bold">)</span>       # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.26</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/194a1d93d4f1de4448f096c2a796086076a78961d6e02b36a028be299a9c2486.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/194a1d93d4f1de4448f096c2a796086076a78961d6e02b36a028be299a9c2486.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b356a532239329c8a2b4fedf62121dae388c529f97fc6078647d7cfd5689c560.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/b356a532239329c8a2b4fedf62121dae388c529f97fc6078647d7cfd5689c560.png" />
+</div><img alt="../../_images/194a1d93d4f1de4448f096c2a796086076a78961d6e02b36a028be299a9c2486.png" src="../../_images/194a1d93d4f1de4448f096c2a796086076a78961d6e02b36a028be299a9c2486.png" />
+<img alt="../../_images/b356a532239329c8a2b4fedf62121dae388c529f97fc6078647d7cfd5689c560.png" src="../../_images/b356a532239329c8a2b4fedf62121dae388c529f97fc6078647d7cfd5689c560.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -1000,8 +1001,8 @@ document.write(`
 </pre>
 </div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">lin|lin</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span><span style="font-weight: bold">)</span>_anneal:<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span>    # params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.26</span> M
 </pre>
-</div><img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/48ab71c16769abc3c6eeff085963c5360878e723d1804d831ad97828c9a982b8.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/48ab71c16769abc3c6eeff085963c5360878e723d1804d831ad97828c9a982b8.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/20913085747ef96afbadbd90559568aae0490350774ba6e7ce0b8e1f4f0780a2.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/20913085747ef96afbadbd90559568aae0490350774ba6e7ce0b8e1f4f0780a2.png" />
+</div><img alt="../../_images/48ab71c16769abc3c6eeff085963c5360878e723d1804d831ad97828c9a982b8.png" src="../../_images/48ab71c16769abc3c6eeff085963c5360878e723d1804d831ad97828c9a982b8.png" />
+<img alt="../../_images/20913085747ef96afbadbd90559568aae0490350774ba6e7ce0b8e1f4f0780a2.png" src="../../_images/20913085747ef96afbadbd90559568aae0490350774ba6e7ce0b8e1f4f0780a2.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
@@ -1022,7 +1023,7 @@ Wall time: 26min 17s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/15ef237749ad88b352e020642967256e5f4751f3fe1cf7b1453d041497662445.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/15ef237749ad88b352e020642967256e5f4751f3fe1cf7b1453d041497662445.png" />
+<img alt="../../_images/15ef237749ad88b352e020642967256e5f4751f3fe1cf7b1453d041497662445.png" src="../../_images/15ef237749ad88b352e020642967256e5f4751f3fe1cf7b1453d041497662445.png" />
 </div>
 </div>
 </section>
@@ -1055,7 +1056,7 @@ Wall time: 26min 17s
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1141,8 +1142,8 @@ By Hadi Vafaii
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

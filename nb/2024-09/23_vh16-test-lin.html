@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -74,23 +74,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -112,13 +116,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -142,8 +141,6 @@
         <div class="sidebar-primary-item">
 
   
-    
-  
 
 <a class="navbar-brand logo" href="../../md/intro.html">
   
@@ -165,7 +162,7 @@
 
  <script>
  document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -185,7 +182,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">March 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-03.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-03_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-0.html">(06) MNIST — Gaussian — 0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/06_MNIST-gaussian-1.html">(06) MNIST — Gaussian — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/08_MNIST-poisson-0.html">(08) MNIST — Poisson — 0</a></li>
@@ -221,12 +218,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/31_weight-decay-1.html">(31) Weight Decay — 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-03/tmp-mar24.html">tmp — mar24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">April 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-04.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-04_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_gauss-exp-0.html">(01) Gaus—Exp—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/01_pois-fit-1.html">(01) Pois—1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/02_amort-0.html">(02) Amort-Enc—0</a></li>
@@ -266,12 +263,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/30_balls-tst.html">(30) BALLS—Test—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-04/tmp-apr24.html">tmp — apr24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">May 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-05.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-05_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/01_dekel.html">(01) Best fits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-0.html">(02) CIFAR—PoisLin—0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/02_cifar-patches-1.html">(02) CIFAR—PoisLin—1</a></li>
@@ -331,20 +328,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-mach-may24.html">tmp — may24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-05/tmp-may24.html">tmp — may24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">June 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-06.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-06_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-06/tmp-jun24.html">tmp — jun24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">July 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-07.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-07_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/03_vH-cntrst.html">(03) vH — remove low contrast</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/07_vH-16x16.html">(07) vH — save 16x16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/08_jobs-vH-temp.html">(08) jobs: temp</a></li>
@@ -360,12 +357,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/30_no-whitening-3.html">(30) fit iterative pvae w/o whitening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-07/tmp-jul24.html">tmp — jul24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">August 2024</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-08.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-08_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-dim.html">(01) rebuttal jobs: latent dim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/01_rebut-jobs-temp.html">(01) rebuttal jobs: temp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/04_rebut-df-dim.html">(04) rebuttal df: dim</a></li>
@@ -391,12 +388,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-2.html">(30) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-08/30_iterative-3.html">(30) fit — iterative pvae</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">September 2024</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-09.html">Summary</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-09_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-0.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-1.html">(04) fit — iterative pvae</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_iterative-2.html">(04) fit — iterative pvae</a></li>
@@ -458,10 +455,14 @@
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-final.html">fig — rotate (final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -477,7 +478,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -486,14 +487,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -618,10 +619,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -629,14 +630,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -799,7 +800,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 254, avg loss: 31.288688:  25%|▎| 254/1000 [12:48:08&lt;35:52:38, 173.14s/i
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 485, avg loss: 39.049843:  48%|▍| 485/1000 [24:32:44&lt;26:39:04, 186.30s/i
 </pre></div>
 </div>
 </div>
@@ -874,7 +875,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7a21e09e7e10&gt;]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0f947b9069c5d51f50b1520421defcff9e91de6ba2e178c0137bb2c4cd50ae7b.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/0f947b9069c5d51f50b1520421defcff9e91de6ba2e178c0137bb2c4cd50ae7b.png" />
+<img alt="../../_images/0f947b9069c5d51f50b1520421defcff9e91de6ba2e178c0137bb2c4cd50ae7b.png" src="../../_images/0f947b9069c5d51f50b1520421defcff9e91de6ba2e178c0137bb2c4cd50ae7b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -909,7 +910,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e510b882aae5e5941c8e5207ab22b4b5415fc64f579579ab96715d68948fac46.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/e510b882aae5e5941c8e5207ab22b4b5415fc64f579579ab96715d68948fac46.png" />
+<img alt="../../_images/e510b882aae5e5941c8e5207ab22b4b5415fc64f579579ab96715d68948fac46.png" src="../../_images/e510b882aae5e5941c8e5207ab22b4b5415fc64f579579ab96715d68948fac46.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -940,7 +941,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/1461efcc7a1d5c02c3bc24b634a525910b6325e6d863bdefc11b357561bb968e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/1461efcc7a1d5c02c3bc24b634a525910b6325e6d863bdefc11b357561bb968e.png" />
+<img alt="../../_images/1461efcc7a1d5c02c3bc24b634a525910b6325e6d863bdefc11b357561bb968e.png" src="../../_images/1461efcc7a1d5c02c3bc24b634a525910b6325e6d863bdefc11b357561bb968e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -967,7 +968,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:55&lt;00:00, 27.56s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/5b3ddded804c9f72711dc67df44d3fecbcaeaa06d6a90a999e7705e47c54be8d.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/5b3ddded804c9f72711dc67df44d3fecbcaeaa06d6a90a999e7705e47c54be8d.png" />
+<img alt="../../_images/5b3ddded804c9f72711dc67df44d3fecbcaeaa06d6a90a999e7705e47c54be8d.png" src="../../_images/5b3ddded804c9f72711dc67df44d3fecbcaeaa06d6a90a999e7705e47c54be8d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -992,7 +993,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [01:00&lt;00:00, 30.26s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/23611945ddff4db655e742f2f1bffffe2e9c972c4d27fc8e0218286d75d33873.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/23611945ddff4db655e742f2f1bffffe2e9c972c4d27fc8e0218286d75d33873.png" />
+<img alt="../../_images/23611945ddff4db655e742f2f1bffffe2e9c972c4d27fc8e0218286d75d33873.png" src="../../_images/23611945ddff4db655e742f2f1bffffe2e9c972c4d27fc8e0218286d75d33873.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1005,7 +1006,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 20/20 [09:39&lt;00:00, 28.96s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/84daf772e94fe6d422bc57bc10828087bfd8e99ee72b731964014411659e165f.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/84daf772e94fe6d422bc57bc10828087bfd8e99ee72b731964014411659e165f.png" />
+<img alt="../../_images/84daf772e94fe6d422bc57bc10828087bfd8e99ee72b731964014411659e165f.png" src="../../_images/84daf772e94fe6d422bc57bc10828087bfd8e99ee72b731964014411659e165f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1016,7 +1017,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8e0a3860cb8952fa770cfed9f42dc8bc4b9701d4fbcd1c33c72628908669186c.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8e0a3860cb8952fa770cfed9f42dc8bc4b9701d4fbcd1c33c72628908669186c.png" />
+<img alt="../../_images/8e0a3860cb8952fa770cfed9f42dc8bc4b9701d4fbcd1c33c72628908669186c.png" src="../../_images/8e0a3860cb8952fa770cfed9f42dc8bc4b9701d4fbcd1c33c72628908669186c.png" />
 </div>
 </div>
 </section>
@@ -1077,7 +1078,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x79a714260650&gt;]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c8c1b0af756d751cc515a8e8d1d35ccdd054d889502ebf7d3f9d5d13c8a89a21.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c8c1b0af756d751cc515a8e8d1d35ccdd054d889502ebf7d3f9d5d13c8a89a21.png" />
+<img alt="../../_images/c8c1b0af756d751cc515a8e8d1d35ccdd054d889502ebf7d3f9d5d13c8a89a21.png" src="../../_images/c8c1b0af756d751cc515a8e8d1d35ccdd054d889502ebf7d3f9d5d13c8a89a21.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1112,7 +1113,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dbfc0d0377933875dea059f69508589b8d22b03e28ff234ec127e9fede983086.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dbfc0d0377933875dea059f69508589b8d22b03e28ff234ec127e9fede983086.png" />
+<img alt="../../_images/dbfc0d0377933875dea059f69508589b8d22b03e28ff234ec127e9fede983086.png" src="../../_images/dbfc0d0377933875dea059f69508589b8d22b03e28ff234ec127e9fede983086.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1143,7 +1144,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ce8d974c9d5ffe39e55dfba0c04db338705efa5ee349860ac6d5d4de095c02ca.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ce8d974c9d5ffe39e55dfba0c04db338705efa5ee349860ac6d5d4de095c02ca.png" />
+<img alt="../../_images/ce8d974c9d5ffe39e55dfba0c04db338705efa5ee349860ac6d5d4de095c02ca.png" src="../../_images/ce8d974c9d5ffe39e55dfba0c04db338705efa5ee349860ac6d5d4de095c02ca.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1162,7 +1163,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:56&lt;00:00, 28.09s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/6d2268c7f35c8141a0e9a59662c10646860f1eaa4663589e61d74ec10700fc7e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/6d2268c7f35c8141a0e9a59662c10646860f1eaa4663589e61d74ec10700fc7e.png" />
+<img alt="../../_images/6d2268c7f35c8141a0e9a59662c10646860f1eaa4663589e61d74ec10700fc7e.png" src="../../_images/6d2268c7f35c8141a0e9a59662c10646860f1eaa4663589e61d74ec10700fc7e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1173,7 +1174,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8acaae733948cb6085d2373deed7fa917624778c769caf24d6d39a9355dd4142.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/8acaae733948cb6085d2373deed7fa917624778c769caf24d6d39a9355dd4142.png" />
+<img alt="../../_images/8acaae733948cb6085d2373deed7fa917624778c769caf24d6d39a9355dd4142.png" src="../../_images/8acaae733948cb6085d2373deed7fa917624778c769caf24d6d39a9355dd4142.png" />
 </div>
 </div>
 </section>
@@ -1240,7 +1241,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:52&lt;00:00, 26.01s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/42da1941a046b0515425b11449bc433119d984626a4d204624d653d687c11582.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/42da1941a046b0515425b11449bc433119d984626a4d204624d653d687c11582.png" />
+<img alt="../../_images/42da1941a046b0515425b11449bc433119d984626a4d204624d653d687c11582.png" src="../../_images/42da1941a046b0515425b11449bc433119d984626a4d204624d653d687c11582.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1251,7 +1252,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d734833844bb44b104c876c1642ca57ae5da6f21c47a56b9e56127bc2c018e13.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d734833844bb44b104c876c1642ca57ae5da6f21c47a56b9e56127bc2c018e13.png" />
+<img alt="../../_images/d734833844bb44b104c876c1642ca57ae5da6f21c47a56b9e56127bc2c018e13.png" src="../../_images/d734833844bb44b104c876c1642ca57ae5da6f21c47a56b9e56127bc2c018e13.png" />
 </div>
 </div>
 </section>
@@ -1319,7 +1320,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:52&lt;00:00, 26.08s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cbedb8605c779a1b6cad1bddf3578ff81cb11f782c4f1ab62a2af569ccc0a63b.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/cbedb8605c779a1b6cad1bddf3578ff81cb11f782c4f1ab62a2af569ccc0a63b.png" />
+<img alt="../../_images/cbedb8605c779a1b6cad1bddf3578ff81cb11f782c4f1ab62a2af569ccc0a63b.png" src="../../_images/cbedb8605c779a1b6cad1bddf3578ff81cb11f782c4f1ab62a2af569ccc0a63b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1330,7 +1331,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ee8a8209599b914006ae792ae205124f45c87ad1a92e62dcfeec5ac48a78835b.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/ee8a8209599b914006ae792ae205124f45c87ad1a92e62dcfeec5ac48a78835b.png" />
+<img alt="../../_images/ee8a8209599b914006ae792ae205124f45c87ad1a92e62dcfeec5ac48a78835b.png" src="../../_images/ee8a8209599b914006ae792ae205124f45c87ad1a92e62dcfeec5ac48a78835b.png" />
 </div>
 </div>
 </section>
@@ -1394,7 +1395,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:52&lt;00:00, 26.32s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/077510a71403ff7b87751077c3304c14696e4077f34369356224e466dc2d9dcb.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/077510a71403ff7b87751077c3304c14696e4077f34369356224e466dc2d9dcb.png" />
+<img alt="../../_images/077510a71403ff7b87751077c3304c14696e4077f34369356224e466dc2d9dcb.png" src="../../_images/077510a71403ff7b87751077c3304c14696e4077f34369356224e466dc2d9dcb.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1405,7 +1406,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f4f5a6952d1c556e2e0d06f54f7aaa72fe7dfa631c4c2565200688f060434485.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f4f5a6952d1c556e2e0d06f54f7aaa72fe7dfa631c4c2565200688f060434485.png" />
+<img alt="../../_images/f4f5a6952d1c556e2e0d06f54f7aaa72fe7dfa631c4c2565200688f060434485.png" src="../../_images/f4f5a6952d1c556e2e0d06f54f7aaa72fe7dfa631c4c2565200688f060434485.png" />
 </div>
 </div>
 </section>
@@ -1472,7 +1473,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 10/10 [05:03&lt;00:00, 30.37s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/00a86e9088baae23471632985fdf83e40313b294dc760d77dd772834163bb660.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/00a86e9088baae23471632985fdf83e40313b294dc760d77dd772834163bb660.png" />
+<img alt="../../_images/00a86e9088baae23471632985fdf83e40313b294dc760d77dd772834163bb660.png" src="../../_images/00a86e9088baae23471632985fdf83e40313b294dc760d77dd772834163bb660.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1483,7 +1484,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/af427e6936a90395ee344ebff764b1df735ea924fe152fc2a44bc6617c72978e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/af427e6936a90395ee344ebff764b1df735ea924fe152fc2a44bc6617c72978e.png" />
+<img alt="../../_images/af427e6936a90395ee344ebff764b1df735ea924fe152fc2a44bc6617c72978e.png" src="../../_images/af427e6936a90395ee344ebff764b1df735ea924fe152fc2a44bc6617c72978e.png" />
 </div>
 </div>
 </section>
@@ -1546,7 +1547,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 10/10 [04:05&lt;00:00, 24.55s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/997f66cbf40bc7ad58402f0bd776990efb14dd6f1d2cb0b43dbae25e4761fe50.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/997f66cbf40bc7ad58402f0bd776990efb14dd6f1d2cb0b43dbae25e4761fe50.png" />
+<img alt="../../_images/997f66cbf40bc7ad58402f0bd776990efb14dd6f1d2cb0b43dbae25e4761fe50.png" src="../../_images/997f66cbf40bc7ad58402f0bd776990efb14dd6f1d2cb0b43dbae25e4761fe50.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1557,7 +1558,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4d7b02937863b1ac872cb71bf5fa6583411545304fd33e1ebbcb15865d9962d2.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4d7b02937863b1ac872cb71bf5fa6583411545304fd33e1ebbcb15865d9962d2.png" />
+<img alt="../../_images/4d7b02937863b1ac872cb71bf5fa6583411545304fd33e1ebbcb15865d9962d2.png" src="../../_images/4d7b02937863b1ac872cb71bf5fa6583411545304fd33e1ebbcb15865d9962d2.png" />
 </div>
 </div>
 </section>
@@ -1623,7 +1624,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [21:17&lt;00:00, 25.55s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/98d95b9366439e00cf4207fb917d72df3cb8cccd187b9bf8ef5b76a7a1e8246f.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/98d95b9366439e00cf4207fb917d72df3cb8cccd187b9bf8ef5b76a7a1e8246f.png" />
+<img alt="../../_images/98d95b9366439e00cf4207fb917d72df3cb8cccd187b9bf8ef5b76a7a1e8246f.png" src="../../_images/98d95b9366439e00cf4207fb917d72df3cb8cccd187b9bf8ef5b76a7a1e8246f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1634,7 +1635,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a118f7e6091703a94ba8e7f9f8be5b461bffac8ec373690d05274e250a5a161c.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a118f7e6091703a94ba8e7f9f8be5b461bffac8ec373690d05274e250a5a161c.png" />
+<img alt="../../_images/a118f7e6091703a94ba8e7f9f8be5b461bffac8ec373690d05274e250a5a161c.png" src="../../_images/a118f7e6091703a94ba8e7f9f8be5b461bffac8ec373690d05274e250a5a161c.png" />
 </div>
 </div>
 </section>
@@ -1696,7 +1697,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [23:31&lt;00:00, 28.22s/it]
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/86e9111ea97fe4fa2c8895ff63d92e5c62fffde994461bef29429ba4c09cc564.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/86e9111ea97fe4fa2c8895ff63d92e5c62fffde994461bef29429ba4c09cc564.png" />
+<img alt="../../_images/86e9111ea97fe4fa2c8895ff63d92e5c62fffde994461bef29429ba4c09cc564.png" src="../../_images/86e9111ea97fe4fa2c8895ff63d92e5c62fffde994461bef29429ba4c09cc564.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1707,7 +1708,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/503f5486853c5943e8fcfa6f88f43856ccc4a9f0643d8f695c7c0da5d4ecf8ea.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/503f5486853c5943e8fcfa6f88f43856ccc4a9f0643d8f695c7c0da5d4ecf8ea.png" />
+<img alt="../../_images/503f5486853c5943e8fcfa6f88f43856ccc4a9f0643d8f695c7c0da5d4ecf8ea.png" src="../../_images/503f5486853c5943e8fcfa6f88f43856ccc4a9f0643d8f695c7c0da5d4ecf8ea.png" />
 </div>
 </div>
 </section>
@@ -1778,7 +1779,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/330fd38805701f6cc161359ff0df394cda2749c470af947a54657d8d4f92da05.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/330fd38805701f6cc161359ff0df394cda2749c470af947a54657d8d4f92da05.png" />
+<img alt="../../_images/330fd38805701f6cc161359ff0df394cda2749c470af947a54657d8d4f92da05.png" src="../../_images/330fd38805701f6cc161359ff0df394cda2749c470af947a54657d8d4f92da05.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1807,7 +1808,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Count&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dfe914bd6a4110b29d75af8f024ccbc4bad54603ab55b90a5ce14116ade5fde5.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/dfe914bd6a4110b29d75af8f024ccbc4bad54603ab55b90a5ce14116ade5fde5.png" />
+<img alt="../../_images/dfe914bd6a4110b29d75af8f024ccbc4bad54603ab55b90a5ce14116ade5fde5.png" src="../../_images/dfe914bd6a4110b29d75af8f024ccbc4bad54603ab55b90a5ce14116ade5fde5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1846,7 +1847,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.lines.Line2D at 0x78cd9ecd2550&gt;
 </pre></div>
 </div>
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/19b0d7a00c043c7a24f4d260496e83a42881bcb819af1f9f5b87dbe863311796.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/19b0d7a00c043c7a24f4d260496e83a42881bcb819af1f9f5b87dbe863311796.png" />
+<img alt="../../_images/19b0d7a00c043c7a24f4d260496e83a42881bcb819af1f9f5b87dbe863311796.png" src="../../_images/19b0d7a00c043c7a24f4d260496e83a42881bcb819af1f9f5b87dbe863311796.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1949,7 +1950,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/aaca202c90a07ca18a42637e72d33879b1911acab6f3321b8859056e2846dcb4.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/aaca202c90a07ca18a42637e72d33879b1911acab6f3321b8859056e2846dcb4.png" />
+<img alt="../../_images/aaca202c90a07ca18a42637e72d33879b1911acab6f3321b8859056e2846dcb4.png" src="../../_images/aaca202c90a07ca18a42637e72d33879b1911acab6f3321b8859056e2846dcb4.png" />
 </div>
 </div>
 <section id="generate">
@@ -2023,7 +2024,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c3f0dbcc64a4cacb90827bf5a4f118798fe7b241dafdd47138b81a4793d6e801.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/c3f0dbcc64a4cacb90827bf5a4f118798fe7b241dafdd47138b81a4793d6e801.png" />
+<img alt="../../_images/c3f0dbcc64a4cacb90827bf5a4f118798fe7b241dafdd47138b81a4793d6e801.png" src="../../_images/c3f0dbcc64a4cacb90827bf5a4f118798fe7b241dafdd47138b81a4793d6e801.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2049,7 +2050,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a43b38e789ea2077f8c9293cd355821576f3e7705acdd4c89cd097e31d2e4b2e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/a43b38e789ea2077f8c9293cd355821576f3e7705acdd4c89cd097e31d2e4b2e.png" />
+<img alt="../../_images/a43b38e789ea2077f8c9293cd355821576f3e7705acdd4c89cd097e31d2e4b2e.png" src="../../_images/a43b38e789ea2077f8c9293cd355821576f3e7705acdd4c89cd097e31d2e4b2e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2086,17 +2087,17 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4a32b87c607e827a2c1a47da5d75c0f724b655666fcf3697085bb85c0c799dd3.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/4a32b87c607e827a2c1a47da5d75c0f724b655666fcf3697085bb85c0c799dd3.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/11113ea3935922a93e4d68a1f9fae18de21f33a60b686e069bbb11f88d7fa60d.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/11113ea3935922a93e4d68a1f9fae18de21f33a60b686e069bbb11f88d7fa60d.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/79879308cd45c2a84011e70dfd7660024e61fa429db4a2fa193635002fa7285a.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/79879308cd45c2a84011e70dfd7660024e61fa429db4a2fa193635002fa7285a.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/600934d358dfe10cb73ea0d530e30a8a367ff6b9d1f34f3a5b1d2371e71c4384.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/600934d358dfe10cb73ea0d530e30a8a367ff6b9d1f34f3a5b1d2371e71c4384.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d3156b88c15782e5d4e05ec326b14c82a6edfb0a1b1d7aa6b6bf7ec577e54781.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/d3156b88c15782e5d4e05ec326b14c82a6edfb0a1b1d7aa6b6bf7ec577e54781.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f527079f075f57134947b43a228ef8ca8ac886c6170ef9d2b6b5ac1ffe5cf6f3.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/f527079f075f57134947b43a228ef8ca8ac886c6170ef9d2b6b5ac1ffe5cf6f3.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/de4daa6401a7899d1b88b84c2950d3c72d99e8e14515f8fde92b37320193313e.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/de4daa6401a7899d1b88b84c2950d3c72d99e8e14515f8fde92b37320193313e.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/723cefc89c00e38fc45b64c60c736ad07fccac34ad21a230b270757b69eb64cf.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/723cefc89c00e38fc45b64c60c736ad07fccac34ad21a230b270757b69eb64cf.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/25867d614eb7373b42e8b8f8630992dd3f8098edb68e98d02420cd94414fc191.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/25867d614eb7373b42e8b8f8630992dd3f8098edb68e98d02420cd94414fc191.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/54839528ca1c38d5164ad8d53807f035cd1ac939ad96bcb8ae5b313f5b55b5ea.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/54839528ca1c38d5164ad8d53807f035cd1ac939ad96bcb8ae5b313f5b55b5ea.png" />
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/28f7d896018641336d66393b8b71b9715d5b5e06988ba02f6838e837880aa8df.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/28f7d896018641336d66393b8b71b9715d5b5e06988ba02f6838e837880aa8df.png" />
+<img alt="../../_images/4a32b87c607e827a2c1a47da5d75c0f724b655666fcf3697085bb85c0c799dd3.png" src="../../_images/4a32b87c607e827a2c1a47da5d75c0f724b655666fcf3697085bb85c0c799dd3.png" />
+<img alt="../../_images/11113ea3935922a93e4d68a1f9fae18de21f33a60b686e069bbb11f88d7fa60d.png" src="../../_images/11113ea3935922a93e4d68a1f9fae18de21f33a60b686e069bbb11f88d7fa60d.png" />
+<img alt="../../_images/79879308cd45c2a84011e70dfd7660024e61fa429db4a2fa193635002fa7285a.png" src="../../_images/79879308cd45c2a84011e70dfd7660024e61fa429db4a2fa193635002fa7285a.png" />
+<img alt="../../_images/600934d358dfe10cb73ea0d530e30a8a367ff6b9d1f34f3a5b1d2371e71c4384.png" src="../../_images/600934d358dfe10cb73ea0d530e30a8a367ff6b9d1f34f3a5b1d2371e71c4384.png" />
+<img alt="../../_images/d3156b88c15782e5d4e05ec326b14c82a6edfb0a1b1d7aa6b6bf7ec577e54781.png" src="../../_images/d3156b88c15782e5d4e05ec326b14c82a6edfb0a1b1d7aa6b6bf7ec577e54781.png" />
+<img alt="../../_images/f527079f075f57134947b43a228ef8ca8ac886c6170ef9d2b6b5ac1ffe5cf6f3.png" src="../../_images/f527079f075f57134947b43a228ef8ca8ac886c6170ef9d2b6b5ac1ffe5cf6f3.png" />
+<img alt="../../_images/de4daa6401a7899d1b88b84c2950d3c72d99e8e14515f8fde92b37320193313e.png" src="../../_images/de4daa6401a7899d1b88b84c2950d3c72d99e8e14515f8fde92b37320193313e.png" />
+<img alt="../../_images/723cefc89c00e38fc45b64c60c736ad07fccac34ad21a230b270757b69eb64cf.png" src="../../_images/723cefc89c00e38fc45b64c60c736ad07fccac34ad21a230b270757b69eb64cf.png" />
+<img alt="../../_images/25867d614eb7373b42e8b8f8630992dd3f8098edb68e98d02420cd94414fc191.png" src="../../_images/25867d614eb7373b42e8b8f8630992dd3f8098edb68e98d02420cd94414fc191.png" />
+<img alt="../../_images/54839528ca1c38d5164ad8d53807f035cd1ac939ad96bcb8ae5b313f5b55b5ea.png" src="../../_images/54839528ca1c38d5164ad8d53807f035cd1ac939ad96bcb8ae5b313f5b55b5ea.png" />
+<img alt="../../_images/28f7d896018641336d66393b8b71b9715d5b5e06988ba02f6838e837880aa8df.png" src="../../_images/28f7d896018641336d66393b8b71b9715d5b5e06988ba02f6838e837880aa8df.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2107,7 +2108,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/22e04286e09d393e8ec121782560ec2b9a9b991939e2a436a4f52b78ca15c7d8.png" src="../../../../../mnt/sata/hadi/Dropbox/git/jb-vae/_build/jupyter_execute/22e04286e09d393e8ec121782560ec2b9a9b991939e2a436a4f52b78ca15c7d8.png" />
+<img alt="../../_images/22e04286e09d393e8ec121782560ec2b9a9b991939e2a436a4f52b78ca15c7d8.png" src="../../_images/22e04286e09d393e8ec121782560ec2b9a9b991939e2a436a4f52b78ca15c7d8.png" />
 </div>
 </div>
 </section>
@@ -2141,7 +2142,7 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -2252,8 +2253,8 @@ By Hadi Vafaii
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>
