@@ -61,7 +61,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-09/fig-rotate-final';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="table — efficiency" href="table.html" />
+    <link rel="next" title="fig — rotate (omni)" href="fig-rotate-omni.html" />
     <link rel="prev" title="fig — rotate (develop code)" href="fig-rotate-develop.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -451,14 +451,40 @@
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_emnist-mlp-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <code class="docutils literal notranslate"><span class="pre">T-64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_mnist-conv-fit.html">(26) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_omni-mlp-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <code class="docutils literal notranslate"><span class="pre">T-64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-compositional.html">fig — compositional ftrs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-final.html">fig — convergence (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-mnist2mnist.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-mnist2omni.html">fig — convergence (mnist -&gt; omni)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-emnist-to-imgnet.html">fig — emnist to imgnet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-celeba.html">fig — mnist to celeba</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-imgnet-final.html">fig — mnist to imgnet (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-imgnet.html">fig — mnist to imgnet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-final.html">fig — ood (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-finalfinal.html">fig — ood (final final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon-finalfinal.html">fig — recon (final final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rot-finalfinal.html">fig — rotate (final final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">fig — rotate (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-omni.html">fig — rotate (omni)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-fit-emnist-sep24.html">tmp fit — sep24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-fit-omni-sep24.html">tmp fit — sep24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">October 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-10.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-10_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-mlp.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <strong>not</strong> whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/tmp-oct24.html">tmp — oct24</a></li>
 </ul>
 </li>
 </ul>
@@ -656,12 +682,19 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vae-amort-and-iterative">VAE: amort and iterative</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ip-vae">iP-VAE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ip-vae">iP-VAE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotated-files">Rotated files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-vld-inds">Get vld inds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-analysis">Perform analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#init-inds">init inds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#init-df">init df</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-our-models">loop: our models</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotated-files">Rotated files</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-analysis">Perform analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marino-kim">Marino &amp; Kim</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-their-models">loop: their models</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -675,7 +708,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="fig-rotate-final">
 <h1>fig — rotate (final)<a class="headerlink" href="#fig-rotate-final" title="Permalink to this heading">#</a></h1>
-<p><strong>Motivation</strong>: host = <code class="docutils literal notranslate"><span class="pre">mach</span></code>, device = <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> <br></p>
+<p><strong>Motivation</strong>: host = <code class="docutils literal notranslate"><span class="pre">mach</span></code>, device = <code class="docutils literal notranslate"><span class="pre">cuda:2</span></code> <br></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -714,9 +747,40 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">figures.analysis</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_extract_model_type</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;SAVAE&#39;</span><span class="p">:</span> <span class="s1">&#39;sa-VAE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;MARINO-single&#39;</span><span class="p">:</span> <span class="s1">&#39;ia-VAE (single-level)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;MARINO-hier&#39;</span><span class="p">:</span> <span class="s1">&#39;ia-VAE (hierarchical)&#39;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="s1">&#39;~&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;~&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;hierarchical&#39;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">-hier&quot;</span>
+    <span class="k">elif</span> <span class="s1">&#39;single&#39;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">-single&quot;</span>
+    <span class="k">elif</span> <span class="n">model</span> <span class="o">==</span> <span class="s1">&#39;SAVAE&#39;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-<span class="n">device_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.chosen</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">figures.analysis</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">analysis.corrupt</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">perform_corruption_analysis</span><span class="p">,</span>
+    <span class="n">LogisticRegression</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">device_idx</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">device</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;cuda:</span><span class="si">{</span><span class="n">device_idx</span><span class="si">}</span><span class="s1">&#39;</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;device: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">  ———  host: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">uname</span><span class="p">()</span><span class="o">.</span><span class="n">nodename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -724,7 +788,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">device: cu<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">da:0</span>  ———  host: mach
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">device: cu<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">da:2</span>  ———  host: mach
 </pre>
 </div></div>
 </div>
@@ -743,67 +807,49 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|mlp&gt;_(64,24.0)'</span><span style="color: #000000; text-decoration-color: #000000">, </span><span style="color: #008000; text-decoration-color: #008000">'&lt;mlp|mlp&gt;_(64,24.0)'</span>, <span style="color: #008000; text-decoration-color: #008000">'MNIST_theta-90'</span><span style="font-weight: bold">]</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'MNIST_&lt;mlp|mlp&gt;_(64,24.0)'</span><span style="color: #000000; text-decoration-color: #000000">, </span><span style="color: #008000; text-decoration-color: #008000">'MNIST_&lt;jacob|mlp&gt;_(64,24.0)'</span><span style="font-weight: bold">]</span>
 </pre>
 </div></div>
 </div>
-<section id="vae-amort-and-iterative">
-<h2>VAE: amort and iterative<a class="headerlink" href="#vae-amort-and-iterative" title="Permalink to this heading">#</a></h2>
 <section id="ip-vae">
-<h3>iP-VAE<a class="headerlink" href="#ip-vae" title="Permalink to this heading">#</a></h3>
+<h2>iP-VAE<a class="headerlink" href="#ip-vae" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnist_to_load</span> <span class="o">=</span> <span class="n">get_mnist_models</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">mnist_to_load</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models_to_load</span> <span class="o">=</span> <span class="n">selected_models_28x28</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">models_to_load</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">m</span><span class="p">:</span> <span class="n">d</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
+    <span class="n">models_to_load</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
+    <span class="ow">and</span> <span class="s1">&#39;mlp&#39;</span> <span class="ow">in</span> <span class="n">m</span>  <span class="c1"># no conv</span>
+<span class="p">}</span>
+<span class="n">models_to_load</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span>
+    <span class="n">models_to_load</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+    <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">alphanum_sort_key</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+<span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">models_to_load</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
-    <span style="color: #008000; text-decoration-color: #008000">'&lt;conv|conv&gt;_(16,8.0)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;conv|conv&gt;_(4,1.5)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|conv&gt;_(16,8.0)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|conv&gt;_(2,0.75)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|conv&gt;_(4,1.5)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|mlp&gt;_(16,8.0)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|mlp&gt;_(4,1.5)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;jacob|mlp&gt;_(64,24.0)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;mlp|mlp&gt;_(16,8.0)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;mlp|mlp&gt;_(4,1.5)'</span><span style="color: #000000; text-decoration-color: #000000">,</span>
-<span style="color: #000000; text-decoration-color: #000000">    </span><span style="color: #008000; text-decoration-color: #008000">'&lt;mlp|mlp&gt;_(64,24.0)'</span>
-<span style="font-weight: bold">]</span>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'MNIST_&lt;jacob|mlp&gt;_(64,24.0)'</span><span style="color: #000000; text-decoration-color: #000000">, </span><span style="color: #008000; text-decoration-color: #008000">'MNIST_&lt;mlp|mlp&gt;_(64,24.0)'</span><span style="font-weight: bold">]</span>
 </pre>
 </div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_models</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;&lt;jacob|mlp&gt;_(64,24.0)&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;&lt;mlp|mlp&gt;_(64,24.0)&#39;</span><span class="p">,</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trainers</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">selected_models</span><span class="p">:</span>
-    <span class="n">trainers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
-        <span class="o">**</span><span class="n">mnist_to_load</span><span class="p">[</span><span class="n">model_name</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">kws_load</span> <span class="ow">in</span> <span class="n">models_to_load</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">trainers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="o">**</span><span class="n">kws_load</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 </section>
 <section id="rotated-files">
 <h2>Rotated files<a class="headerlink" href="#rotated-files" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.corrupt</span> <span class="kn">import</span> <span class="n">perform_corruption_analysis</span>
-
-<span class="n">load_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;corrupted_data&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">tmp_dir</span><span class="p">,</span> <span class="s1">&#39;corrupted_data&#39;</span><span class="p">)</span>
 <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">load_dir</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">alphanum_sort_key</span><span class="p">)</span>
 
 <span class="n">tgt_ds</span> <span class="o">=</span> <span class="s1">&#39;MNIST&#39;</span>
@@ -865,6 +911,21 @@ document.write(`
 </div></div>
 </div>
 </section>
+<section id="get-vld-inds">
+<h2>Get vld inds<a class="headerlink" href="#get-vld-inds" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inds</span> <span class="o">=</span> <span class="n">get_dataset_inds</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">array</span><span style="font-weight: bold">([</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span><span style="font-weight: bold">])}</span>
+</pre>
+</div></div>
+</div>
+</section>
 <section id="perform-analysis">
 <h2>Perform analysis<a class="headerlink" href="#perform-analysis" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
@@ -873,26 +934,57 @@ document.write(`
     <span class="n">tr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">corrupted_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">mse_wrt_orig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">t_recon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">t_recon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<section id="init-inds">
+<h3>init inds<a class="headerlink" href="#init-inds" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inds</span> <span class="o">=</span> <span class="n">get_dataset_inds</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'MNIST'</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">array</span><span style="font-weight: bold">([</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">61</span><span style="font-weight: bold">])}</span>
+</pre>
+</div></div>
+</div>
+</section>
+<section id="init-df">
+<h3>init df<a class="headerlink" href="#init-df" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loop-our-models">
+<h3>loop: our models<a class="headerlink" href="#loop-our-models" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">inds</span> <span class="o">=</span> <span class="kc">None</span>
+
 <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trainers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">fig_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">fig_base_dir</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
-    <span class="n">inds</span> <span class="o">=</span> <span class="n">first_occurrence_inds</span><span class="p">(</span>
-        <span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">enc_type</span> <span class="o">==</span> <span class="s1">&#39;jacob&#39;</span><span class="p">:</span>
+        <span class="n">is_ipvae</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">is_ipvae</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">t_recon</span> <span class="o">=</span> <span class="mi">128</span> <span class="k">if</span> <span class="n">is_ipvae</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">kws_analysis</span><span class="p">[</span><span class="s1">&#39;t_recon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_recon</span>
     <span class="n">kws_analysis</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span>
-    
+
     <span class="k">for</span> <span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">analysis_name</span><span class="p">),</span> <span class="n">corrupted_data</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">kws_analysis</span><span class="p">[</span><span class="s1">&#39;corrupted_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrupted_data</span>
         <span class="n">results</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">perform_corruption_analysis</span><span class="p">(</span>
@@ -900,7 +992,7 @@ document.write(`
 
         <span class="c1"># save results</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;analysis_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">analysis_name</span><span class="p">)</span>
-        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;iP-VAE&#39;</span> <span class="k">if</span> <span class="n">is_ipvae</span> <span class="k">else</span> <span class="s1">&#39;aiP-VAE&#39;</span><span class="p">)</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;enc_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">enc_type</span><span class="p">)</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dec_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">dec_type</span><span class="p">)</span>
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_iters_train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">seq_len</span><span class="p">)</span>
@@ -910,15 +1002,15 @@ document.write(`
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 
         <span class="c1"># save figs</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inds</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inds</span><span class="p">[</span><span class="s1">&#39;MNIST&#39;</span><span class="p">]])</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_row_or_col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">analysis_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_inpt.png&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kws_fig</span><span class="p">)</span>
         
-        <span class="n">x_corrupted</span> <span class="o">=</span> <span class="n">corrupted_data</span><span class="p">[</span><span class="s1">&#39;x_corrupted_vld&#39;</span><span class="p">][</span><span class="n">inds</span><span class="p">]</span>
+        <span class="n">x_corrupted</span> <span class="o">=</span> <span class="n">corrupted_data</span><span class="p">[</span><span class="s1">&#39;x_corrupted_vld&#39;</span><span class="p">][</span><span class="n">inds</span><span class="p">[</span><span class="s1">&#39;MNIST&#39;</span><span class="p">]]</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_row_or_col</span><span class="p">(</span><span class="n">x_corrupted</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">analysis_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_corrpt.png&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kws_fig</span><span class="p">)</span>
         
-        <span class="n">x_recon</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">inds</span><span class="p">]</span>
+        <span class="n">x_recon</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;recon&#39;</span><span class="p">][</span><span class="n">inds</span><span class="p">[</span><span class="s1">&#39;MNIST&#39;</span><span class="p">]]</span>
         <span class="n">x_recon</span> <span class="o">=</span> <span class="n">x_recon</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_row_or_col</span><span class="p">(</span><span class="n">x_recon</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">analysis_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_recon.png&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kws_fig</span><span class="p">)</span>
@@ -928,946 +1020,424 @@ document.write(`
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="se">\t</span><span class="s2">———</span><span class="se">\t</span><span class="si">{</span><span class="n">analysis_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">plot_weights</span><span class="p">(</span>
             <span class="n">w</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x_corrupted</span><span class="p">,</span> <span class="n">x_recon</span><span class="p">]),</span>
-            <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="c1"># df = pd.DataFrame(df)</span>
+<span class="c1"># save_obj(</span>
+<span class="c1">#     obj=df,</span>
+<span class="c1">#     file_name=&#39;df_rot&#39;,</span>
+<span class="c1">#     save_dir=tmp_dir,</span>
+<span class="c1">#     mode=&#39;df&#39;,</span>
+<span class="c1"># )</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:15&lt;00:00,  3.20it/s]
-100%|█████████████████████████████████████████| 300/300 [01:34&lt;00:00,  3.18it/s]
-</pre></div>
-</div>
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>
 </pre>
-</div><img alt="../../_images/32e7daed6354621ebd4b7778b9d58a0b3891cd0a91ac76a4207769117fbb75ae.png" src="../../_images/32e7daed6354621ebd4b7778b9d58a0b3891cd0a91ac76a4207769117fbb75ae.png" />
+</div><img alt="../../_images/2ca92718736954545d63507dbd84be14e75dafb08306f068e44e14232b70a43c.png" src="../../_images/2ca92718736954545d63507dbd84be14e75dafb08306f068e44e14232b70a43c.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:15&lt;00:00,  3.14it/s]
-100%|█████████████████████████████████████████| 300/300 [01:31&lt;00:00,  3.28it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>
 </pre>
-</div><img alt="../../_images/012c38a4a21a44dca1e564d5d4616cac9a88e7287ae1ce357c0ad35bd7c867bc.png" src="../../_images/012c38a4a21a44dca1e564d5d4616cac9a88e7287ae1ce357c0ad35bd7c867bc.png" />
+</div><img alt="../../_images/0082196e8ae256d59e4f56abc6392982fd0ed3d4b4a1c061e7105f439eef5695.png" src="../../_images/0082196e8ae256d59e4f56abc6392982fd0ed3d4b4a1c061e7105f439eef5695.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:13&lt;00:00,  3.74it/s]
-100%|█████████████████████████████████████████| 300/300 [01:21&lt;00:00,  3.69it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>
 </pre>
-</div><img alt="../../_images/ad2a9dcda1c8226d0cad85a0c01d45879d250224c2d8d6c86c7ae0462078a652.png" src="../../_images/ad2a9dcda1c8226d0cad85a0c01d45879d250224c2d8d6c86c7ae0462078a652.png" />
+</div><img alt="../../_images/51991f2b04f9400ed99f857b735ac97d02d95239c33d3a2122c72a8076586e7a.png" src="../../_images/51991f2b04f9400ed99f857b735ac97d02d95239c33d3a2122c72a8076586e7a.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:17&lt;00:00,  2.91it/s]
-100%|█████████████████████████████████████████| 300/300 [01:29&lt;00:00,  3.35it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>
 </pre>
-</div><img alt="../../_images/56e8da06a0b712c18fc6881e9b1d108cbeb7e0de38342dc63e86bada75d52221.png" src="../../_images/56e8da06a0b712c18fc6881e9b1d108cbeb7e0de38342dc63e86bada75d52221.png" />
+</div><img alt="../../_images/08b86a875d381b07b8dc826c2031c3a49cd0cc527c663c10a592469ac5cd665a.png" src="../../_images/08b86a875d381b07b8dc826c2031c3a49cd0cc527c663c10a592469ac5cd665a.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:13&lt;00:00,  3.83it/s]
-100%|█████████████████████████████████████████| 300/300 [01:32&lt;00:00,  3.26it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75</span>
 </pre>
-</div><img alt="../../_images/f7140c9c2f7d7df0772cd7d9df08e8c7d720a9292415d50cfbc1180fdb5e2b3b.png" src="../../_images/f7140c9c2f7d7df0772cd7d9df08e8c7d720a9292415d50cfbc1180fdb5e2b3b.png" />
+</div><img alt="../../_images/8ea412b6667d6d216ae34f2b554f47250403daa773e584dc689a2426eadc9008.png" src="../../_images/8ea412b6667d6d216ae34f2b554f47250403daa773e584dc689a2426eadc9008.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:14&lt;00:00,  3.41it/s]
-100%|█████████████████████████████████████████| 300/300 [01:37&lt;00:00,  3.07it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>
 </pre>
-</div><img alt="../../_images/7073a2cf5b3ae906ae5a999846382b76e94b34f56a1c37c4b4e3f2f124f26148.png" src="../../_images/7073a2cf5b3ae906ae5a999846382b76e94b34f56a1c37c4b4e3f2f124f26148.png" />
+</div><img alt="../../_images/c2a39efa8531d30b2ff01e8e03474fdeb1eaa0bba39c764f95746ffb9907d98d.png" src="../../_images/c2a39efa8531d30b2ff01e8e03474fdeb1eaa0bba39c764f95746ffb9907d98d.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:16&lt;00:00,  3.02it/s]
-100%|█████████████████████████████████████████| 300/300 [01:32&lt;00:00,  3.23it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
 </pre>
-</div><img alt="../../_images/d54a3e2ea4083518e01e0f2e7af561df061efc4e555a1119bfbbcfa3bb6b43db.png" src="../../_images/d54a3e2ea4083518e01e0f2e7af561df061efc4e555a1119bfbbcfa3bb6b43db.png" />
+</div><img alt="../../_images/6eb87ca6c895c1a71fb0595d7c2dc4472ea5114de70c5f35f25745b38acf20a3.png" src="../../_images/6eb87ca6c895c1a71fb0595d7c2dc4472ea5114de70c5f35f25745b38acf20a3.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:14&lt;00:00,  3.39it/s]
-100%|█████████████████████████████████████████| 300/300 [01:29&lt;00:00,  3.36it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>
 </pre>
-</div><img alt="../../_images/d6841fd74aa304aedb2b048af12a303332fac85fc8101f062603f94563db634b.png" src="../../_images/d6841fd74aa304aedb2b048af12a303332fac85fc8101f062603f94563db634b.png" />
+</div><img alt="../../_images/a75a38a91e78a1c68ff168840ff824d16d30bc67f2be4e0aba69d04f1c7d3b38.png" src="../../_images/a75a38a91e78a1c68ff168840ff824d16d30bc67f2be4e0aba69d04f1c7d3b38.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:13&lt;00:00,  3.77it/s]
-100%|█████████████████████████████████████████| 300/300 [01:28&lt;00:00,  3.41it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>
 </pre>
-</div><img alt="../../_images/c103d344b7f921e325beef6d8dc59f96305ff13784ba89a783c1245585ee01c4.png" src="../../_images/c103d344b7f921e325beef6d8dc59f96305ff13784ba89a783c1245585ee01c4.png" />
+</div><img alt="../../_images/ad340d45b7986185d57f686432586a346a0b1c040fc7f14f0b4b611d28038b36.png" src="../../_images/ad340d45b7986185d57f686432586a346a0b1c040fc7f14f0b4b611d28038b36.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:17&lt;00:00,  2.89it/s]
-100%|█████████████████████████████████████████| 300/300 [01:34&lt;00:00,  3.18it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span>
 </pre>
-</div><img alt="../../_images/ca4d8c456a67a9c1dfad4627c98792d6450e6c239eb3bb9a24d4c399fff7ec25.png" src="../../_images/ca4d8c456a67a9c1dfad4627c98792d6450e6c239eb3bb9a24d4c399fff7ec25.png" />
+</div><img alt="../../_images/c8380d76bb21035932ddff9705a284cda714a4a07283651fe4c4474a2336377d.png" src="../../_images/c8380d76bb21035932ddff9705a284cda714a4a07283651fe4c4474a2336377d.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:12&lt;00:00,  3.87it/s]
-100%|█████████████████████████████████████████| 300/300 [01:27&lt;00:00,  3.41it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165</span>
 </pre>
-</div><img alt="../../_images/2146012101ab812b3d1f7fced8edd70ac94555321253f8f45ff823656ebf7fa9.png" src="../../_images/2146012101ab812b3d1f7fced8edd70ac94555321253f8f45ff823656ebf7fa9.png" />
+</div><img alt="../../_images/e1a77d16bedb05350ba023afaa86f01bc16ef09fa03fd610ed3506f447a61e88.png" src="../../_images/e1a77d16bedb05350ba023afaa86f01bc16ef09fa03fd610ed3506f447a61e88.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:14&lt;00:00,  3.41it/s]
-100%|█████████████████████████████████████████| 300/300 [01:36&lt;00:00,  3.12it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>   ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">180</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">180</span>
 </pre>
-</div><img alt="../../_images/e50578d4d473b7ac73c0402037c32972b65201e9264e9a423e75caf6cc751e70.png" src="../../_images/e50578d4d473b7ac73c0402037c32972b65201e9264e9a423e75caf6cc751e70.png" />
+</div><img alt="../../_images/9c22e19e39c8060f69efffec635e28d66f17d5696927f3364733fb7eea8a4688.png" src="../../_images/9c22e19e39c8060f69efffec635e28d66f17d5696927f3364733fb7eea8a4688.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:25&lt;00:00,  1.95it/s]
-100%|█████████████████████████████████████████| 300/300 [02:25&lt;00:00,  2.06it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>
 </pre>
-</div><img alt="../../_images/8700bc0230c0556d31655ccfc808cc8c346141120fe56ce4413f5977dbfd8966.png" src="../../_images/8700bc0230c0556d31655ccfc808cc8c346141120fe56ce4413f5977dbfd8966.png" />
+</div><img alt="../../_images/f5d8102e2ceb70b40d24e4ed5f441dfeaa37dbcf3e2f72ff98c1845d83b339bd.png" src="../../_images/f5d8102e2ceb70b40d24e4ed5f441dfeaa37dbcf3e2f72ff98c1845d83b339bd.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:22&lt;00:00,  2.18it/s]
-100%|█████████████████████████████████████████| 300/300 [02:26&lt;00:00,  2.05it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>
 </pre>
-</div><img alt="../../_images/345be90d147fe73f4722503ccc06ef1531f893c93c89bb08d023cee5406ffa98.png" src="../../_images/345be90d147fe73f4722503ccc06ef1531f893c93c89bb08d023cee5406ffa98.png" />
+</div><img alt="../../_images/f75e306457b9913649b9081858ad631ee6d55eabd150a89d8f6cc37ea591d64a.png" src="../../_images/f75e306457b9913649b9081858ad631ee6d55eabd150a89d8f6cc37ea591d64a.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:24&lt;00:00,  2.05it/s]
-100%|█████████████████████████████████████████| 300/300 [02:26&lt;00:00,  2.04it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45</span>
 </pre>
-</div><img alt="../../_images/87b8a2f04b378c3ce83c799d9494b2864240e71e3bcf85d5ce80ff40dc0b347d.png" src="../../_images/87b8a2f04b378c3ce83c799d9494b2864240e71e3bcf85d5ce80ff40dc0b347d.png" />
+</div><img alt="../../_images/e8f2dcd14bce669f178949ec3a95ddc56f12419346e2679771d12b11fe3e7f49.png" src="../../_images/e8f2dcd14bce669f178949ec3a95ddc56f12419346e2679771d12b11fe3e7f49.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:24&lt;00:00,  2.07it/s]
-100%|█████████████████████████████████████████| 300/300 [02:25&lt;00:00,  2.06it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">60</span>
 </pre>
-</div><img alt="../../_images/cf6ffb3ff9abfc2c2498ac66504dfe422d07393e571c0f80f34c9da369c378d9.png" src="../../_images/cf6ffb3ff9abfc2c2498ac66504dfe422d07393e571c0f80f34c9da369c378d9.png" />
+</div><img alt="../../_images/eae417724d6fdfc3badaf40ca5bceb49eb87a6a66a2ff7d76f993dbda9db8dc6.png" src="../../_images/eae417724d6fdfc3badaf40ca5bceb49eb87a6a66a2ff7d76f993dbda9db8dc6.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:19&lt;00:00,  2.55it/s]
-100%|█████████████████████████████████████████| 300/300 [02:03&lt;00:00,  2.43it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75</span>
 </pre>
-</div><img alt="../../_images/ff0c0e1fea1176a1b440a9ff711c0607d0fbaaf718177b6e6659b56145f692ba.png" src="../../_images/ff0c0e1fea1176a1b440a9ff711c0607d0fbaaf718177b6e6659b56145f692ba.png" />
+</div><img alt="../../_images/5665e3e636ccaaabafcf3cc3050039761d643fd5d35eabffd0446bc6f85f3f1e.png" src="../../_images/5665e3e636ccaaabafcf3cc3050039761d643fd5d35eabffd0446bc6f85f3f1e.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:23&lt;00:00,  2.13it/s]
-100%|█████████████████████████████████████████| 300/300 [02:31&lt;00:00,  1.98it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90</span>
 </pre>
-</div><img alt="../../_images/69cbb6f8f7982244155de6c8558f00d3923145e96332f49c0ceddfe0f363204a.png" src="../../_images/69cbb6f8f7982244155de6c8558f00d3923145e96332f49c0ceddfe0f363204a.png" />
+</div><img alt="../../_images/827afb7c55a4f01ace7fe5b3cde37c188b679c66758163c1503dedc604b3b3f0.png" src="../../_images/827afb7c55a4f01ace7fe5b3cde37c188b679c66758163c1503dedc604b3b3f0.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:23&lt;00:00,  2.11it/s]
-100%|█████████████████████████████████████████| 300/300 [03:03&lt;00:00,  1.64it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">105</span>
 </pre>
-</div><img alt="../../_images/fe8977ffaf8528e62b0265bd652eab95319bc6b056b7a0ef05d7502c69c6bab3.png" src="../../_images/fe8977ffaf8528e62b0265bd652eab95319bc6b056b7a0ef05d7502c69c6bab3.png" />
+</div><img alt="../../_images/2fd90c7cf38554bbc22e6b9f61adaf5bbf648601fa7f0f466e836d9f95c44031.png" src="../../_images/2fd90c7cf38554bbc22e6b9f61adaf5bbf648601fa7f0f466e836d9f95c44031.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:47&lt;00:00,  1.05it/s]
-100%|█████████████████████████████████████████| 300/300 [03:42&lt;00:00,  1.35it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">120</span>
 </pre>
-</div><img alt="../../_images/c2985003d7e5e5e2167546e96f77c9c72e3a91f2bdf8c699acaa5ac29eae96e2.png" src="../../_images/c2985003d7e5e5e2167546e96f77c9c72e3a91f2bdf8c699acaa5ac29eae96e2.png" />
+</div><img alt="../../_images/b927c48e6e7e077a8ae5aa533a7b574328eacac441c91ff8f61b4010998cf5fa.png" src="../../_images/b927c48e6e7e077a8ae5aa533a7b574328eacac441c91ff8f61b4010998cf5fa.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:30&lt;00:00,  1.62it/s]
-100%|█████████████████████████████████████████| 300/300 [02:52&lt;00:00,  1.74it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">135</span>
 </pre>
-</div><img alt="../../_images/dd6b846e0b15ba33fd738107aaf358988431ea44e6ef374409f32232cf5ac080.png" src="../../_images/dd6b846e0b15ba33fd738107aaf358988431ea44e6ef374409f32232cf5ac080.png" />
+</div><img alt="../../_images/0bf06d3b75ee0ab55a2d8a03fe493de3f79de508756ab1eea6fb4c8142e45c6e.png" src="../../_images/0bf06d3b75ee0ab55a2d8a03fe493de3f79de508756ab1eea6fb4c8142e45c6e.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:29&lt;00:00,  1.68it/s]
-100%|█████████████████████████████████████████| 300/300 [04:35&lt;00:00,  1.09it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span>
 </pre>
-</div><img alt="../../_images/b99f9f4e9dabd2a29e6dfa3441ad7583d627588031ba9d4901ea2c5ccc998d73.png" src="../../_images/b99f9f4e9dabd2a29e6dfa3441ad7583d627588031ba9d4901ea2c5ccc998d73.png" />
+</div><img alt="../../_images/fd3e679274f70f1e7fdf7ae803c2084fad2b569e0d2ff943cff8b05e432bc9aa.png" src="../../_images/fd3e679274f70f1e7fdf7ae803c2084fad2b569e0d2ff943cff8b05e432bc9aa.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:41&lt;00:00,  1.19it/s]
-100%|█████████████████████████████████████████| 300/300 [04:53&lt;00:00,  1.02it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">165</span>
 </pre>
-</div><img alt="../../_images/7636ed84e586ae087ea33928df5066c66ca30c08e18a204ad72a066c5f995e44.png" src="../../_images/7636ed84e586ae087ea33928df5066c66ca30c08e18a204ad72a066c5f995e44.png" />
+</div><img alt="../../_images/4c70e7a55655177c2794338e875687eecb96d188edab2340373187f6de213fae.png" src="../../_images/4c70e7a55655177c2794338e875687eecb96d188edab2340373187f6de213fae.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████| 50/50 [00:44&lt;00:00,  1.12it/s]
-100%|█████████████████████████████████████████| 300/300 [04:11&lt;00:00,  1.19it/s]
-</pre></div>
-</div>
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">______________________________________________________________________________________________________________
 </pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>     ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">180</span>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">mlp|mlp</span><span style="font-weight: bold">&gt;</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24.0</span><span style="font-weight: bold">)</span>       ———     MNIST_rotate-angle-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">180</span>
 </pre>
-</div><img alt="../../_images/ed9fb9d0ea931f024dfbf1ae8a35dead26def90f3ceb0a6564f7e9625c17ab1c.png" src="../../_images/ed9fb9d0ea931f024dfbf1ae8a35dead26def90f3ceb0a6564f7e9625c17ab1c.png" />
+</div><img alt="../../_images/0db22cc3204f54e55f6e8caaa09b6566ac0685128da52bb865e2ade3b0e24846.png" src="../../_images/0db22cc3204f54e55f6e8caaa09b6566ac0685128da52bb865e2ade3b0e24846.png" />
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 
 
 </pre>
-</div></div>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3h 51min 6s, sys: 50min 2s, total: 4h 41min 8s
+Wall time: 4h 38min 20s
+</pre></div>
 </div>
+</div>
+</div>
+</section>
+</section>
+<section id="marino-kim">
+<h2>Marino &amp; Kim<a class="headerlink" href="#marino-kim" title="Permalink to this heading">#</a></h2>
+<p>rotation results</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dekel_dir</span> <span class="o">=</span> <span class="s1">&#39;/home/hadi/Dropbox/git/jb-vae/tmp/dekel_data/rot_full&#39;</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>analysis_name</th>
-      <th>model_name</th>
-      <th>enc_type</th>
-      <th>dec_type</th>
-      <th>n_iters_train</th>
-      <th>n_iters_test</th>
-      <th>theta</th>
-      <th>mse</th>
-      <th>accuracy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>MNIST_rotate-angle-15</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>15</td>
-      <td>4.422994</td>
-      <td>0.9531</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>MNIST_rotate-angle-30</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>30</td>
-      <td>5.821667</td>
-      <td>0.9537</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>MNIST_rotate-angle-45</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>45</td>
-      <td>6.931849</td>
-      <td>0.9462</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>MNIST_rotate-angle-60</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>60</td>
-      <td>7.557413</td>
-      <td>0.9441</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>MNIST_rotate-angle-75</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>75</td>
-      <td>7.841317</td>
-      <td>0.9423</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>MNIST_rotate-angle-90</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>90</td>
-      <td>8.534567</td>
-      <td>0.9450</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>MNIST_rotate-angle-105</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>105</td>
-      <td>8.575300</td>
-      <td>0.9496</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>MNIST_rotate-angle-120</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>120</td>
-      <td>8.691176</td>
-      <td>0.9440</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>MNIST_rotate-angle-135</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>135</td>
-      <td>8.063354</td>
-      <td>0.9427</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>MNIST_rotate-angle-150</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>150</td>
-      <td>6.918114</td>
-      <td>0.9443</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>MNIST_rotate-angle-165</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>165</td>
-      <td>5.826019</td>
-      <td>0.9498</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>MNIST_rotate-angle-180</td>
-      <td>&lt;jacob|mlp&gt;_(64,24.0)</td>
-      <td>jacob</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>180</td>
-      <td>5.632768</td>
-      <td>0.9531</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>MNIST_rotate-angle-15</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>15</td>
-      <td>5.205859</td>
-      <td>0.9416</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>MNIST_rotate-angle-30</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>30</td>
-      <td>7.108298</td>
-      <td>0.9356</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>MNIST_rotate-angle-45</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>45</td>
-      <td>8.382607</td>
-      <td>0.9344</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>MNIST_rotate-angle-60</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>60</td>
-      <td>8.721518</td>
-      <td>0.9355</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>MNIST_rotate-angle-75</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>75</td>
-      <td>8.798998</td>
-      <td>0.9370</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>MNIST_rotate-angle-90</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>90</td>
-      <td>9.600183</td>
-      <td>0.9318</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>MNIST_rotate-angle-105</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>105</td>
-      <td>9.630580</td>
-      <td>0.9317</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>MNIST_rotate-angle-120</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>120</td>
-      <td>9.921303</td>
-      <td>0.9280</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>MNIST_rotate-angle-135</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>135</td>
-      <td>9.446903</td>
-      <td>0.9313</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>MNIST_rotate-angle-150</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>150</td>
-      <td>8.326066</td>
-      <td>0.9321</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>MNIST_rotate-angle-165</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>165</td>
-      <td>6.801770</td>
-      <td>0.9379</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>MNIST_rotate-angle-180</td>
-      <td>&lt;mlp|mlp&gt;_(64,24.0)</td>
-      <td>mlp</td>
-      <td>mlp</td>
-      <td>64</td>
-      <td>100</td>
-      <td>180</td>
-      <td>6.507202</td>
-      <td>0.9416</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;model_name&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;theta&#39;, ylabel=&#39;mse&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../_images/b0a2304b2dad4d5b1fe9a2b7242ddcaab6cac18ce35bc39e53a52f901f90c702.png" src="../../_images/b0a2304b2dad4d5b1fe9a2b7242ddcaab6cac18ce35bc39e53a52f901f90c702.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;model_name&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/46258ad538a4eee2a96041509dbaac72801e615ccef00d02786b04ae2b66223d.png" src="../../_images/46258ad538a4eee2a96041509dbaac72801e615ccef00d02786b04ae2b66223d.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dekel_dir = &#39;/home/hadi/Dropbox/git/jb-vae/tmp/dekel_data/&#39;</span>
-<span class="c1"># mse_outside = pjoin(dekel_dir, &#39;mnist_mse_1000iter.npz&#39;)</span>
-<span class="c1"># mse_outside = dict(np.load(mse_outside, allow_pickle=True))</span>
-<span class="c1"># mse_outside = {</span>
-<span class="c1">#     &#39;sa-VAE&#39;: mse_outside[&#39;semi&#39;],</span>
-<span class="c1">#     &#39;ia-VAE (hierarchical)&#39;: mse_outside[&#39;marino_h&#39;],</span>
-<span class="c1">#     &#39;ia-VAE (single-level)&#39;: mse_outside[&#39;marino_sl&#39;],</span>
-<span class="c1"># }</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dekel_dir</span> <span class="o">=</span> <span class="s1">&#39;/home/hadi/Dropbox/git/jb-vae/tmp/dekel_data/&#39;</span>
-<span class="n">dekel_dir</span> <span class="o">=</span> <span class="n">pjoin</span><span class="p">(</span><span class="n">dekel_dir</span><span class="p">,</span> <span class="s1">&#39;rot&#39;</span><span class="p">)</span>
-
-<span class="n">outside_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+<span class="n">dekel_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
     <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dekel_dir</span><span class="p">),</span>
     <span class="n">key</span><span class="o">=</span><span class="n">alphanum_sort_key</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">outside_files</span><span class="p">)</span>
+<span class="n">selected_dekel_files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dekel_files</span>
+    <span class="k">if</span> <span class="s1">&#39;_MNIST_&#39;</span> <span class="ow">in</span> <span class="n">f</span>
+    <span class="ow">and</span> <span class="s1">&#39;rotate&#39;</span> <span class="ow">in</span> <span class="n">f</span>
+<span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selected_dekel_files</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
-    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-105_mnist_single_level_iterative_MNIST_SL_10.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-180_mnist_single_level_iterative_MNIST_SL_10.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-45_mnist_hierarchical_iterative_MNIST_H_10.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_EMNIST_rotate-angle-60_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_EMNIST_rotate-angle-75_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-135_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-180_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-30_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-45_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-60_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-75_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-90_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-105_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-120_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-135_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-150_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-15_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-165_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-180_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-30_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-45_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-60_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-75_Data_iter20.npz'</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_Omniglot_rotate-angle-90_Data_iter20.npz'</span>
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-105_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-105_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-120_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-120_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-135_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-135_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-150_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-150_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-15_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-15_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-165_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-165_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-180_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-180_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-30_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-30_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-45_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-45_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-60_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-60_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-75_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-75_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-90_mnist_hierarchical_iterative_MNIST_H_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'MARINO_MNIST_rotate-angle-90_mnist_single_level_iterative_MNIST_SL_10_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-105_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-120_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-135_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-150_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-15_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-165_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-180_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-30_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-45_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-60_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-75_Data_iter20_full.npz'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'SAVAE_MNIST_rotate-angle-90_Data_iter20_full.npz'</span>
 <span style="font-weight: bold">]</span>
 </pre>
 </div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># f = &#39;SAVAE_MNIST_rotate-angle-90_Data_iter20.npz&#39;</span>
-<span class="n">f</span> <span class="o">=</span> <span class="s1">&#39;MARINO_MNIST_rotate-angle-105_mnist_single_level_iterative_MNIST_SL_10.npz&#39;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outside_rot</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pjoin</span><span class="p">(</span><span class="n">dekel_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outside_rot</span><span class="p">[</span><span class="s1">&#39;recons&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">selected_dekel_files</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 11, 28, 28)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12.0
 </pre></div>
 </div>
 </div>
 </div>
+<section id="loop-their-models">
+<h3>loop: their models<a class="headerlink" href="#loop-their-models" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outside_rot</span><span class="p">[</span><span class="s1">&#39;posteriors&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 11, 2, 64)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outside_rot</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(18.962126, dtype=float32)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="n">outside_rot</span><span class="p">[</span><span class="s1">&#39;posteriors&#39;</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">mu</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 64)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vld</span> <span class="o">=</span> <span class="n">make_dataset</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">vld</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">analysis.clf</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">mu</span><span class="p">[:</span><span class="mi">5000</span><span class="p">],</span> <span class="n">g</span><span class="p">[:</span><span class="mi">5000</span><span class="p">])</span>
-<span class="n">pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span>
-<span class="n">accu</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accu</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6852
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accuracy</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9416
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lamb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">selected_dekel_files</span><span class="p">:</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;~&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">load</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="n">pjoin</span><span class="p">(</span><span class="n">dekel_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span>
+        <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">))</span>
 
-<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">lamb</span><span class="p">[:</span><span class="mi">5000</span><span class="p">],</span> <span class="n">g</span><span class="p">[:</span><span class="mi">5000</span><span class="p">])</span>
-<span class="n">pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">lamb</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span>
-<span class="n">accu_us</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">g</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accu_us</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9056
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outside_rot</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NpzFile &#39;/home/hadi/Dropbox/git/jb-vae/tmp/dekel_data/rot/SAVAE_MNIST_rotate-angle-90_Data_iter20.npz&#39; with keys: recons, posteriors, mse
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corrupt_dir</span> <span class="o">=</span> <span class="s2">&quot;/Data/hadi/corrupted_data/&quot;</span>
+    <span class="n">analysis_name</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+        <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;angle&#39;</span> <span class="ow">in</span> <span class="n">e</span>
+    <span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">int_from_str</span><span class="p">(</span><span class="n">analysis_name</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">theta</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span>
+    
+    <span class="n">analysis_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;MNIST_</span><span class="si">{</span><span class="n">analysis_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">n_iters</span> <span class="o">=</span> <span class="n">int_from_str</span><span class="p">(</span><span class="n">model_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-<span class="n">fs_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">corrupt_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;npz&quot;</span> <span class="ow">and</span> <span class="s2">&quot;rotate&quot;</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
-<span class="n">fs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">eval_dir</span><span class="p">)]</span>
-<span class="n">requested_dsets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mnist&quot;</span><span class="p">]</span>
-<span class="n">requested_dsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">requested_dsets</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">fs</span><span class="p">):</span>
-    <span class="n">broken</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-    <span class="n">proj</span> <span class="o">=</span> <span class="n">broken</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">proj</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;MARINO&quot;</span><span class="p">,</span> <span class="s2">&quot;SAVAE&quot;</span><span class="p">]:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">broken</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
-        <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">requested_dsets</span><span class="p">:</span>
-            <span class="n">rotation</span> <span class="o">=</span> <span class="n">broken</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">rotation_fl</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ds</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rot</span><span class="si">}</span><span class="s2">.npz&quot;</span>
-            
-            <span class="k">if</span> <span class="n">proj</span> <span class="o">==</span> <span class="s2">&quot;MARINO&quot;</span><span class="p">:</span>
-                <span class="n">model</span> <span class="o">=</span> <span class="n">broken</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#either H or SL</span>
-            <span class="n">loaded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">eval_dir</span><span class="o">+</span><span class="n">f</span><span class="p">)</span>
-            <span class="n">recons</span> <span class="o">=</span> <span class="n">loaded</span><span class="p">[</span><span class="s2">&quot;recons&quot;</span><span class="p">]</span> <span class="c1">#shape N, 1, h, w</span>
-            <span class="n">posteriors</span> <span class="o">=</span> <span class="n">loaded</span><span class="p">[</span><span class="s2">&quot;posteriors&quot;</span><span class="p">]</span> <span class="c1">#shape M, t, 2, d</span>
+    <span class="c1"># prep dataset</span>
+    <span class="n">trn</span><span class="p">,</span> <span class="n">vld</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">make_dataset</span><span class="p">(</span><span class="s1">&#39;MNIST&#39;</span><span class="p">)</span>
+    <span class="n">g_trn</span><span class="p">,</span> <span class="n">g_vld</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">tonp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+        <span class="p">[</span><span class="n">trn</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vld</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+    <span class="p">)</span>
+    <span class="n">corrupted_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">theta</span><span class="p">,</span> <span class="n">analysis_name</span><span class="p">)]</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">corrupted_data</span><span class="p">[</span><span class="s1">&#39;x_corrupted_vld&#39;</span><span class="p">]</span>
+
+    <span class="c1"># prep recon</span>
+    <span class="n">recon</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="s1">&#39;recons_val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">recon</span> <span class="o">=</span> <span class="n">recon</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">recon</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">recon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">recon</span> <span class="o">/=</span> <span class="mi">255</span>
+
+    <span class="c1"># compute mse</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="p">(</span><span class="n">src</span> <span class="o">-</span> <span class="n">recon</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mse</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># clf accuracy</span>
+    <span class="n">z_vld</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="s1">&#39;posteriors_val&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">z_trn</span> <span class="o">=</span> <span class="n">load</span><span class="p">[</span><span class="s1">&#39;posteriors_trn&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">z_trn</span><span class="p">,</span> <span class="n">g_trn</span><span class="p">)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">z_vld</span><span class="p">)</span> <span class="o">==</span> <span class="n">g_vld</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># save results</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;analysis_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">analysis_name</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_extract_model_type</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;enc_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;dec_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_iters_train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_iters</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_iters_test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_iters</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dekel_dir</span> <span class="o">=</span> <span class="s2">&quot;/Data/hadi/eval_results/rot/&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
-<span class="n">kurt</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">tonp</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kurt</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">save_obj</span><span class="p">(</span>
+    <span class="n">obj</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;df_rot&#39;</span><span class="p">,</span>
+    <span class="n">save_dir</span><span class="o">=</span><span class="n">tmp_dir</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/619d7eac2bd1a4adc5d45510c560efa4db6f59312fffaea6d3d1bc1c69249e20.png" src="../../_images/619d7eac2bd1a4adc5d45510c560efa4db6f59312fffaea6d3d1bc1c69249e20.png" />
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>PROGRESS<span style="font-weight: bold">]</span> <span style="color: #008000; text-decoration-color: #008000">'df_rot.df'</span> saved at
+<span style="color: #800080; text-decoration-color: #800080">/home/hadi/Dropbox/git/jb-vae/</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">tmp</span>
+</pre>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;col&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">y_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">]):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">y_name</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">,</span>
+        <span class="n">legend</span><span class="o">=</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">palette</span><span class="o">=</span><span class="n">get_palette_models</span><span class="p">(),</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+    <span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mf">0.57</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1c20042bd9074f30e550d1526b489b99c429631a33a82752597b45499c6e670a.png" src="../../_images/1c20042bd9074f30e550d1526b489b99c429631a33a82752597b45499c6e670a.png" />
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -1911,11 +1481,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="table.html"
+       href="fig-rotate-omni.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">table — efficiency</p>
+        <p class="prev-next-title">fig — rotate (omni)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1935,12 +1505,19 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vae-amort-and-iterative">VAE: amort and iterative</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ip-vae">iP-VAE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ip-vae">iP-VAE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotated-files">Rotated files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-vld-inds">Get vld inds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-analysis">Perform analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#init-inds">init inds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#init-df">init df</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-our-models">loop: our models</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotated-files">Rotated files</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-analysis">Perform analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marino-kim">Marino &amp; Kim</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-their-models">loop: their models</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

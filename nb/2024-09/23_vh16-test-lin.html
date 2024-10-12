@@ -453,14 +453,40 @@
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-mnist.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">mnist</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="25_model-list-vh16.html">(25) model list - <code class="docutils literal notranslate"><span class="pre">vh16</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_emnist-conv-iter-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_emnist-mlp-fit.html">(26) emnist fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <code class="docutils literal notranslate"><span class="pre">T-64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_mnist-conv-fit.html">(26) mnist fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="26_omni-conv-iter-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">conv</span></code>, iter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fig-converge.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="26_omni-mlp-fit.html">(26) omni fit — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <code class="docutils literal notranslate"><span class="pre">T-64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-compositional.html">fig — compositional ftrs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-final.html">fig — convergence (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-mnist2mnist.html">fig — convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-converge-mnist2omni.html">fig — convergence (mnist -&gt; omni)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-emnist-to-imgnet.html">fig — emnist to imgnet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-celeba.html">fig — mnist to celeba</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-imgnet-final.html">fig — mnist to imgnet (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-mnist-to-imgnet.html">fig — mnist to imgnet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-ood-develop.html">fig — ood (develop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-final.html">fig — ood (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-ood-finalfinal.html">fig — ood (final final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-recon-finalfinal.html">fig — recon (final final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-recon.html">fig — recon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rot-finalfinal.html">fig — rotate (final final)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-rotate-develop.html">fig — rotate (develop code)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fig-rotate-final.html">fig — rotate (final)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fig-rotate-omni.html">fig — rotate (omni)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="table.html">table — efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-fit-emnist-sep24.html">tmp fit — sep24</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp-fit-omni-sep24.html">tmp fit — sep24</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-sep24.html">tmp — sep24</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">October 2024</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../md/2024-10.html">Summary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-10_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-mlp.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <strong>not</strong> whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/tmp-oct24.html">tmp — oct24</a></li>
 </ul>
 </li>
 </ul>
@@ -800,9 +826,36 @@ b300-ep1000-<span style="color: #800080; text-decoration-color: #800080; font-we
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 485, avg loss: 39.049843:  48%|▍| 485/1000 [24:32:44&lt;26:39:04, 186.30s/i
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 721, avg loss: 38.943221:  72%|▋| 721/1000 [36:58:38&lt;16:03:26, 207.19s/i
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">log_rate</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3f085001b64d85bac117fbb4625597305a16ac77ebe27ecf60467f12eb6d80df.png" src="../../_images/3f085001b64d85bac117fbb4625597305a16ac77ebe27ecf60467f12eb6d80df.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/165fab8de80f79682db77c667f37024f965a55caab08d59dc52c7075b409c428.png" src="../../_images/165fab8de80f79682db77c667f37024f965a55caab08d59dc52c7075b409c428.png" />
 </div>
 </div>
 </section>
