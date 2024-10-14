@@ -63,6 +63,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nb/2024-10/12_vh16-mlp-nowhiten';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="(12) vH16 — mlp, whitened" href="12_vh16-mlp.html" />
+    <link rel="prev" title="Updates" href="../../md/2024-10_updates.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +125,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -482,10 +482,12 @@
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">October 2024</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-10.html">Summary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-10_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../md/2024-10_updates.html">Updates</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <strong>not</strong> whitened</a></li>
 <li class="toctree-l2"><a class="reference internal" href="12_vh16-mlp.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_vh100-data.html">(27) vH — xtract 100</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tmp-oct24.html">tmp — oct24</a></li>
 </ul>
 </li>
@@ -684,7 +686,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vh16">vH16</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vh16">vH16</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load">Load</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -763,8 +768,11 @@ document.write(`
 
 <span class="n">seq_len</span> <span class="o">=</span> <span class="mi">16</span>
 <span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq_len</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;init_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">cfg_vae</span><span class="p">[</span><span class="s1">&#39;clamp_prior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 
 <span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;kl_beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">8</span> <span class="o">*</span> <span class="n">seq_len</span>
+<span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;grad_clip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">500</span>
 
 <span class="c1"># not whitened:</span>
 <span class="n">cfg_tr</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;patches.npy&#39;</span>
@@ -784,7 +792,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">poisson_vH16_t-16_z-<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>_<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">jacob|lin</span><span style="font-weight: bold">&gt;</span>
-b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">6:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_10_12,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">07:26</span><span style="font-weight: bold">)</span>
+b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">lr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_beta</span><span style="font-weight: bold">(</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">6:0</span>x0.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_temp</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.05</span>:lin-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.5</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_gr</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span><span style="font-weight: bold">)</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">_</span><span style="font-weight: bold">(</span>2024_10_12,<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">19:06</span><span style="font-weight: bold">)</span>
 
 </pre>
 </div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>154500
@@ -804,12 +812,45 @@ b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4e794f32dfa773ad3d231e78a94dbda15388e13f240690a304a6629f756e0f63.png" src="../../_images/4e794f32dfa773ad3d231e78a94dbda15388e13f240690a304a6629f756e0f63.png" />
+<img alt="../../_images/ff79b3b76628af7b9bfda2ac9643e5a290d85b88baea2515d70e44c851ca271e.png" src="../../_images/ff79b3b76628af7b9bfda2ac9643e5a290d85b88baea2515d70e44c851ca271e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">mu</span><span class="p">,</span> <span class="n">sd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor(55.0340, device=&#39;cuda:2&#39;), tensor(36.6771, device=&#39;cuda:2&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">,</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/82fc2be4ae2fbd8bcb18fa77aeecce4cb02ee66fc323e9ee393bed1ab9bdd81e.png" src="../../_images/82fc2be4ae2fbd8bcb18fa77aeecce4cb02ee66fc323e9ee393bed1ab9bdd81e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -819,17 +860,55 @@ b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-wei
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                   | 0/300 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch # 300, avg loss: 26.217661: 100%|█████| 300/300 [2:43:46&lt;00:00, 32.75s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="load">
+<h3>Load<a class="headerlink" href="#load" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
+    <span class="s1">&#39;poisson_vH16_t-16_z-[512]_&lt;jacob|lin&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;b200-ep300-lr(0.002)_beta(6:0x0.1)_temp(0.05:lin-0.5)_gr(500)_(2024_10_12,19:06)&#39;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">meta</span><span class="p">[</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>300
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
-<span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_trn</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span> <span class="o">=</span> <span class="p">((</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">,</span> <span class="p">)</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">histplot</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">dl_vld</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;percent&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/82fc2be4ae2fbd8bcb18fa77aeecce4cb02ee66fc323e9ee393bed1ab9bdd81e.png" src="../../_images/82fc2be4ae2fbd8bcb18fa77aeecce4cb02ee66fc323e9ee393bed1ab9bdd81e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_rate</span> <span class="o">=</span> <span class="n">tonp</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">log_rate</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">log_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/315e04920d55577908b852baa328cced727a59b2e5b02a45d7d9792a5f41f130.png" src="../../_images/315e04920d55577908b852baa328cced727a59b2e5b02a45d7d9792a5f41f130.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -839,11 +918,42 @@ b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-wei
 
 <span class="n">_</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">norms</span><span class="p">))</span>
 
-<span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log norm&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;log norm&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8425e77d4a423c91bd8e0c00e3a0ecdd4ec8f040ab6d17bdab214e4c786a31e4.png" src="../../_images/8425e77d4a423c91bd8e0c00e3a0ecdd4ec8f040ab6d17bdab214e4c786a31e4.png" />
+<img alt="../../_images/1475cbb2371c65bbe1025bfb702f91271a989e6cc9473db194ee9b6a977c2467.png" src="../../_images/1475cbb2371c65bbe1025bfb702f91271a989e6cc9473db194ee9b6a977c2467.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">seq_total</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">seq_batch_sz</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">n_data_batches</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_convergence</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████| 50/50 [20:27&lt;00:00, 24.56s/it]
+</pre></div>
+</div>
+<img alt="../../_images/db088f5d1180cb1f0ffe7f6d3dd0765dd267f3af6a850a3ebf4492d51fa866fa.png" src="../../_images/db088f5d1180cb1f0ffe7f6d3dd0765dd267f3af6a850a3ebf4492d51fa866fa.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 27min 20s, sys: 2min 49s, total: 30min 10s
+Wall time: 30min 8s
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
@@ -877,6 +987,24 @@ b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-wei
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../../md/2024-10_updates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Updates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="12_vh16-mlp.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, whitened</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -893,7 +1021,10 @@ b200-ep300-<span style="color: #800080; text-decoration-color: #800080; font-wei
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vh16">vH16</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vh16">vH16</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load">Load</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
