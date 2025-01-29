@@ -483,7 +483,23 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../md/2024-10.html">Summary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../md/2024-10_updates.html">Updates</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-mlp.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <strong>not</strong> whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-lin-nowhiten.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">lin</span></code>, <strong>not</strong> whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-lin.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">lin</span></code>, whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-mlp-nowhiten.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, <strong>not</strong> whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/12_vh16-mlp.html">(12) vH16 — <code class="docutils literal notranslate"><span class="pre">mlp</span></code>, whitened</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/13_vh100-data.html">(27) vH — xtract 100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/14_noise-sta.html">(14) vH16 — STA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/16_sigma-neurons-1.html">(16) added sigma neurons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/16_sigma-neurons-2.html">(16) added sigma neurons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/17_poisson-conditional-0.html">(17) poisson conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/17_poisson-conditional-1.html">(17) poisson conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/17_poisson-conditional-2.html">(17) poisson conditional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/17_poisson-simulation.html">(17) poisson simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/17_vH-quantize.html">(17) vH quantize save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/27_anim-mnist-to-imgnet-data.html">(27) animation — mnist to imgnet (save data)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/27_anim-mnist-to-imgnet-mp4.html">(27) animation — mnist to imgnet (save mp4)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/27_anim-mnist-to-imgnet-png.html">(27) animation — mnist to imgnet (save png)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2024-10/28_anim-mnist-to-imgnet-dekel.html">(27) animation — mnist to imgnet (save mp4)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../2024-10/tmp-oct24.html">tmp — oct24</a></li>
 </ul>
 </li>
@@ -726,7 +742,7 @@ document.write(`
 
 <span class="c1"># GitHub</span>
 <span class="c1"># sys.path.insert(0, os.path.join(git_dir, &#39;_PoissonVAE&#39;))</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_IterativeVAE&#39;</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">git_dir</span><span class="p">,</span> <span class="s1">&#39;_IterativeVAE/iclr_submitted&#39;</span><span class="p">))</span>
 <span class="kn">from</span> <span class="nn">figures.fighelper</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">vae.train_vae</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -810,10 +826,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x756176fd2110&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7ccc5df0a510&gt;]
 </pre></div>
 </div>
-<img alt="../../_images/55b25451f067ab11078bf307355c600830d27681177f2fd29fec615faa515855.png" src="../../_images/55b25451f067ab11078bf307355c600830d27681177f2fd29fec615faa515855.png" />
+<img alt="../../_images/ee7dbf98cb9aefa3d011d6d1af42157541c9fb4172b50f72228eed8f4c85ebe4.png" src="../../_images/ee7dbf98cb9aefa3d011d6d1af42157541c9fb4172b50f72228eed8f4c85ebe4.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -848,7 +864,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ba04f83389e4c641625587e88d5c5162b45a7921ed4d4ee9a67c63b6bceae9aa.png" src="../../_images/ba04f83389e4c641625587e88d5c5162b45a7921ed4d4ee9a67c63b6bceae9aa.png" />
+<img alt="../../_images/9f26f9234c84fd983618f569cb7cc4c3ce58c21e34cc81afc0d6b776fc599006.png" src="../../_images/9f26f9234c84fd983618f569cb7cc4c3ce58c21e34cc81afc0d6b776fc599006.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -879,7 +895,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/21ab8931bd468a561a5b19a0a4c0919d4de5053d4bdecd8b14541e85afc17185.png" src="../../_images/21ab8931bd468a561a5b19a0a4c0919d4de5053d4bdecd8b14541e85afc17185.png" />
+<img alt="../../_images/ce4004492704f02ddaa29958069237ee5de5f4f36fbeb04f4912498a593c69d8.png" src="../../_images/ce4004492704f02ddaa29958069237ee5de5f4f36fbeb04f4912498a593c69d8.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -895,10 +911,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [00:55&lt;00:00, 27.52s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 2/2 [01:01&lt;00:00, 30.69s/it]
 </pre></div>
 </div>
-<img alt="../../_images/b262d66f991d89befb0624859116f8120b7f59d7aa35b3506a1c82a7cbc5fa28.png" src="../../_images/b262d66f991d89befb0624859116f8120b7f59d7aa35b3506a1c82a7cbc5fa28.png" />
+<img alt="../../_images/9fbae51a6dd1858305473cfff807bb6c3cd77759b72eebb0039916ee6ec4d09f.png" src="../../_images/9fbae51a6dd1858305473cfff807bb6c3cd77759b72eebb0039916ee6ec4d09f.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1119,7 +1135,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_iters</span> <span class="o">=</span> <span class="mi">200</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_iters</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">n_iters</span><span class="p">))</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
 
@@ -1151,7 +1167,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([128, 28, 28]), torch.Size([128, 200, 28, 28]))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([128, 28, 28]), torch.Size([128, 100, 28, 28]))
 </pre></div>
 </div>
 </div>
@@ -1176,7 +1192,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8828706fd4708cdcf1dc3124813c8199c12d22c80654cf4a6a948ab92e7cf712.png" src="../../_images/8828706fd4708cdcf1dc3124813c8199c12d22c80654cf4a6a948ab92e7cf712.png" />
+<img alt="../../_images/61c55cd6161d6b558c42308f56602a4f976ddf19d48c2380242f6c3d7996910a.png" src="../../_images/61c55cd6161d6b558c42308f56602a4f976ddf19d48c2380242f6c3d7996910a.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1188,7 +1204,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">40</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">25</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">):</span>
@@ -1202,7 +1218,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ffa58a73dc10e0b3148c20e68a252b650e1688dd387e81a1f9a0587e6880de02.png" src="../../_images/ffa58a73dc10e0b3148c20e68a252b650e1688dd387e81a1f9a0587e6880de02.png" />
+<img alt="../../_images/a204712e6fb7b8254fa4063d45b73267ede2dabd90cea926ed921679853c56a1.png" src="../../_images/a204712e6fb7b8254fa4063d45b73267ede2dabd90cea926ed921679853c56a1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1218,7 +1234,7 @@ document.write(`
     <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
         <span class="k">continue</span>
     <span class="n">sample_i</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">40</span>
+    <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">25</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">create_figure</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mf">1.3</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span>
     <span class="n">tit</span> <span class="o">=</span> <span class="s1">&#39; ——— &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
         <span class="sa">f</span><span class="s2">&quot;i = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, sample # </span><span class="si">{</span><span class="n">sample_i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -1239,17 +1255,17 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/37b6f37bd20f77a83506f69a26481a7bf5baf112479495fb32143b240b7359a6.png" src="../../_images/37b6f37bd20f77a83506f69a26481a7bf5baf112479495fb32143b240b7359a6.png" />
-<img alt="../../_images/46a3def4c6271af28dbfcd93352e01223d7db583366ad66f25ee14dbf6956744.png" src="../../_images/46a3def4c6271af28dbfcd93352e01223d7db583366ad66f25ee14dbf6956744.png" />
-<img alt="../../_images/5578053d9b81e262764aef8fb4275b4f0b5ba329399d3a93983322294a2dd0bd.png" src="../../_images/5578053d9b81e262764aef8fb4275b4f0b5ba329399d3a93983322294a2dd0bd.png" />
-<img alt="../../_images/760bc8120d6e62eeb98e03b62b9b7ddaed2fcd3ffb8bb9ae12eab49fe3962d19.png" src="../../_images/760bc8120d6e62eeb98e03b62b9b7ddaed2fcd3ffb8bb9ae12eab49fe3962d19.png" />
-<img alt="../../_images/e2415f1d6c5fb0a7c73da9b497e9ab1db014813db195135289d57ff74c38e8b5.png" src="../../_images/e2415f1d6c5fb0a7c73da9b497e9ab1db014813db195135289d57ff74c38e8b5.png" />
-<img alt="../../_images/4b379d10d687b84f358b9144bb609be2fa76f784a17090b2d977777ddbd2fde3.png" src="../../_images/4b379d10d687b84f358b9144bb609be2fa76f784a17090b2d977777ddbd2fde3.png" />
-<img alt="../../_images/e18e10987ecfcfb0a1cba117d5e88d080e75deed377f9a45c038fa6b9d0a1525.png" src="../../_images/e18e10987ecfcfb0a1cba117d5e88d080e75deed377f9a45c038fa6b9d0a1525.png" />
-<img alt="../../_images/c3f0f181bc27e5c227ab30f0de82a0bcfd6804adcba68444f5367ba5c239d3db.png" src="../../_images/c3f0f181bc27e5c227ab30f0de82a0bcfd6804adcba68444f5367ba5c239d3db.png" />
-<img alt="../../_images/fafdbadf9845ddbfefe8342d092f536ba2fcb854fc82e70763c2fea2232d9b60.png" src="../../_images/fafdbadf9845ddbfefe8342d092f536ba2fcb854fc82e70763c2fea2232d9b60.png" />
-<img alt="../../_images/165afc616cd9cda218acbfd5cc24b4bd8c9521515e9d3d7db6e57ccf3e1ffd3f.png" src="../../_images/165afc616cd9cda218acbfd5cc24b4bd8c9521515e9d3d7db6e57ccf3e1ffd3f.png" />
-<img alt="../../_images/d76cd629024b8ed168c3eda6779e9b8b3f3d797013f6190041e35bc03dc94e2d.png" src="../../_images/d76cd629024b8ed168c3eda6779e9b8b3f3d797013f6190041e35bc03dc94e2d.png" />
+<img alt="../../_images/e2942bbafc467381e80a86a9689565dfe2b965d9647bf004b4a510ecc2b2879a.png" src="../../_images/e2942bbafc467381e80a86a9689565dfe2b965d9647bf004b4a510ecc2b2879a.png" />
+<img alt="../../_images/5671e754396f2a6341426c36bc1af8164e6c711871cdef00d42337e7886b1d5b.png" src="../../_images/5671e754396f2a6341426c36bc1af8164e6c711871cdef00d42337e7886b1d5b.png" />
+<img alt="../../_images/07d14a81532b0b872aa162868b2e0596fd35c4b4ad4286e92fd9de21c122090a.png" src="../../_images/07d14a81532b0b872aa162868b2e0596fd35c4b4ad4286e92fd9de21c122090a.png" />
+<img alt="../../_images/fb28159f7dcd77650462e629967d1440ca62c695d02efd19b7825df1f82074fd.png" src="../../_images/fb28159f7dcd77650462e629967d1440ca62c695d02efd19b7825df1f82074fd.png" />
+<img alt="../../_images/0ec2cc345f6e758fa9a8fcad8ed334048ebc00d4e2a44a76a89b1e0160f6a3f8.png" src="../../_images/0ec2cc345f6e758fa9a8fcad8ed334048ebc00d4e2a44a76a89b1e0160f6a3f8.png" />
+<img alt="../../_images/0a7a85e0ea75884b33e84fba0708d15278a4db62c04548d80fcecc1bb99c6e25.png" src="../../_images/0a7a85e0ea75884b33e84fba0708d15278a4db62c04548d80fcecc1bb99c6e25.png" />
+<img alt="../../_images/9bb09071a5592ed896b4165b83d095b04f46235d3300f0e95266caff59cde196.png" src="../../_images/9bb09071a5592ed896b4165b83d095b04f46235d3300f0e95266caff59cde196.png" />
+<img alt="../../_images/8006ba9d56ea77a0ae43572144afcff4b1375f7fecd3867ecae2d10651c0c678.png" src="../../_images/8006ba9d56ea77a0ae43572144afcff4b1375f7fecd3867ecae2d10651c0c678.png" />
+<img alt="../../_images/4a96ef0d8780d1e9295d35708f050eaa989d8c3a36f2eb162bf3e949484549d2.png" src="../../_images/4a96ef0d8780d1e9295d35708f050eaa989d8c3a36f2eb162bf3e949484549d2.png" />
+<img alt="../../_images/3511b7fd126c21d3a094c280265e7b5942f7c794f935d1dedb10534237c87af1.png" src="../../_images/3511b7fd126c21d3a094c280265e7b5942f7c794f935d1dedb10534237c87af1.png" />
+<img alt="../../_images/82833b961a231fc17bfc558bc9e3ea3c49b6b6f095f5fae3b294903f3566abb9.png" src="../../_images/82833b961a231fc17bfc558bc9e3ea3c49b6b6f095f5fae3b294903f3566abb9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1260,7 +1276,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3ef78ac78d280205b735b27a62f8053e88248bcfae871b9a309b21879b2ee99b.png" src="../../_images/3ef78ac78d280205b735b27a62f8053e88248bcfae871b9a309b21879b2ee99b.png" />
+<img alt="../../_images/e8dffdddcef9de6fac022ab02e4128fe225b5d5bfcd72900ebcda3f349d784c6.png" src="../../_images/e8dffdddcef9de6fac022ab02e4128fe225b5d5bfcd72900ebcda3f349d784c6.png" />
 </div>
 </div>
 </section>
